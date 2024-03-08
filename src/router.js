@@ -32,6 +32,10 @@ const routes=[
     {path:'/reset-pass',
     component:ResetPassword,
     name:'ResetPassword'
+    },
+    {path:'/',
+    component:DashMed,
+    name:'DashMed'
     }
 ]
 const router = createRouter({
