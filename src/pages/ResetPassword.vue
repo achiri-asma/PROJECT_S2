@@ -2,19 +2,20 @@
     <div class="container">
    <form class="form" @submit.prevent="next">
      <p id="titlle">Reset your password</p>
-     <p id="subtitlle">Kindly provide the email address <br/> linked to your account</p>
+     <p id="subtitlle">Create a new password for your  <br/>account</p>
 
-     <label for="email"><img src="../assets/email.png" alt="email" id="email"></label>
-     <input ref="emailInput" type="email" v-model="email" name="email" required placeholder="Email"
-                pattern="[a-zA-Z0-9._]+@[a-z]+\.[a-zA-Z]{2,}$" @blur="touched = true" id="i1" />
-     <div class="control">
-        <small v-if="touched && $refs.emailInput && $refs.emailInput.validity.valueMissing">The email is required
-                </small>
-        <small v-if="touched && $refs.emailInput && $refs.emailInput.validity.patternMismatch">Enter a valid addres
-                    email</small>
-     </div>
+    
+     <label for="password"><img src="../assets/padlock.png" alt="password" id="password"></label>
+      <input ref="psInput" type="password" v-model="password" @blur="toucheddd = true" name="password" required
+        placeholder="Password" minlength="8" id="i3" />
+      <div class="controll">
+        <small v-if="toucheddd && $refs.psInput && $refs.psInput.validity.valueMissing">The password is required</small>
+        <small v-if="toucheddd && $refs.psInput && $refs.psInput.validity.tooShort">The password must contain at least 8
+          characters.
+        </small>
+      </div>
 
-     <button type="submit" class="bttn">Reset password</button>
+     <button type="submit" class="bttn">Set new password</button>
             <div class="inscrr">
                 <p id="subsubtitle">Back to <router-link to="/login" id="link">Log in</router-link></p>
             </div>
