@@ -1,0 +1,210 @@
+<template>
+    <div class="profilemed">
+        <div class="header">
+            <h3>Profile</h3>
+            <img src="../assets/logout.png">
+        </div>
+        <div class="main">
+            <div class="personinfo">
+                <h5>Personnel Information :</h5>
+                <div class="infos">
+                    <img src="../assets/image1.png">
+                    <div>
+                        <div class="fullname">
+                            <p>Dr.Full name</p> 
+                            <img src="../assets/editing.png">
+                        </div>
+                        <label>Email: </label><span>exemple@gmail.com</span><br>
+                        <label>Speciality: </label><span>Dentist</span><br>
+                        <label>Experience: </label><span>11-05-2019</span><br>
+                        <label>Medical Registration Number: </label><span>0987g4djxp3</span><br>
+                        <label>Phone number: </label><span>0799567439</span>
+                        <fieldset>
+                            <legend>Biography:&nbsp;&nbsp;&nbsp;</legend>
+                            <p>
+                                As a passionate dentist, I've dedicated my career to crafting smiles that radiate
+                                confidence. With over a decade of experience,I merge precision with compassion, 
+                                transforming dental visits into positive experiences. Outside the clinic, I 
+                                enjoy exploring new dental technologies and volunteering for community oral 
+                                health initiatives.
+                            </p>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="officeinfo">
+                    <h5>Office informations :</h5>
+                    <div class="offimg">
+                        <img src="../assets/image2.png">
+                        <img src="../assets/editing.png">
+                    </div>
+                    <label>Address: </label>
+                    <span>Sidi bel abbes, sidi bel abbes, wiam BP 73</span><br>
+                    <label>Phone number: </label>
+                    <span>04399567439</span>
+                </div>
+                <div class="contact">
+                    <div>
+                        <img src="../assets/logo2.png" alt="logo2"><br>
+                        <label>Contact: </label><br>
+                        <span>info@nom_website.com</span>
+                    </div>
+                    <div>
+                        <img src="../assets/facebook.png" alt="facebook">
+                        <img src="../assets/instagram.png" alt="instagram">
+                        <img src="../assets/twitter.png" alt="twitter">
+                        <img src="../assets/linkedin.png" alt="linkedin">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<style>
+    .profilemed{
+        background-color: rgba(3, 198, 193, 0.2);
+        width: 100%;
+    }
+    .profilemed .header{
+        width: 90%;
+        height: 90px;
+        background-color: white;
+        border-top: none;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+    }
+    .profilemed .header h3{
+        color: #03c6c1;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-left: 30px;
+    }
+    .profilemed .header img{
+        width: 20px;
+        height: 20px;
+        margin-right: 30px;
+    }
+    .profilemed .main{
+        display: flex;
+        justify-content: space-between;
+        margin: 30px 5%;
+    }
+    .profilemed .personinfo{
+        width: 55.55%;
+        height: 550px;
+        background-color: white;
+        border-radius: 30px;
+        box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+    }
+    .profilemed .personinfo h5{
+        color: #03c6c1;
+        font-size: 16px;
+        font-weight: 100;
+        margin: 30px;
+    }
+    .profilemed .infos{
+        display: flex;
+    }
+    .profilemed .infos > img{
+        width:100px;
+        height: 100px;
+        border-radius: 50px;
+        margin: 0 30px;
+    }
+    .profilemed .infos > div{
+        margin-right: 30px;
+    }
+    .profilemed .fullname{
+        display: flex;
+        justify-content: space-between;
+        color: #03c6c1;
+        margin-bottom: 30px;
+    }
+    .profilemed .fullname img, .profilemed .officeinfo .offimg img:last-child{
+        width: 20px;
+        height: 20px;
+    }
+    .profilemed .infos > div label, .profilemed legend, .profilemed .officeinfo label{
+        opacity: 0.5;
+        letter-spacing: 0.05em;
+    }
+    .profilemed .infos > div span, .profilemed .officeinfo span{
+        color: #03c6c1;
+        box-sizing: border-box;
+        padding-left: 10px;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .profilemed .infos fieldset{
+        border-color: rgb(0, 0, 0, 0.5);
+        border-radius: 10px;
+        border-top-left-radius: 15px;
+    }
+    .profilemed .infos fieldset p{
+        opacity: 0.8;
+        letter-spacing: 0.05em;
+        margin: 10px;
+    }
+    .profilemed .personinfo + div{
+        width: 42%;
+    }
+    .profilemed .officeinfo{
+        height: 380px;
+        background-color: white;
+        border-radius: 30px;
+        margin-bottom: 20px;
+        box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+    }
+    .profilemed .officeinfo h5{
+        color: #03c6c1;
+        font-size: 16px;
+        font-weight: 100;
+        box-sizing: border-box;
+        padding: 30px;
+    }
+    .profilemed .officeinfo .offimg{
+        display: flex;
+        justify-content: space-between;
+        margin: 0 30px;
+        margin-bottom: 50px;
+    }
+    .profilemed .officeinfo .offimg img:first-child{
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+    }
+    .profilemed .officeinfo label{
+        display: inline-block;
+        margin-left: 30px;
+        margin-bottom: 30px;
+    }
+    .profilemed .contact{
+        height: 150px;
+        background-color: white;
+        border-radius: 30px;
+        box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 30px;
+    }
+    .profilemed .contact div:first-child{
+        margin-bottom: 50px;
+    }
+    .profilemed .contact div:first-child label, .profilemed .contact div:first-child span{
+        opacity: 0.5;
+        letter-spacing: 0.05em;
+        margin-left: 20px;
+    }
+    .profilemed .contact div:last-child img{
+       margin-right: 5px; 
+    }
+</style>

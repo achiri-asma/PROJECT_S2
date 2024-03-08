@@ -1,10 +1,11 @@
-import {createRouter,createWebHistory} from 'vue-router';
-import SignupPage from './pages/SignupPage.vue';
-import SignupDoctor from './pages/SignupDoctor.vue';
-import LoginPage1 from './pages/LoginPage1.vue';
-import LoginPage2 from './pages/LoginPage2.vue';
-import ForgetPassword from './pages/ForgetPassword.vue';
-import ResetPassword from './pages/ResetPassword.vue';
+import {createRouter,createWebHistory} from 'vue-router'
+import SignupPage from './pages/SignupPage.vue'
+import SignupDoctor from './pages/SignupDoctor.vue'
+import LoginPage1 from './pages/LoginPage1.vue'
+import LoginPage2 from './pages/LoginPage2.vue'
+import ForgetPassword from './pages/ForgetPassword.vue'
+import DashMed from './pages/DashMed.vue'
+import ResetPassword from './pages/ResetPassword.vue'
 
 const routes=[
     
@@ -31,6 +32,10 @@ const routes=[
     {path:'/reset-pass',
     component:ResetPassword,
     name:'ResetPassword'
+    },
+    {path:'/',
+    component:DashMed,
+    name:'DashMed'
     }
 ]
 const router = createRouter({
