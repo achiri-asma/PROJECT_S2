@@ -263,6 +263,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -274,6 +275,7 @@ export default {
             date: '',
             telephone: '',
             telephonee: '',
+            additionalInfo:'',
             street: '',
             city: '',
             state: '',
@@ -347,7 +349,26 @@ export default {
         },
         signup(){
             if(this.terms){
-                alert("signup succefully");
+                const formData = {
+        fullname: this.nom,
+        email: this.email,
+        password: this.password,
+        biographie:this.additionalInfo,
+        experience:this.date,
+        phone:this.telephone,
+        speciality:this.spec,
+        
+
+      };
+
+      axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
+        .then(() => {
+          alert("Enregistré avec succès !");
+        })
+        .catch(error => {
+          console.error("Erreur lors de l'enregistrement des données :", error);
+        });
+    
             }
             else{
                 alert("signup failed");
