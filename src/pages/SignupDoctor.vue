@@ -263,6 +263,10 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+import axios from 'axios';
+=======
+>>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
 export default {
     data() {
         return {
@@ -274,6 +278,10 @@ export default {
             date: '',
             telephone: '',
             telephonee: '',
+<<<<<<< HEAD
+            additionalInfo:'',
+=======
+>>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
             street: '',
             city: '',
             state: '',
@@ -347,7 +355,30 @@ export default {
         },
         signup(){
             if(this.terms){
+<<<<<<< HEAD
+                const formData = {
+        fullname: this.nom,
+        email: this.email,
+        password: this.password,
+        biographie:this.additionalInfo,
+        experience:this.date,
+        phone:this.telephone,
+        speciality:this.spec,
+        
+
+      };
+
+      axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
+        .then(() => {
+          alert("Enregistré avec succès !");
+        })
+        .catch(error => {
+          console.error("Erreur lors de l'enregistrement des données :", error);
+        });
+    
+=======
                 alert("signup succefully");
+>>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
             }
             else{
                 alert("signup failed");
