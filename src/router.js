@@ -15,9 +15,8 @@ import SignupPage from './pages/SignupPage.vue'
 import SignupDoctor from './pages/SignupDoctor.vue'
 import LoginPage1 from './pages/LoginPage1.vue'
 import LoginPage2 from './pages/LoginPage2.vue'
-import ForgetPassword from './pages/ForgetPassword.vue'
 import DashMed from './pages/DashMed.vue'
-import ResetPassword from './pages/ResetPassword.vue'
+
 >>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
 
 const routes=[
@@ -42,11 +41,6 @@ const routes=[
     {path:'/fg-pass2',
     component:ForgetPassword2,
     name:'ForgetPassword2'
-=======
-    {path:'/fg-pass',
-    component:ForgetPassword,
-    name:'ForgetPassword'
->>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
     },
     {path:'/signup-doc',
     component:SignupDoctor,
@@ -65,10 +59,6 @@ const routes=[
     component:HomePage,
     name:'HomePage'
 =======
-    {path:'/reset-pass',
-    component:ResetPassword,
-    name:'ResetPassword'
-    },
     {path:'/',
     component:DashMed,
     name:'DashMed'
