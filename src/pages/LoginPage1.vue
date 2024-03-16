@@ -28,7 +28,7 @@
             <div class="remember_me">
                 <input type="checkbox" v-model="rememberMe" />
                 <label for="rememberMe" id="rememberMe">Remember Me</label>
-                <router-link to="/fg-pass" id="link">Forgot password ?</router-link>
+                <router-link to="/fg-pass1" id="link">Forgot password ?</router-link>
             </div>
             <button type="submit" class="btn">Login</button>
             <div class="inscr">
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -69,6 +71,24 @@ export default {
             } else {
                 localStorage.removeItem('rememberData');
             }
+
+            const data={
+                email:this.email,
+                password:this.password
+            }
+            axios.get('http://localhost:7777/service-profile/api/patient/signin', data)
+  .then(response => {
+    const result = response.data; // Récupérer les données renvoyées par l'API
+    console.log('Résultat de l\'API:', result);
+
+    // Afficher un message d'alerte pour indiquer que la connexion a réussi
+    alert("Connexion réussie");
+  })
+  .catch(error => {
+    // Gérer les erreurs
+    console.error('Erreur lors de la requête:', error);
+    alert(error); // Afficher l'erreur dans une alerte
+  });
 
 
         }

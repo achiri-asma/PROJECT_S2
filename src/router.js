@@ -3,8 +3,11 @@ import SignupPage from './pages/SignupPage.vue';
 import SignupDoctor from './pages/SignupDoctor.vue';
 import LoginPage1 from './pages/LoginPage1.vue';
 import LoginPage2 from './pages/LoginPage2.vue';
-import ForgetPassword from './pages/ForgetPassword.vue';
-import ResetPassword from './pages/ResetPassword.vue';
+import ForgetPassword1 from './pages/ForgetPassword1.vue';
+import ForgetPassword2 from './pages/ForgetPassword2.vue';
+import ResetPassword1 from './pages/ResetPassword1.vue';
+import ResetPassword2 from './pages/ResetPassword2.vue';
+import HomePage from './pages/HomePage.vue';
 
 const routes=[
     
@@ -20,17 +23,29 @@ const routes=[
     component:LoginPage2,
     name:'LoginPage2'
     },
-    {path:'/fg-pass',
-    component:ForgetPassword,
-    name:'ForgetPassword'
+    {path:'/fg-pass1',
+    component:ForgetPassword1,
+    name:'ForgetPassword1'
+    },
+    {path:'/fg-pass2',
+    component:ForgetPassword2,
+    name:'ForgetPassword2'
     },
     {path:'/signup-doc',
     component:SignupDoctor,
     name:'SignupDoctor'
     },
-    {path:'/reset-pass',
-    component:ResetPassword,
-    name:'ResetPassword'
+    {path:'/reset-pass1/:email',
+    component:ResetPassword1,
+    name:'ResetPassword1'
+    },
+    {path:'/reset-pass2',
+    component:ResetPassword2,
+    name:'ResetPassword2'
+    },
+    {path:'/',
+    component:HomePage,
+    name:'HomePage'
     }
 ]
 const router = createRouter({
