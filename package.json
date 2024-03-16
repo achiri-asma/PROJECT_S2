@@ -11,10 +11,7 @@
     "axios": "^1.6.7",
     "core-js": "^3.8.3",
     "cors": "^2.8.5",
-<<<<<<< HEAD
-=======
     "ejs": "^3.1.9",
->>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
     "vue": "^3.4.20",
     "vue-cookies": "^1.8.3",
     "vue-feather-icons": "^5.1.0",
