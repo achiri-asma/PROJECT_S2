@@ -28,7 +28,11 @@
             <div class="remember_me">
                 <input type="checkbox" v-model="rememberMe" />
                 <label for="rememberMe" id="rememberMe">Remember Me</label>
+<<<<<<< HEAD
                 <router-link to="/fg-pass1" id="link">Forgot password ?</router-link>
+=======
+                <router-link to="/fg-pass" id="link">Forgot password ?</router-link>
+>>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
             </div>
             <button type="submit" class="btn">Login</button>
             <div class="inscr">
@@ -40,8 +44,11 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import axios from 'axios';
 
+=======
+>>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
 export default {
     data() {
         return {
@@ -72,6 +79,7 @@ export default {
                 localStorage.removeItem('rememberData');
             }
 
+<<<<<<< HEAD
             const data={
                 email:this.email,
                 password:this.password
@@ -90,6 +98,8 @@ export default {
     alert(error); // Afficher l'erreur dans une alerte
   });
 
+=======
+>>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
 
         }
     }
