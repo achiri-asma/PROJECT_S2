@@ -25,17 +25,29 @@ const routes=[
     component:LoginPage2,
     name:'LoginPage2'
     },
-    {path:'/fg-pass',
-    component:ForgetPassword,
-    name:'ForgetPassword'
+    {path:'/fg-pass1',
+    component:ForgetPassword1,
+    name:'ForgetPassword1'
+    },
+    {path:'/fg-pass2',
+    component:ForgetPassword2,
+    name:'ForgetPassword2'
     },
     {path:'/signup-doc',
     component:SignupDoctor,
     name:'SignupDoctor'
     },
-    {path:'/reset-pass',
-    component:ResetPassword,
-    name:'ResetPassword'
+    {path:'/reset-pass1/:email',
+    component:ResetPassword1,
+    name:'ResetPassword1'
+    },
+    {path:'/reset-pass2',
+    component:ResetPassword2,
+    name:'ResetPassword2'
+    },
+    {path:'/',
+    component:HomePage,
+    name:'HomePage'
     },
     {path:'/',
     component:DashMed,
