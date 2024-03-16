@@ -49,7 +49,7 @@ const routes=[
     component:HomePage,
     name:'HomePage'
     },
-    {path:'/',
+    {path:'/DashMed',
     component:DashMed,
     name:'DashMed'
     }
