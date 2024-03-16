@@ -34,6 +34,7 @@ export default {
     *{
         margin: 0;
         padding: 0;
+        font-family: Poppins;
     }
     .dashmed{
         display: flex;
@@ -50,7 +51,7 @@ export default {
         height: 60px;
         margin: 30px 30px 30px 80px;
     }
-    .dashmed li{
+    .dashmed aside li{
         list-style: none;
         height: 50px;
         color: white;
@@ -60,15 +61,15 @@ export default {
         padding-left: 30px;
         margin-left: 130px;
     }
-    .dashmed li:first-child + li{
+    .dashmed aside li:first-child + li{
         background: url(../assets/backintime.png) no-repeat;
         background-size: 15%;
     }
-    .dashmed li:last-child{
+    .dashmed aside li:last-child{
         background: url(../assets/rating.png) no-repeat;
         background-size: 14%;
     }
-    .dashmed li.current{
-        background-color: rgba(3, 198, 193, 0.2);
+    .dashmed aside li.current{
+        background-color: rgb(3, 198, 180);
     }
 </style>

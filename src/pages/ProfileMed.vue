@@ -12,7 +12,7 @@
                     <div>
                         <div class="fullname">
                             <p>Dr.Full name</p> 
-                            <img src="../assets/editing.png">
+                            <img src="../assets/editing.png" @click="EditProfil">
                         </div>
                         <label>Email: </label><span>exemple@gmail.com</span><br>
                         <label>Speciality: </label><span>Dentist</span><br>
@@ -59,8 +59,27 @@
                 </div>
             </div>
         </div>
+        <EditProfil1 v-show="showEditProfil"/>
     </div>
 </template>
+
+<script>
+import EditProfil1 from './EditProfile1'
+
+export default {
+    data() {
+        return {
+            showEditProfil : false
+        }
+    },
+    components : { EditProfil1 },
+    methods : {
+        EditProfil() {
+            this.showEditProfil = !this.showEditProfil
+        }
+    }
+}
+</script>
 
 <style>
     .profilemed{
@@ -143,14 +162,21 @@
         margin-bottom: 10px;
     }
     .profilemed .infos fieldset{
+        height: 200px;
         border-color: rgb(0, 0, 0, 0.5);
         border-radius: 10px;
         border-top-left-radius: 15px;
+        overflow: hidden;
     }
     .profilemed .infos fieldset p{
         opacity: 0.8;
-        letter-spacing: 0.05em;
-        margin: 10px;
+        letter-spacing: 0.02em;
+        margin: 0 10px 20px 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 7; 
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
     .profilemed .personinfo + div{
         width: 42%;
