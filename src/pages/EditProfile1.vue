@@ -41,7 +41,7 @@
         background-color: white;
         opacity: 80%;
         border-radius: 30px;
-        margin: 90px auto;
+        /*margin: 90px auto;*/
         box-sizing: border-box;
         padding: 20px 40px;
     }

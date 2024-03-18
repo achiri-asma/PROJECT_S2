@@ -58,18 +58,34 @@ export default {
         font-size: 18px;
         letter-spacing: 0.08em;
         box-sizing: border-box;
-        padding-left: 30px;
-        margin-left: 130px;
+        padding-left: 50px;
+        padding-top: 10px;
+        margin-left: 100px;
+        margin-bottom: 10px;
+    }
+    .dashmed aside li:first-child{
+        background: url(../assets/user2.png) no-repeat;
+        background-size: 15%;
+        background-position: 5px;
+        background-color: rgb(255, 255, 255, 0.8);
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+        color: #03c6c1;
     }
     .dashmed aside li:first-child + li{
         background: url(../assets/backintime.png) no-repeat;
         background-size: 15%;
+        background-position: 5px;
     }
     .dashmed aside li:last-child{
         background: url(../assets/rating.png) no-repeat;
         background-size: 14%;
+        background-position: 5px;
     }
     .dashmed aside li.current{
-        background-color: rgb(3, 198, 180);
+        background-color: rgb(255, 255, 255, 0.8);
+        border-top-left-radius: 25px;
+        border-bottom-left-radius: 25px;
+        color: #03c6c1;
     }
 </style>
