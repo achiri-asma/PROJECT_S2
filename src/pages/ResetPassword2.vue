@@ -23,6 +23,7 @@
 </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -33,6 +34,23 @@ export default {
   methods:{
     next(){
 
+      const data={
+  email : this.$route.params.email,
+  password:this.password
+ }
+ console.log(data)
+ axios.put(`http://localhost:7777/service-profile/api/medecin/resetPassword`, data)
+  .then(() => {
+    alert("password changed successfully");
+  })
+  .catch(error => {
+    console.error('Erreur lors de la requête :', error);
+    if (error.response && error.response.status === 400) {
+        alert("verify your email or your  password");
+    } else if(error.response && error.response.status === 500){
+        alert(" Email does not exist.");
+    }
+  });
     }
   }
 }

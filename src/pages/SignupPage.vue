@@ -2,11 +2,11 @@
   <div class="container">
     <form @submit.prevent="signup" class="form1">
 
-      <p id="title">Welcome </p>
-      <p id="subtitle">Join our community today</p>
+      <p id="titllle">Welcome </p>
+      <p id="subtitllle">Join our community today</p>
 
       <label for="nom"><img src="../assets/user.png" alt="profil" id="profil"></label>
-      <input ref="nomInput" type="text" v-model="nom" name="nom" required minlength="4" placeholder="Full name"
+      <input ref="nomInput" type="text" v-model="fullName" name="nom" required minlength="4" placeholder="Full name"
         pattern="[a-zA-Z ]+" @blur="touched = true" id="i1" />
       <div class="controll">
         <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.valueMissing">The full name is required</small>
@@ -35,6 +35,18 @@
         </small>
       </div>
 
+      <label for="cpassword"><img src="../assets/padlock.png" alt="password" id="password"></label>
+      <input ref="pssInput" type="password" v-model="cpassword" @blur="touccheddd = true" name="cpassword" required
+        placeholder="Confirm password" minlength="8" id="i3" />
+      <div class="controll">
+        <small v-if="touccheddd && $refs.pssInput && $refs.pssInput.validity.valueMissing">The confirmation of password is required</small>
+        <small v-if="touccheddd && $refs.pssInput && $refs.pssInput.validity.tooShort">The password must contain at least 8
+          characters.
+        </small>
+        <small v-if="touccheddd && !passwordsMatch">The confirmation password does not match.</small>
+
+      </div>
+
       <label for="sexe"><img src="../assets/gender.png" alt="sexe" id="sexe"></label>
       <select v-model="sexe" name="sexe" @blur="touchedddd = true" required id="i4">
         <option value="" disabled selected hidden style="font-size: 14px;color:gray;">Sexe</option>
@@ -47,12 +59,12 @@
 
       <div class="address-container">
         <label for="address"><img src="../assets/address.png" alt="address" id="address"></label>
-        <input ref="stInput" type="text" v-model="state" @blur="touc = true" name="address" required placeholder="State"
+        <input ref="stInput" type="text" v-model="wilaya" @blur="touc = true" name="address" required placeholder="State"
           minlength="4" pattern="[a-zA-Z ]+" id="i11" />
-        <input ref="ctInput" type="text" v-model="city" @blur="touc1 = true" name="address" required placeholder="City"
+        <input ref="ctInput" type="text" v-model="commune" @blur="touc1 = true" name="address" required placeholder="City"
           minlength="4" pattern="[a-zA-Z ]+" id="i12" />
-        <input ref="sttInput" type="text" v-model="street" @blur="touc2 = true" name="address" required
-          placeholder="Street" minlength="4" pattern="[a-zA-Z ]+" id="i13" />
+        <input ref="sttInput" type="text" v-model="rue" @blur="touc2 = true" name="address" required
+          placeholder="Street" minlength="4" pattern="[a-zA-Z0-9 ]+" id="i13" />
       </div>
 
       <div class="controll">
@@ -77,7 +89,7 @@
       </div>
 
       <label for="nb_soc"><img src="../assets/user-experience.png" alt="nb_soc" id="nb_soc"></label>
-      <input ref="nbInput" type="text" v-model="number" name="nb_soc" required placeholder="Social Security number"
+      <input ref="nbInput" type="text" v-model="numSecuriteSociale" name="nb_soc" required placeholder="Social Security number"
         minlength="10" pattern="[0-9]+" @blur="toucheddddd = true" id="i5" />
       <div class="controll">
         <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.valueMissing">the social security number is
@@ -88,8 +100,8 @@
       </div>
 
       <label for="date"><img src="../assets/calendar.png" alt="calendare" id="cl"></label>
-      <input ref="dtInput" type="text" v-model="date" name="date" @blur="touch = true" required
-        placeholder="Date of birth dd/mm/yyyy" pattern="\d{2}-\d{2}-\d{4}" id="i6" />
+      <input ref="dtInput" type="text" v-model="dateOfBirth" name="date" @blur="touch = true" required
+        placeholder="Date of birth yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" id="i6" />
       <div class="controll">
         <small v-if="touch && $refs.dtInput && $refs.dtInput.validity.valueMissing">The date is required</small>
         <small v-if="touch && $refs.dtInput && $refs.dtInput.validity.patternMismatch">The date must be in correct
@@ -97,7 +109,7 @@
       </div>
 
       <label for="tel"><img src="../assets/telephone.png" alt="telephone" id="tel"></label>
-      <input ref="telInput" type="tel" v-model="tel" @blur="touche = true" name="tel" required placeholder="Phone number"
+      <input ref="telInput" type="tel" v-model="phone" @blur="touche = true" name="tel" required placeholder="Phone number"
         pattern="^(07|06|05)[0-9]{8}$" id="i7" />
       <div class="controll">
         <small v-if="touche && $refs.telInput && $refs.telInput.validity.valueMissing">The phone number is
@@ -119,48 +131,97 @@
     </form>
   </div>
 </template>
-
 <script>
+import axios from 'axios';
 
 export default {
   data() {
     return {
-      nom: '',
+      fullName: '',
       email: '',
       password: '',
       sexe: '',
-      state: '',
-      city: '',
-      street: '',
-      number: '',
-      date: '',
-      tel: '',
-      terms: false
+      wilaya: '',
+      commune: '',
+      rue: '',
+      numSecuriteSociale: '',
+      dateOfBirth: '',
+      phone: '',
+      terms: false,
+      cpassword: '',
+    }
+  },
+  computed: {
+    passwordsMatch() {
+      return this.cpassword === this.password;
     }
   },
   methods: {
     signup() {
       if (this.terms) {
-        alert('Formulaire soumis avec succès!');
-      }
-      else {
-        alert('cauchez les conditions !');
-      }
-    },
+        const adresse = {
+          wilaya: this.wilaya,
+          commune: this.commune,
+          rue: this.rue,
+        };
+        const signupData = {
+          fullName: this.fullName,
+          email: this.email,
+          password: this.password,
+          dateOfBirth: this.dateOfBirth,
+          sexe: this.sexe,
+          adresse,
+          phone: this.phone,
+          numSecuriteSociale: this.numSecuriteSociale,
+        };
 
+        axios.post(`http://localhost:7777/service-profile/api/register`, signupData)
+        .then((response) => {
+          console.log(response.data);
+          alert("Registered successfully");
+        })
+        .catch(error => {
+          console.log(error);
+          if (error.response && error.response.status === 404) {
+        alert("NumSecuriteSociale does not exist");
+    } else if (error.response && error.response.status === 500) {
+        alert("Email already exist");
+    } else {
+        alert("An error occurred. Please try again later.");
+    } // Affiche l'erreur dans la console pour un débogage supplémentaire
+        });
+      } else {
+        alert('Accept the conditions ');
+      }
+    }
   }
 }
 </script>
+
 <style>
 .form1 {
   width: 420px;
-  height: 640px;
+  height: 660px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.5);
 
+}
+#titllle {
+    font-family: Poppins;
+    text-align: center;
+    font-size: 40px;
+    margin-top: -8px;
+}
+
+#subtitllle {
+    font-family: Poppins;
+    text-align: center;
+    font-size: 16px;
+    margin-top: -45px;
+    color: gray;
 }
 
 #profil {

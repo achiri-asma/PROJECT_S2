@@ -81,14 +81,15 @@
                     contain only alphabetic characters</small>
             </div>
 
-            <label for="date"><img src="../assets/quality.png" alt="experience" id="cl"></label>
-            <input ref="dtInput" type="text" v-model="date" name="date" @blur="tou = true" required placeholder="Experience"
+            <label for="experience"><img src="../assets/quality.png" alt="experience" id="cl"></label>
+            <input ref="dtInput" type="text" v-model="date" name="experience" @blur="tou = true" required placeholder="Experience"
                 pattern="\d{4}" id="i6" />
             <div class="controll">
                 <small v-if="tou && $refs.dtInput && $refs.dtInput.validity.valueMissing">The date is required</small>
                 <small v-if="tou && $refs.dtInput && $refs.dtInput.validity.patternMismatch">The date must be in correct
                     format</small>
             </div>
+
 
             <button  class="btnn1" @click.prevent="nextStep">Next <img src="../assets/next-g.png" id="next"/></button>
             <div class="inscr">
@@ -124,12 +125,30 @@
                 <label for="i" class="custom-file-input">
                     <img src="../assets/camera.png" alt="Camera Icon" class="camera-icon">
                 </label>
-                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload" name="image"
+                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload"   name="image"
                     required @blur="tou1 = true" id="i" />
                 <div class="controll">
                     <small v-if="tou1 && imageUploadError">The image is required</small>
                 </div>
             </div>
+            <label for="sexe"><img src="../assets/gender.png" alt="sexe" id="sexe"></label>
+      <select v-model="sexe" name="sexe" @blur="touchedddd = true" required id="i4">
+        <option value="" disabled selected hidden style="font-size: 14px;color:gray;">Sexe</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+      <div class="controll">
+        <small v-if="touchedddd && !sexe">The sexe is required</small>
+      </div>
+
+            <label for="dateOfBirth"><img src="../assets/calendar.png" alt="calendare" id="cl"></label>
+      <input ref="dttInput" type="text" v-model="dateOfBirth" name="dateOfBirth" @blur="t111 = true" required
+        placeholder="Date of birth yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" id="i6" />
+      <div class="controll">
+        <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.valueMissing">The date is required</small>
+        <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.patternMismatch">The date must be in correct
+          format</small>
+      </div>
 
             <label for="tel"><img src="../assets/telephone.png" alt="telephone" id="tel"></label>
             <input ref="tellInput" type="tel" v-model="telephone" @blur="tou2 = true" name="tel" required
@@ -185,14 +204,14 @@
 
             </div>
             <div class="image-upload-container">
-                <label for="image" class="lb">
+                <label for="image2" class="lb">
                     Upload Office Picture
                     <img src="../assets/pointing-to-right.png" alt="hand" id="hand">
                 </label>
                 <label for="i" class="custom-file-input">
                     <img src="../assets/camera.png" alt="Camera Icon" class="camera-icon">
                 </label>
-                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload2" name="image"
+                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload2" name="image2"
                     required @blur="tou1 = true" id="i" />
                 <div class="controll">
                     <small v-if="tou1 && imageUploadError">The image is required</small>
@@ -254,7 +273,7 @@
             <button @click="signup"  class="btn1">Sign up </button>
         </div>
             <div class="inscr">
-                <p id="subsubtitle">Already have an account ? <router-link to="/login2" id="link">Log in</router-link>
+                <p id="subsubtitle">Already have an account ?  <router-link to="/login" id="link">Log in</router-link>
                 </p>
             </div>
 
@@ -263,6 +282,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     data() {
         return {
@@ -271,12 +291,15 @@ export default {
             password: '',
             number: '',
             spec: '',
+            dateOfBirth: '',
             date: '',
             telephone: '',
             telephonee: '',
+            additionalInfo:'',
             street: '',
             city: '',
             state: '',
+            sexe:'',
             currentStep: 1,
             stepStatus: ['active', '', ''],
             touched: false,
@@ -290,7 +313,9 @@ export default {
             touc: false,
             touc1: false,
             touc2: false,
-            terms: false
+            t111:  false,
+            terms: false,
+            imagePath: ''
         };
     },
     methods: {
@@ -298,6 +323,8 @@ export default {
             // Logique pour le premier champ de fichier
           const  image=event.target.files[0];
           console.log(image);
+          this.imagePath = URL.createObjectURL(image);
+            console.log(this.imagePath);
         },
         handleImageUpload2(event) {
             // Logique pour le deuxième champ de fichier
@@ -347,7 +374,34 @@ export default {
         },
         signup(){
             if(this.terms){
-                alert("signup succefully");
+                const formData = {
+                fullname: this.nom,
+                email: this.email,
+                password: this.password,
+                dateOfBirth:this.dateOfBirth,
+                sexe:this.sexe,
+                biographie:this.additionalInfo,
+                experience:this.date,
+                phone:this.telephone,
+                speciality:this.spec,
+                numOrdre:this.number,
+      };
+
+      axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
+        .then(() => {
+          alert("Registered successfully !");
+        })
+        .catch(error => {
+          console.log(error);
+          if (error.response && error.response.status === 404) {
+        alert("Num Ordre does not exist");
+    } else if (error.response && error.response.status === 500) {
+        alert("Email already exist");
+    } else {
+        alert("An error occurred. Please try again later.");
+    } // Affiche l'erreur dans la console pour un débogage supplémentaire
+        });
+    
             }
             else{
                 alert("signup failed");
@@ -375,7 +429,7 @@ export default {
 .form2 {
     width: 420px;
     height: 650px;
-    padding: 20px;
+    padding: 15px;
     border: 1px solid rgb(171, 171, 171);
     border-radius: 50px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -466,7 +520,7 @@ export default {
 .image-upload-container {
     display: flex;
     align-items: center;
-    margin-top: 45px;
+    margin-top: 15px;
 }
 
 .lb {
@@ -506,7 +560,7 @@ export default {
 
 #ii {
     margin-left: 35px;
-    margin-top: 45px;
+    margin-top: 24px;
     background-color: transparent;
     border-radius: 14px;
     padding-left: 16px;

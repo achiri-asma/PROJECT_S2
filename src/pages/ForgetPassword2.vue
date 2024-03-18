@@ -22,6 +22,7 @@
 </div>
 </template>
 <script>
+import router from '@/router';
 export default {
   data() {
     return {
@@ -31,6 +32,8 @@ export default {
   },
   methods:{
     next(){
+      const email=this.email;
+    router.push({ name: 'ResetPassword2' ,params:{email}});
 
     }
   }

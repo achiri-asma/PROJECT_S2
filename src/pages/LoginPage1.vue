@@ -28,7 +28,7 @@
             <div class="remember_me">
                 <input type="checkbox" v-model="rememberMe" />
                 <label for="rememberMe" id="rememberMe">Remember Me</label>
-                <router-link to="/fg-pass" id="link">Forgot password ?</router-link>
+                <router-link to="/fg-pass1" id="link">Forgot password ?</router-link>
             </div>
             <button type="submit" class="btn">Login</button>
             <div class="inscr">
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import router from '@/router';
 export default {
     data() {
         return {
@@ -69,6 +71,30 @@ export default {
             } else {
                 localStorage.removeItem('rememberData');
             }
+
+            const data={
+                email:this.email,
+                password:this.password
+            }
+            axios.post('http://localhost:7777/service-profile/api/patient/signin', data)
+  .then(response => {
+    const result = response.data; // Récupérer les données renvoyées par l'API
+    console.log('Résultat de l\'API:', result);
+    alert("Log In successful");
+    router.push({ name: 'HomePage' ,params:{}});
+  })
+  .catch(error => {
+    // Gérer les erreurs
+    console.error('Sign in failed:', error);
+    if (error.response && error.response.status === 401) {
+        alert("Invalid Password");
+    } else if (error.response && error.response.status === 404) {
+        alert("User not found");
+    } else {
+        alert("An error occurred. Please try again later.");
+    }
+});
+
 
 
         }
@@ -108,7 +134,7 @@ export default {
     font-family: Poppins;
     text-align: center;
     font-size: 40px;
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 #subtitle {
