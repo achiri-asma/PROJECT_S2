@@ -85,7 +85,7 @@
         color: rgb(0, 0, 0, 0.8);
         box-sizing: border-box;
         padding: 10px;
-        margin-left: 40px;
+        margin-right: 0px;
     }
     .editprofil1 .buttons .save{
         background-color: #03c6c1;
