@@ -28,11 +28,7 @@
             <div class="remember_me">
                 <input type="checkbox" v-model="rememberMe" />
                 <label for="rememberMe" id="rememberMe">Remember Me</label>
-<<<<<<< HEAD
                 <router-link to="/fg-pass1" id="link">Forgot password ?</router-link>
-=======
-                <router-link to="/fg-pass" id="link">Forgot password ?</router-link>
->>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
             </div>
             <button type="submit" class="btn">Login</button>
             <div class="inscr">
@@ -44,11 +40,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 import axios from 'axios';
-
-=======
->>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
+import router from '@/router';
 export default {
     data() {
         return {
@@ -79,27 +72,30 @@ export default {
                 localStorage.removeItem('rememberData');
             }
 
-<<<<<<< HEAD
             const data={
                 email:this.email,
                 password:this.password
             }
-            axios.get('http://localhost:7777/service-profile/api/patient/signin', data)
+            axios.post('http://localhost:7777/service-profile/api/patient/signin', data)
   .then(response => {
     const result = response.data; // Récupérer les données renvoyées par l'API
     console.log('Résultat de l\'API:', result);
-
-    // Afficher un message d'alerte pour indiquer que la connexion a réussi
-    alert("Connexion réussie");
+    alert("Log In successful");
+    router.push({ name: 'HomePage' ,params:{}});
   })
   .catch(error => {
     // Gérer les erreurs
-    console.error('Erreur lors de la requête:', error);
-    alert(error); // Afficher l'erreur dans une alerte
-  });
+    console.error('Sign in failed:', error);
+    if (error.response && error.response.status === 401) {
+        alert("Invalid Password");
+    } else if (error.response && error.response.status === 404) {
+        alert("User not found");
+    } else {
+        alert("An error occurred. Please try again later.");
+    }
+});
 
-=======
->>>>>>> 8d16f70acb4fce6d8a2395ca00998edc8b4e825f
+
 
         }
     }
@@ -138,7 +134,7 @@ export default {
     font-family: Poppins;
     text-align: center;
     font-size: 40px;
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 #subtitle {

@@ -47,7 +47,11 @@ export default {
   })
   .catch(error => {
     console.error('Erreur lors de la requête :', error);
-   alert("password changed failed")
+    if (error.response && error.response.status === 400) {
+        alert("verify your email or your  password");
+    } else if(error.response && error.response.status === 500){
+        alert(" Email does not exist.");
+    }
   });
 
     }
