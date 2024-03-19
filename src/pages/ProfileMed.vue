@@ -37,7 +37,7 @@
                     <h5>Office informations :</h5>
                     <div class="offimg">
                         <img src="../assets/image2.png">
-                        <img src="../assets/editing.png">
+                        <img src="../assets/editing.png" @click="EditProfil">
                     </div>
                     <label>Address: </label>
                     <span>Sidi bel abbes, sidi bel abbes, wiam BP 73</span><br>
@@ -59,12 +59,13 @@
                 </div>
             </div>
         </div>
-        <EditProfil1 v-show="showEditProfil"/>
+        <EditProfil1 v-show="showEditProfil" @edit-profile="EditProfil"/>
     </div>
 </template>
 
 <script>
 import EditProfil1 from './EditProfile1'
+import EditProfil2 from './EditProfile2'
 
 export default {
     data() {
@@ -72,7 +73,7 @@ export default {
             showEditProfil : false
         }
     },
-    components : { EditProfil1 },
+    components : { EditProfil1, EditProfil2},
     methods : {
         EditProfil() {
             this.showEditProfil = !this.showEditProfil
