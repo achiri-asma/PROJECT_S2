@@ -81,7 +81,7 @@ export default {
     const result = response.data; // Récupérer les données renvoyées par l'API
     console.log('Résultat de l\'API:', result);
     alert("Log In successful");
-    router.push({ name: 'HomePage' ,params:{}});
+    router.push({ name: 'LandingPage' ,params:{}});
   })
   .catch(error => {
     // Gérer les erreurs
@@ -113,12 +113,18 @@ export default {
     align-items: center;
     height: 100%;
     width: 100%;
-    margin-top: -8px;
-    margin-left: -8px;
+    max-width: 100vw;
+    max-height: 100vh;
+    /*margin-top: -8px;*/
+    /*margin-left: -8px;*/
+    bottom: 0;
+    right:0;
     background-image: url("../assets/background1.png");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover; /* L'image de fond couvrira toute la zone du conteneur */
+    background-position: center; /* Centrer l'image de fond */
 }
+
 
 .form {
     width: 420px;
@@ -134,14 +140,14 @@ export default {
     font-family: Poppins;
     text-align: center;
     font-size: 40px;
-    margin-top: 0px;
+    margin-top: 20px;
 }
 
 #subtitle {
     font-family: Poppins;
     text-align: center;
     font-size: 16px;
-    margin-top: -45px;
+    margin-top: 45px;
     color: gray;
 }
 

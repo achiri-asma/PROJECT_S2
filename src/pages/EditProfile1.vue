@@ -10,24 +10,16 @@
                 </div>
                 <img src="../assets/image1.png">
             </div>
-            <textarea name="textarea1" rows="6">As a passionate dentist, I've dedicated my career to crafting smiles that radiateconfidence. With over a decade of experience,I merge precision with compassion, transforming dental visits into positive experiences. Outside the clinic, I enjoy exploring new dental technologies and volunteering for community oral health initiatives.As a passionate dentist, I've dedicated my career to crafting smiles that radiateconfidence. With over a decade of experience,I merge precision with compassion, transforming dental visits into positive experiences. Outside the clinic, I enjoy exploring new dental technologies and volunteering for community oral health initiatives.</textarea>
+            <textarea name="textarea1" rows="6">
+                As a passionate dentist, I've dedicated my career to crafting smiles that radiateconfidence. With over a decade of experience,I merge precision with compassion, transforming dental visits into positive experiences. Outside the clinic, I enjoy exploring new dental technologies and volunteering for community oral health initiatives.
+            </textarea>
             <div class="buttons">
-                <button class="cancel" @click="CancelEdit">Cancel</button>
+                <button class="cancel">Cancel</button>
                 <button class="save">Save <img src="../assets/diskette.png"> </button>
             </div>
         </div>
     </div>
 </template>
-
-<script>
-export default{
-    methods : {
-        CancelEdit() {
-            this.$emit('edit-profile');
-        }
-    }
-}
-</script>
 
 <style>
     .editprofil1{
@@ -43,7 +35,7 @@ export default{
         height: 550px;
         text-align: center;
         background-color: white;
-        opacity: 90%;
+        opacity: 80%;
         border-radius: 30px;
         margin: 90px auto;
         box-sizing: border-box;
@@ -69,58 +61,39 @@ export default{
     .editprofil1 .editinputs input:first-child{
         background: url(../assets/email.png) no-repeat;
         background-size: 10%;
-        margin-top: 20px;
+        margin-bottom: 30px;
     }
     .editprofil1 .editinputs input:last-child{
         background: url(../assets/telephone.png) no-repeat;
         background-size: 10%;
-        margin-top: 20px;
     }
     .editprofil1 .editinputs img{
         width: 100px;
         height: 100px;
-        border: 2px dashed black;
-        border-radius: 50px;
     }
     .editprofil1 textarea{
         width: 85%;
-        resize: none;
         border-radius: 15px;
-        box-sizing: border-box;
-        padding: 10px;
-        margin-bottom: 40px;
-    }
-    .editprofil1 textarea::-webkit-scrollbar{
-        width: 10px;
-    }
-    .editprofil1 textarea::-webkit-scrollbar-thumb{
-        background: rgb(0, 0, 0, 0.5);
-        border-radius: 10px;
     }
     .editprofil1 .buttons{
-        width: 85%;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-    }
-    .editprofil1 .buttons .cancel, .editprofil1 .buttons .save{
-        border-radius: 10px;
-        font-size: 16px;
-        letter-spacing: 0.08em;
-        box-sizing: border-box;
-        padding: 10px 15px;
+        
     }
     .editprofil1 .buttons .cancel{
         background-color: white;
         border: 0.5px solid rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
         color: rgb(0, 0, 0, 0.8);
+        box-sizing: border-box;
+        padding: 10px;
+        margin-right: 0px;
     }
     .editprofil1 .buttons .save{
         background-color: #03c6c1;
         border: 0.5px solid #03c6c1;
+        border-radius: 10px;
         color: white;
-        display: flex;
-        align-items: center;
+        box-sizing: border-box;
+        padding: 10px;
     }
     .editprofil1 .buttons .save img{
         width: 15px;

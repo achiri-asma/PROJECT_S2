@@ -419,6 +419,8 @@ export default {
     align-items: center;
     height: 100%;
     width: 100%;
+    right:0;
+    bottom:0;
     margin-top: -8px;
     margin-left: -8px;
     background-image: url("../assets/background2.png");

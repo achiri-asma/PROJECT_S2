@@ -134,14 +134,14 @@ export default {
     font-family: Poppins;
     text-align: center;
     font-size: 40px;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
 #subtitle {
     font-family: Poppins;
     text-align: center;
     font-size: 16px;
-    margin-top: -45px;
+    margin-top: -05px;
     color: gray;
 }
 

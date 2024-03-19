@@ -1,5 +1,7 @@
 <template>
     <div class="background"> 
+        <img src="../assets/background03.png" class="background-image">
+        <div>
         <h3 id="titre">Schedule Your <span>Appointment</span></h3>
         <div class="search-container">
             <input type="text" placeholder="Name, speciality, office" id="input1" class="with-icon1">
@@ -15,6 +17,7 @@
             <button id="bt2" @click="signup" type="submit">sign up</button>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -33,18 +36,24 @@ export default {
 
 <style>
 .background {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Pour cacher tout dépassement d'image */
+
+}
+
+.background-image {
     position: absolute;
+    display: flex;
     top: 0;
     left: 0;
-    width: 100.14%; /* Modifier la valeur de width */
+    right: 0;
+    width: 100%;
     height: 100%;
-    margin-left: -1.5px;
-
-    background-image: url("../assets/background3.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-   
+    object-fit: cover;
+    z-index: -1;
 }
 
 
@@ -126,7 +135,8 @@ export default {
 .button-container {
     display: flex;
     margin-left: 85px;
-    margin-top: 45px;
+    margin-top: 40px;
+    margin-bottom: 55px;
 }
 
 .button-container button {

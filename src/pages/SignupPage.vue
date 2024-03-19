@@ -207,20 +207,21 @@ export default {
   border-radius: 50px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.5);
+  margin-top: 5px;
 
 }
 #titllle {
     font-family: Poppins;
     text-align: center;
     font-size: 40px;
-    margin-top: -8px;
+    margin-top: -15px;
 }
 
 #subtitllle {
     font-family: Poppins;
     text-align: center;
     font-size: 16px;
-    margin-top: -45px;
+    margin-top: -10px;
     color: gray;
 }
 
