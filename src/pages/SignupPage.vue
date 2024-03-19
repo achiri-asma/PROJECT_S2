@@ -175,7 +175,7 @@ export default {
           numSecuriteSociale: this.numSecuriteSociale,
         };
 
-        axios.post(`http://localhost:7777/service-profile/api/register`, signupData)
+        axios.post(`http://localhost:7777/service-profile/api/registerUser`, signupData)
         .then((response) => {
           console.log(response.data);
           alert("Registered successfully");

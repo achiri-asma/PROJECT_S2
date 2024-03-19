@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <EditProfil1 v-show="showEditProfil"/>
+        <EditProfil1 v-show="showEditProfil" @edit-profile="EditProfil"/>
     </div>
 </template>
 
