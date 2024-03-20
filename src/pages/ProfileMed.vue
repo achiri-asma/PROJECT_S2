@@ -12,7 +12,7 @@
                     <div>
                         <div class="fullname">
                             <p>Dr.Full name</p> 
-                            <img src="../assets/editing.png" @click="EditProfil">
+                            <img src="../assets/editing.png" @click="EditProfil1">
                         </div>
                         <label>Email: </label><span>exemple@gmail.com</span><br>
                         <label>Speciality: </label><span>Dentist</span><br>
@@ -37,7 +37,7 @@
                     <h5>Office informations :</h5>
                     <div class="offimg">
                         <img src="../assets/image2.png">
-                        <img src="../assets/editing.png" @click="EditProfil">
+                        <img src="../assets/editing.png" @click="EditProfil2">
                     </div>
                     <label>Address: </label>
                     <span>Sidi bel abbes, sidi bel abbes, wiam BP 73</span><br>
@@ -59,7 +59,8 @@
                 </div>
             </div>
         </div>
-        <EditProfil1 v-show="showEditProfil" @edit-profile="EditProfil"/>
+        <EditProfil1 v-show="showEditProfil1" @edit-profile="EditProfil1"/>
+        <EditProfil2 v-show="showEditProfil2" @edit-profile="EditProfil2"/>
     </div>
 </template>
 
@@ -70,24 +71,28 @@ import EditProfil2 from './EditProfile2'
 export default {
     data() {
         return {
-            showEditProfil : false
+            showEditProfil1 : false,
+            showEditProfil2 : false
         }
     },
     components : { EditProfil1, EditProfil2},
     methods : {
-        EditProfil() {
-            this.showEditProfil = !this.showEditProfil
+        EditProfil1() {
+            this.showEditProfil1 = !this.showEditProfil1
+        },
+        EditProfil2() {
+            this.showEditProfil2 = !this.showEditProfil2
         }
     }
 }
 </script>
 
 <style>
-    .profilemed{
+    .profilemed, .profileuser{
         background-color: rgba(3, 198, 193, 0.2);
         width: 100%;
     }
-    .profilemed .header{
+    .profilemed .header, .profileuser header{
         width: 90%;
         height: 90px;
         background-color: white;
@@ -106,56 +111,57 @@ export default {
         letter-spacing: 0.05em;
         margin-left: 30px;
     }
-    .profilemed .header img{
+    .profilemed .header img, .profileuser .header img{
         width: 20px;
         height: 20px;
         margin-right: 30px;
     }
-    .profilemed .main{
+    .profilemed .main, .profileuser .main{
         display: flex;
         justify-content: space-between;
         margin: 30px 5%;
     }
-    .profilemed .personinfo{
+    .profilemed .personinfo, .profileuser .personinfo{
         width: 55.55%;
         height: 550px;
         background-color: white;
         border-radius: 30px;
         box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
     }
-    .profilemed .personinfo h5{
+    .profilemed .personinfo h5, .profileuser .personinfo h5{
         color: #03c6c1;
         font-size: 16px;
         font-weight: 100;
         margin: 30px;
     }
-    .profilemed .infos{
+    .profilemed .infos, .profileuser .infos{
         display: flex;
     }
-    .profilemed .infos > img{
+    .profilemed .infos > img, .profileuser .infos > img{
         width:100px;
         height: 100px;
+        border: 2px solid #03c6c1;
         border-radius: 50px;
         margin: 0 30px;
     }
-    .profilemed .infos > div{
+    .profilemed .infos > div, .profileuser .infos > div{
         margin-right: 30px;
     }
-    .profilemed .fullname{
+    .profilemed .fullname, .profileuser .fullname{
         display: flex;
         justify-content: space-between;
         color: #03c6c1;
         margin-bottom: 30px;
     }
-    .profilemed .fullname img, .profilemed .officeinfo .offimg img:last-child{
+    .profilemed .fullname img, .profilemed .officeinfo .offimg img:last-child, .profilemed .fullname img{
         width: 20px;
         height: 20px;
     }
-    .profilemed .infos > div label, .profilemed legend, .profilemed .officeinfo label{
+    .profilemed .infos > div label, .profilemed legend, .profilemed .officeinfo label, .profileuser .infos > div label{
         opacity: 0.5;
         letter-spacing: 0.05em;
     }
-    .profilemed .infos > div span, .profilemed .officeinfo span{
+    .profilemed .infos > div span, .profilemed .officeinfo span, .profileuser .infos > div span{
         color: #03c6c1;
         box-sizing: border-box;
         padding-left: 10px;
@@ -179,7 +185,7 @@ export default {
         text-overflow: ellipsis;
         overflow: hidden;
     }
-    .profilemed .personinfo + div{
+    .profilemed .personinfo + div, .profileuser .contact{
         width: 42%;
     }
     .profilemed .officeinfo{
