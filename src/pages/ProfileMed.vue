@@ -92,7 +92,7 @@ export default {
         background-color: rgba(3, 198, 193, 0.2);
         width: 100%;
     }
-    .profilemed .header, .profileuser header{
+    .profilemed .header, .profileuser .header{
         width: 90%;
         height: 90px;
         background-color: white;

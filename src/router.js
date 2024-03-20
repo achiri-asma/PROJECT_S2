@@ -10,6 +10,7 @@ import ResetPassword1 from './pages/ResetPassword1.vue'
 import ResetPassword2 from './pages/ResetPassword2.vue'
 import HomePage from './pages/HomePage.vue'
 import DashMed from './pages/DashMed.vue'
+import DashUser from './pages/DashUser.vue'
 import LandingPage from './pages/LandingPage.vue'
 
 const routes=[
@@ -53,6 +54,10 @@ const routes=[
     {path:'/DashMed',
     component:DashMed,
     name:'DashMed'
+    },
+    {path:'/DashUser',
+    component:DashUser,
+    name:'DashUser'
     },
     {path:'/landing-page',
     component:LandingPage,

@@ -13,7 +13,7 @@
         <div class="main">
             <div class="personinfo">
                 <h5>Personnel Information :</h5>
-                <div class="info">
+                <div class="infos">
                     <img src="../assets/image3.png">
                     <div>
                         <div class="fullname">
