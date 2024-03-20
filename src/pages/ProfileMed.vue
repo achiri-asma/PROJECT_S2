@@ -111,7 +111,7 @@ export default {
         letter-spacing: 0.05em;
         margin-left: 30px;
     }
-    .profilemed .header img, .profileuser .header img{
+    .profilemed .header img{
         width: 20px;
         height: 20px;
         margin-right: 30px;
@@ -157,7 +157,7 @@ export default {
         width: 20px;
         height: 20px;
     }
-    .profilemed .infos > div label, .profilemed legend, .profilemed .officeinfo label, .profileuser .infos > div label{
+    .profilemed .infos > div label, .profilemed legend, .profilemed .officeinfo label, .profileuser .infos > div label, .profileuser .contact label, .profileuser .contact p, .profileuser .contact span, .profileuser .header ul{
         opacity: 0.5;
         letter-spacing: 0.05em;
     }

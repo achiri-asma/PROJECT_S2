@@ -41,16 +41,16 @@ export default{
         right: 12%;
         width: 50%;
     }
-    .editprofil2 br + input{
+    .editprofil2 br + input, .editprofil3 .editinputs + input{
         background: url(../assets/address.png) no-repeat;
-        background-size: 9%;
+        background-size: 7%;
         margin-top: 20px;
     }
     .editprofil2 div > img{
         position: relative;
         left: 15%;
     }
-    .editprofil2 .buttons{
+    .editprofil2 .buttons, .editprofil3 .buttons{
         margin-top: 40px;
     }
 </style>

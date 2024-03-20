@@ -30,7 +30,7 @@ export default{
 </script>
 
 <style>
-    .editprofil1, .editprofil2{
+    .editprofil1, .editprofil2, .editprofil3{
         backdrop-filter: brightness(85%);
         position: fixed;
         top: 0;
@@ -38,7 +38,7 @@ export default{
         right: 0;
         bottom: 0;
     }
-    .editprofil1 > div, .editprofil2 > div{
+    .editprofil1 > div, .editprofil2 > div, .editprofil3 > div{
         width: 40%;
         height: 550px;
         text-align: center;
@@ -49,34 +49,38 @@ export default{
         box-sizing: border-box;
         padding: 20px 40px;
     }
-    .editprofil1 h1, .editprofil2 h1{
+    .editprofil1 h1, .editprofil2 h1, .editprofil3 h1{
         font-weight: 400;
     }
-    .editprofil1 .editinputs{
+    .editprofil1 .editinputs, .editprofil3 .editinputs{
         display: flex;
         justify-content: space-between;
         margin: 40px;
     }
-    .editprofil1 .editinputs input, .editprofil2 input{
+    .editprofil1 .editinputs input, .editprofil2 input, .editprofil3 input{
         border: none;
         border-bottom: 0.5px solid rgb(99, 97, 97);
         color: #03c6c1;
+        box-sizing: border-box;
         padding-left: 40px;
     }
-    .editprofil1 .editinputs input::placeholder, .editprofil2 input::placeholder{
+    .editprofil1 .editinputs input::placeholder, .editprofil2 input::placeholder, .editprofil3 input::placeholder{
         color: #03c6c1;
     }
-    .editprofil1 .editinputs input:first-child{
+    .editprofil1 input:focus, .editprofil2 input:focus, .editprofil3 input:focus{
+        outline: none;
+    }
+    .editprofil1 .editinputs input:first-child, .editprofil3 .editinputs input:first-child{
         background: url(../assets/email.png) no-repeat;
-        background-size: 10%;
+        background-size: 8%;
         margin-top: 20px;
     }
-    .editprofil1 .editinputs input:last-child{
+    .editprofil1 .editinputs input:last-child, .editprofil3 .editinputs input:last-child{
         background: url(../assets/telephone.png) no-repeat;
-        background-size: 10%;
+        background-size: 8%;
         margin-top: 20px;
     }
-    .editprofil1 .editinputs img, .editprofil2 div > img{
+    .editprofil1 .editinputs img, .editprofil2 div > img, .editprofil3 .editinputs img{
         width: 100px;
         height: 100px;
         border: 2px dashed black;
@@ -97,32 +101,32 @@ export default{
         background: rgb(0, 0, 0, 0.5);
         border-radius: 10px;
     }
-    .editprofil1 .buttons, .editprofil2 .buttons{
+    .editprofil1 .buttons, .editprofil2 .buttons, .editprofil3 .buttons{
         width: 85%;
         margin: 0 auto;
         display: flex;
         justify-content: space-between;
     }
-    .editprofil1 .buttons .cancel, .editprofil1 .buttons .save, .editprofil2 .buttons .cancel, .editprofil2 .buttons .save{
+    .editprofil1 .buttons .cancel, .editprofil1 .buttons .save, .editprofil2 .buttons .cancel, .editprofil2 .buttons .save, .editprofil3 .buttons .cancel, .editprofil3 .buttons .save{
         border-radius: 10px;
         font-size: 16px;
         letter-spacing: 0.08em;
         box-sizing: border-box;
         padding: 10px 15px;
     }
-    .editprofil1 .buttons .cancel, .editprofil2 .buttons .cancel{
+    .editprofil1 .buttons .cancel, .editprofil2 .buttons .cancel, .editprofil3 .buttons .cancel{
         background-color: white;
         border: 0.5px solid rgba(0, 0, 0, 0.5);
         color: rgb(0, 0, 0, 0.8);
     }
-    .editprofil1 .buttons .save, .editprofil2 .buttons .save{
+    .editprofil1 .buttons .save, .editprofil2 .buttons .save, .editprofil3 .buttons .save{
         background-color: #03c6c1;
         border: 0.5px solid #03c6c1;
         color: white;
         display: flex;
         align-items: center;
     }
-    .editprofil1 .buttons .save img, .editprofil2 .buttons .save img{
+    .editprofil1 .buttons .save img, .editprofil2 .buttons .save img, .editprofil3 .buttons .save img{
         width: 15px;
         height: 15px;
     }
