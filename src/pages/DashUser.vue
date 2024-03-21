@@ -6,7 +6,7 @@
                 <li>Profile</li>
             </ul>
         </aside>
-        <ProfileUser />
+        <ProfileUser :userId="userId"/>
     </div>
 </template>
 
@@ -14,6 +14,14 @@
 import ProfileUser from './ProfileUser'
 
 export default {
-    components : { ProfileUser }
+    components : { ProfileUser },
+    data() {
+        return {
+            userId: null
+        }
+    },
+    created() {
+        this.userId = this.$route.params.id
+    }
 }
 </script>

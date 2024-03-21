@@ -7,22 +7,20 @@
 
             <label for="email"><img src="../assets/email.png" alt="email" id="email"></label>
             <input ref="emailInput" type="email" v-model="email" name="email" required placeholder="Email"
-                pattern="[a-zA-Z0-9._]+@[a-z]+\.[a-zA-Z]{2,}$" @blur="touched = true" id="i1" />
+                pattern="[a-zA-Z0-9._]+@[a-z]+\.[a-zA-Z]{2,}$" @blur="touched = true" id="i1" 
+            />
             <div class="control">
-                <small v-if="touched && $refs.emailInput && $refs.emailInput.validity.valueMissing">The email is required
-                </small>
-                <small v-if="touched && $refs.emailInput && $refs.emailInput.validity.patternMismatch">Enter a valid addres
-                    email</small>
+                <small v-if="touched && $refs.emailInput && $refs.emailInput.validity.valueMissing">The email is required</small>
+                <small v-if="touched && $refs.emailInput && $refs.emailInput.validity.patternMismatch">Enter a valid addres email</small>
             </div>
 
             <label for="password"><img src="../assets/padlock.png" alt="password" id="password"></label>
             <input ref="passwordInput" type="password" v-model="password" name="password" required minlength="8"
-                placeholder="Password" @blur="touchedd = true" id="i2" />
+                placeholder="Password" @blur="touchedd = true" id="i2" 
+            />
             <div class="control">
-                <small v-if="touchedd && $refs.passwordInput && $refs.passwordInput.validity.valueMissing">The password is
-                    required</small>
-                <small v-if="touchedd && $refs.passwordInput && $refs.passwordInput.validity.tooShort">Enter a valid
-                    password </small>
+                <small v-if="touchedd && $refs.passwordInput && $refs.passwordInput.validity.valueMissing">The password is required</small>
+                <small v-if="touchedd && $refs.passwordInput && $refs.passwordInput.validity.tooShort">Enter a valid password</small>
             </div>
 
             <div class="remember_me">
@@ -30,25 +28,26 @@
                 <label for="rememberMe" id="rememberMe">Remember Me</label>
                 <router-link to="/fg-pass1" id="link">Forgot password ?</router-link>
             </div>
+
             <button type="submit" class="btn">Login</button>
             <div class="inscr">
                 <p id="subsubtitle">Don't have an account ? <router-link to="/signup" id="link">Sign up</router-link></p>
             </div>
-
         </form>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
-import router from '@/router';
+import axios from 'axios'
+import router from '@/router'
+
 export default {
     data() {
         return {
             email: '',
             password: '',
-            rememberMe: false,
-        };
+            rememberMe: false
+        }
 
     },
     mounted() {
@@ -56,7 +55,7 @@ export default {
             const savedData = JSON.parse(localStorage.getItem('rememberData'));
             this.email = savedData.email;
             this.password = savedData.password;
-            this.rememberMe = savedData.rememberMe;
+            this.rememberMe = savedData.rememberMe
         }
     },
     methods: {
@@ -69,38 +68,31 @@ export default {
                 };
                 localStorage.setItem('rememberData', JSON.stringify(dataToSave));
             } else {
-                localStorage.removeItem('rememberData');
+                localStorage.removeItem('rememberData')
             }
-
             const data={
                 email:this.email,
                 password:this.password
             }
             axios.post('http://localhost:7777/service-profile/api/patient/signin', data)
-  .then(response => {
-    const result = response.data; // Récupérer les données renvoyées par l'API
-    console.log('Résultat de l\'API:', result);
-    alert("Log In successful");
-    router.push({ name: 'LandingPage' ,params:{}});
-  })
-  .catch(error => {
-    // Gérer les erreurs
-    console.error('Sign in failed:', error);
-    if (error.response && error.response.status === 401) {
-        alert("Invalid Password");
-    } else if (error.response && error.response.status === 404) {
-        alert("User not found");
-    } else {
-        alert("An error occurred. Please try again later.");
-    }
-});
-
-
-
+            .then(response => {
+                const userId = response.data;
+                alert("Log In successful");
+                router.push({ name: 'LandingPage' ,params:{ userId }});
+            })
+            .catch(error => {
+                console.error('Sign in failed:', error);
+                if (error.response && error.response.status === 401) {
+                    alert("Invalid Password")
+                } else if (error.response && error.response.status === 404) {
+                    alert("User not found")
+                } else {
+                    alert("An error occurred. Please try again later.")
+                }
+            })
         }
     }
 }
-
 </script>
 
 <style>
@@ -124,8 +116,6 @@ export default {
     background-size: cover; /* L'image de fond couvrira toute la zone du conteneur */
     background-position: center; /* Centrer l'image de fond */
 }
-
-
 .form {
     width: 420px;
     height: 395px;
@@ -135,14 +125,12 @@ export default {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background: rgba(255, 255, 255, 0.5);
 }
-
 #title {
     font-family: Poppins;
     text-align: center;
     font-size: 40px;
     margin-top: 20px;
 }
-
 #subtitle {
     font-family: Poppins;
     text-align: center;
@@ -150,22 +138,18 @@ export default {
     margin-top: 45px;
     color: gray;
 }
-
 #email {
     margin-top: 25px;
     width: 19px;
     height: 19px;
     margin-left: 35px;
 }
-
 #password {
     margin-top: 25px;
     width: 19px;
     height: 19px;
     margin-left: 35px;
-
 }
-
 #i1,
 #i2 {
     border: none;
@@ -180,20 +164,16 @@ export default {
     color: rgb(99, 97, 97);
     padding-left: 30px;
 }
-
 .remember_me {
     margin-left: 35px;
     margin-top: 25px;
     font-family: Poppins;
     font-size: 14px;
 }
-
 #rememberMe {
     margin-right: 85px;
     color: gray;
-
 }
-
 .control small {
     color: red;
     font-size: 14px;
@@ -201,7 +181,6 @@ export default {
     margin-top: 0px;
     margin-left: 35px;
 }
-
 .btn {
     width: 340px;
     height: 56px;
@@ -214,22 +193,18 @@ export default {
     font-size: 16px;
     font-family: Poppins;
 }
-
 .inscr {
     margin-left: 90px;
     color: gray;
 }
-
 #subsubtitle {
     font-size: 14px;
     font-family: Poppins;
 }
-
 #link {
     color: #03C6C1;
     text-decoration: none;
 }
-
 @media screen and (max-width: 600px) {
     .form {
         width: 80%;

@@ -8,7 +8,7 @@
                 <li @click="handleRating" :class="{'current' : cliked3}">Rating</li>
             </ul>
         </aside>
-        <ProfileMed />
+        <ProfileMed v-show="cliked1"/>
     </div>
 </template>
 
@@ -93,7 +93,7 @@ export default {
         background-position: 40px center;
     }
     .dashmed aside li.current{
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.8) !important;
         border-top-left-radius: 25px;
         border-bottom-left-radius: 25px;
         color: #03c6c1;

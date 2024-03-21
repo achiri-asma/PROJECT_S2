@@ -1,5 +1,6 @@
 <template> 
     <HeaderPage />
+    <router-link :to="{ name: 'DashUser', params: { id: $route.params.userId } }"><img src="../assets/image3.png"></router-link>
     <AppoinTement />
     <div class="second-section">
         <img src="../assets/doctors.png" id="doctors"/>
@@ -41,7 +42,6 @@
     export default {
         name: 'LandingPage',
         components:{AppoinTement,HeaderPage},
-       
     }
     </script>
     <style>

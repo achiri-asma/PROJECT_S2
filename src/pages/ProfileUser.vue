@@ -8,24 +8,26 @@
                 <li>FAQs</li>
                 <li>Contact</li>
             </ul>
-            <img src="../assets/image3.png">
+            <img v-if="UserInfo.image" :src="UserInfo.image">
+            <img v-else src="../assets/image3.png"/>
         </div>
         <div class="main">
             <div class="personinfo">
                 <h5>Personnel Information :</h5>
                 <div class="infos">
-                    <img src="../assets/image3.png">
+                    <img v-if="UserInfo.image" :src="UserInfo.image">
+                    <img v-else src="../assets/image3.png"/>
                     <div>
                         <div class="fullname">
-                            <p>Dr.Full name</p> 
+                            <p>Dr.{{ UserInfo.fullName }}</p> 
                             <img src="../assets/editing.png" @click="EditProfil3">
                         </div>
-                        <label>Email: </label><span>exemple@gmail.com</span><br>
-                        <label>Sexe: </label><span>Female</span><br>
-                        <label>Address: </label><span>Sidi bel abbes , sidi bel abbes, wiam BP 73</span><br>
-                        <label>Social security number: </label><span>0987g4djxp3</span><br>
-                        <label>Date of birth: </label><span>11-07-1995</span><br>
-                        <label>Phone number: </label><span>0799567439</span>
+                        <label>Email: </label><span>{{ UserInfo.email }}</span><br>
+                        <label>Sexe: </label><span>{{ UserInfo.sexe }}</span><br>
+                        <label>Address: </label><span>{{ UserInfo.adresse.wilaya }},{{ UserInfo.adresse.commune }},{{ UserInfo.adresse.rue }}</span><br>
+                        <label>Social security number: </label><span>{{ UserInfo.numSecuriteSociale }}</span><br>
+                        <label>Date of birth: </label><span>{{ UserInfo.dateOfBirth }}</span><br>
+                        <label>Phone number: </label><span>{{ UserInfo.phone }}</span>
                     </div>
                 </div>
             </div>
@@ -47,18 +49,33 @@
 
 <script>
 import EditProfil3 from './EditProfile3'
+import axios from 'axios'
 
 export default {
     data() {
         return {
-            showEditProfil3 : false
+            showEditProfil3 : false,
+            UserInfo: {
+                adresse: {
+                    wilaya: '',
+                    commune: '',
+                    rue: ''
+                }
+            }
         }
     },
     components : { EditProfil3 },
+    props : [ 'userId' ],
     methods : {
         EditProfil3() {
             this.showEditProfil3 = !this.showEditProfil3
         }
+    },
+    mounted() {
+        axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.userId}/`)
+        .then(response => {
+            this.UserInfo = response.data;
+        })
     }
 }
 </script>
@@ -101,8 +118,5 @@ export default {
     .profileuser .contact p{
         margin-top: 20px;
         margin-bottom: 50px;
-    }
-    .profileuser .contact span{
-        color: black;
     }
 </style>
