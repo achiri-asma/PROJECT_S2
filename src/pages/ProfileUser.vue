@@ -19,7 +19,7 @@
                     <img v-else src="../assets/image3.png"/>
                     <div>
                         <div class="fullname">
-                            <p>Dr.{{ UserInfo.fullName }}</p> 
+                            <p>{{ UserInfo.fullName }}</p> 
                             <img src="../assets/editing.png" @click="EditProfil3">
                         </div>
                         <label>Email: </label><span>{{ UserInfo.email }}</span><br>

@@ -31,7 +31,6 @@ export default {
 </script>
 
 <style scoped>
-/* Styles pour le header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -45,14 +44,12 @@ export default {
  
 }
 
-/* Styles pour le logo */
 #logo {
   width: 261px;
   height: 83px;
   margin-top: 16px;
 }
 
-/* Styles pour la navigation */
 nav {
   display: flex;
   gap: 60px;

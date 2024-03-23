@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container2">
         <form @submit.prevent="login" class="form">
 
             <p id="title">Welcome back</p>
@@ -106,7 +106,7 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-.container {
+.container2 {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -115,10 +115,11 @@ export default {
     width: 100%;
     margin-top: -8px;
     margin-left: -8px;
-    background-image: url("../assets/background1.png");
+    background-image: url("../assets/background2.png");
     background-repeat: no-repeat;
     background-size: cover;
-}
+    right:0;
+    bottom:0;}
 
 .form {
     width: 420px;
