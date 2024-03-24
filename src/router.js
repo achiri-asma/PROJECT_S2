@@ -18,11 +18,11 @@ const routes=[
     {path:'/signup',component:SignupPage,name: 'SignupPage'},
     {path:'/signup-doc',component:SignupDoctor,name:'SignupDoctor'},
     {path:'/login1',component:LoginPage1,name:'LoginPage1'},
-    {path:'/login2',component:LoginPage2,name:'LoginPage2'},
+    {path:'/login',component:LoginPage2,name:'LoginPage2'},
     {path:'/fg-pass1',component:ForgetPassword1,name:'ForgetPassword1'},
     {path:'/fg-pass2',component:ForgetPassword2,name:'ForgetPassword2'},
     {path:'/reset-pass1/:email',component:ResetPassword1,name:'ResetPassword1'},
-    {path:'/reset-pass2',component:ResetPassword2,name:'ResetPassword2'},
+    {path:'/reset-pass2/:email',component:ResetPassword2,name:'ResetPassword2'},
     {path:'/landing-page',component:LandingPage,name:'LandingPage'},
     {path:'/DashUser/:id',component:DashUser,name:'DashUser'},
     {path:'/DashMed/:id',component:DashMed,name:'DashMed'}

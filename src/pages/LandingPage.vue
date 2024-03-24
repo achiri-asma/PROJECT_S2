@@ -1,4 +1,4 @@
-<template> 
+<template>
     <HeaderPage2 />
     <AppoinTement2 />
     <div class="second-section">
@@ -135,111 +135,108 @@
 
     </div>
 
-    <div class="contact" >
+    <div class="contact">
         <h3 id="titre-principale">Contact us</h3>
         <p id="sub-title">get in touch with our support team for any inquiries or assistance.</p>
         <div class="contain">
-    <div class="box">
-        <img src="../assets/mail.png" alt="Image 1">
-        <div class="content">
-            <h3>Email</h3>
-            <p>We’re here to help you with all your <br/> healthcare needs.</p>
-            <p id="underline">info@nom_website.com</p>
+            <div class="box">
+                <img src="../assets/mail.png" alt="Image 1">
+                <div class="content">
+                    <h3>Email</h3>
+                    <p>We’re here to help you with all your <br /> healthcare needs.</p>
+                    <p id="underline">info@nom_website.com</p>
+                </div>
+            </div>
+            <div class="box">
+                <img src="../assets/phone-call.png" alt="Image 2">
+                <div class="content">
+                    <h3>Phone</h3>
+                    <p>Begin a conversation with our support team <br /> now.</p>
+                    <p id="gras">+213 26 21 47 53 </p>
+                </div>
+            </div>
+            <div class="box">
+                <img src="../assets/location.png" alt="Image 3">
+                <div class="content">
+                    <h3>Office</h3>
+                    <p>We’re just a message away from answering <br /> your questions.</p>
+                    <p id="gras">BP 73, Bureau de poste EL WIAM <br /> Sidi Bel Abbés 22016</p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="box">
-        <img src="../assets/phone-call.png" alt="Image 2">
-        <div class="content">
-            <h3>Phone</h3>
-            <p>Begin a conversation with our support team <br/> now.</p>
-            <p id="gras">+213 26 21 47 53 </p>
-        </div>
-    </div>
-    <div class="box">
-        <img src="../assets/location.png" alt="Image 3">
-        <div class="content">
-            <h3>Office</h3>
-            <p>We’re just a message away from answering  <br/> your questions.</p>
-            <p id="gras">BP 73, Bureau de poste EL WIAM  <br/> Sidi Bel Abbés 22016</p>
-        </div>
-    </div>
-</div>
 
     </div>
 
-<FooterPage/>
+    <FooterPage />
 
-    
-    
-    </template>
-    <script>
-    import AppoinTement2 from '../components/AppoinTement2.vue';
-    import HeaderPage2 from '../components/HeaderPage2.vue';
-    import FooterPage from '../components/FooterPage.vue';
-    
-    export default {
-        name: 'LandingPage',
-        components:{AppoinTement2,HeaderPage2,FooterPage},
-    }
-    </script>
-    <style>
-        .second-section {
-            display: flex;
-        }
-    
-        #doctors {
-            width: 550px;
-            height: 550px;
-            margin-left: 85px;
-            margin-top: 50px;
-        }
-    
-        .right {
-            margin-left: 50px;
-            float: right;
-        }
-    
-        #titrre {
-            font-family: Poppins;
-            margin-top: 40px;
-            font-weight: 600;
-            font-size: 30px;
-            line-height: 40px;
-        }
-    
-        #souss-titre {
-            font-family: Poppins;
-            font-size: 18px;
-            font-weight: 400;
-            margin-top: 40px;
-            width: 700px;
-        }
-    
-        .card {
-            display: inline-block;
-            width: 30%;
-            margin-top: 30px;
-            margin-right: 20px;
-            text-align: left;
-        }
-    
-        .card h4 {
-            font-size: 17px;
-            margin-bottom: 15px;
-        }
-    
-        .card p {
-            font-size: 17px;
-            color: gray;
-        }
-    
-        .card img {
-            width: 45px;
-            height: 45px;
-            margin-left: 70px;
-            margin-bottom: 10px;
-        }
-    
-        
-    </style>
-    
+
+
+</template>
+<script>
+import AppoinTement2 from '../components/AppoinTement2.vue';
+import HeaderPage2 from '../components/HeaderPage2.vue';
+import FooterPage from '../components/FooterPage.vue';
+
+export default {
+    name: 'LandingPage',
+    components: { AppoinTement2, HeaderPage2, FooterPage },
+}
+</script>
+<style>
+.second-section {
+    display: flex;
+}
+
+#doctors {
+    width: 550px;
+    height: 550px;
+    margin-left: 85px;
+    margin-top: 50px;
+}
+
+.right {
+    margin-left: 50px;
+    float: right;
+}
+
+#titrre {
+    font-family: Poppins;
+    margin-top: 40px;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 40px;
+}
+
+#souss-titre {
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 400;
+    margin-top: 40px;
+    width: 700px;
+}
+
+.card {
+    display: inline-block;
+    width: 30%;
+    margin-top: 30px;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.card h4 {
+    font-size: 17px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 17px;
+    color: gray;
+}
+
+.card img {
+    width: 45px;
+    height: 45px;
+    margin-left: 70px;
+    margin-bottom: 10px;
+}
+</style>

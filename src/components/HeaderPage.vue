@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <img src="../assets/logoo.png" alt="logo" id="logo"/>
+    <img src="../assets/logoo.png" alt="logo" id="logo" />
     <nav>
       <RouterLink to="/" class="li">Home</RouterLink>
       <RouterLink to="/about-us" class="li">About Us</RouterLink>
@@ -21,10 +21,10 @@ export default {
   name: 'HeaderPage',
   methods: {
     login1() {
-      router.push({ name: 'LoginPage2' ,params:{}});
+      router.push({ name: 'LoginPage2', params: {} });
     },
     login2() {
-      router.push({ name: 'LoginPage1' ,params:{}});
+      router.push({ name: 'LoginPage1', params: {} });
     }
   }
 };
@@ -41,7 +41,7 @@ export default {
   background-color: transparent;
   z-index: 999;
   margin-left: 70px;
- 
+
 }
 
 #logo {

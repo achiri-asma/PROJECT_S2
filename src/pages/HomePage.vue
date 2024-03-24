@@ -148,44 +148,44 @@
         <h3 id="titree4">Find Your <span> Perfect Doctor </span> Today</h3>
         <p id="sous-titre4">Experience hassle-free medical appointments booking with our user-friendly platform</p>
         <div class="button-container2">
-                <button id="bt12" type="submit">learn more</button>
-                <button id="bt21" @click="registerr" type="submit">sign up</button>
+            <button id="bt12" type="submit">learn more</button>
+            <button id="bt21" @click="registerr" type="submit">sign up</button>
         </div>
 
     </div>
-    <div class="contact" >
+    <div class="contact">
         <h3 id="titre-principale">Contact us</h3>
         <p id="sub-title">get in touch with our support team for any inquiries or assistance.</p>
         <div class="contain">
-    <div class="box">
-        <img src="../assets/mail.png" alt="Image 1">
-        <div class="content">
-            <h3>Email</h3>
-            <p>We’re here to help you with all your <br/> healthcare needs.</p>
-            <p id="underline">info@nom_website.com</p>
+            <div class="box">
+                <img src="../assets/mail.png" alt="Image 1">
+                <div class="content">
+                    <h3>Email</h3>
+                    <p>We’re here to help you with all your <br /> healthcare needs.</p>
+                    <p id="underline">info@nom_website.com</p>
+                </div>
+            </div>
+            <div class="box">
+                <img src="../assets/phone-call.png" alt="Image 2">
+                <div class="content">
+                    <h3>Phone</h3>
+                    <p>Begin a conversation with our support team <br /> now.</p>
+                    <p id="gras">+213 26 21 47 53 </p>
+                </div>
+            </div>
+            <div class="box">
+                <img src="../assets/location.png" alt="Image 3">
+                <div class="content">
+                    <h3>Office</h3>
+                    <p>We’re just a message away from answering <br /> your questions.</p>
+                    <p id="gras">BP 73, Bureau de poste EL WIAM <br /> Sidi Bel Abbés 22016</p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="box">
-        <img src="../assets/phone-call.png" alt="Image 2">
-        <div class="content">
-            <h3>Phone</h3>
-            <p>Begin a conversation with our support team <br/> now.</p>
-            <p id="gras">+213 26 21 47 53 </p>
-        </div>
-    </div>
-    <div class="box">
-        <img src="../assets/location.png" alt="Image 3">
-        <div class="content">
-            <h3>Office</h3>
-            <p>We’re just a message away from answering  <br/> your questions.</p>
-            <p id="gras">BP 73, Bureau de poste EL WIAM  <br/> Sidi Bel Abbés 22016</p>
-        </div>
-    </div>
-</div>
 
     </div>
 
-<FooterPage/>
+    <FooterPage />
 </template>
 <script>
 import router from '@/router';
@@ -194,7 +194,7 @@ import HeaderPage from '../components/HeaderPage.vue';
 import FooterPage from '../components/FooterPage.vue';
 export default {
     name: 'HomePage',
-    components: { AppoinTement, HeaderPage ,FooterPage},
+    components: { AppoinTement, HeaderPage, FooterPage },
     methods: {
         register() {
             router.push({ name: 'SignupDoctor', params: {} });
@@ -477,7 +477,7 @@ span {
 .right4 .group {
     display: flex;
     position: relative;
-    margin-left:-20px;
+    margin-left: -20px;
 }
 
 .carte1,
@@ -563,6 +563,7 @@ span {
     font-weight: 400;
     padding-top: 25px;
 }
+
 .seventh-section {
     display: flex;
     height: 550px;
@@ -581,17 +582,18 @@ span {
     line-height: 40px;
     margin-left: 85px;
     margin-top: 100px;
-    color:white;
+    color: white;
 }
+
 #sous-titre4 {
     font-family: Poppins;
     font-size: 18px;
     font-weight: 400;
     margin-top: 250px;
     width: 700px;
-    float:left;
-    margin-left:-465px;
-    color:white;
+    float: left;
+    margin-left: -465px;
+    color: white;
 }
 
 .button-container2 {
@@ -608,7 +610,7 @@ span {
     border-radius: 20px;
     font-size: 16px;
     color: white;
-    border:1px solid white;
+    border: 1px solid white;
 }
 
 #bt12 {
@@ -618,24 +620,27 @@ span {
 #bt21 {
     background-color: #03C6C1;
 }
-#titre-principale{
-    color:#03C6C1;
+
+#titre-principale {
+    color: #03C6C1;
     text-align: center;
     font-size: 30px;
     font-weight: 700;
     margin-top: 50px
 }
-#sub-title{
+
+#sub-title {
     text-align: center;
     margin-top: 15px;
     font-size: 18px;
 }
+
 .contain {
     display: flex;
 }
 
 .box {
-    width: 33.33%; 
+    width: 33.33%;
     margin-top: 40px;
     margin-left: -10px;
     box-sizing: border-box;
@@ -645,20 +650,23 @@ span {
 .box img {
     max-width: 100%;
 }
-.box h3{
+
+.box h3 {
     padding-top: 30px;
-    color:#03C6C1;
+    color: #03C6C1;
     font-size: 25px;
 }
-.box p{
-    padding-top:30px;
+
+.box p {
+    padding-top: 30px;
 }
-#underline{
-    text-decoration:underline;
-    font-weight: 600;
-}
-#gras{
+
+#underline {
+    text-decoration: underline;
     font-weight: 600;
 }
 
+#gras {
+    font-weight: 600;
+}
 </style>

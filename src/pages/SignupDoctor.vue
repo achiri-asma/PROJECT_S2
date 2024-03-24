@@ -1,8 +1,8 @@
 <template>
     <div class="containerr">
-        <form class="form2" v-show="currentStep === 1" >
-            <p id="title">Welcome</p>
-            <p id="subtitle">Join our platform to manage <br /> appointments and connect with patients</p>
+        <form class="form2" v-show="currentStep === 1">
+            <p id="tittre">Welcome</p>
+            <p id="subtitre">Join our platform to manage <br /> appointments and connect with patients</p>
             <div class="stepper-wrapper">
                 <div class="stepper-item completed">
                     <div class="step-counter"><img src="../assets/one.png" alt="one" /></div>
@@ -25,7 +25,8 @@
             <div class="controll">
                 <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.valueMissing">The full name is
                     required</small>
-                <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.tooShort">The full name must have at least
+                <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.tooShort">The full name must have at
+                    least
                     4
                     characters</small>
                 <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.patternMismatch">The full name must
@@ -56,15 +57,28 @@
                 </small>
             </div>
 
+            <label for="cpassword"><img src="../assets/padlock.png" alt="password" id="password"></label>
+            <input ref="pssInput" type="password" v-model="cpassword" @blur="toued = true" name="cpassword" required
+                placeholder="Confirm password" minlength="8" id="i3" />
+            <div class="controll">
+                <small v-if="toued && $refs.pssInput && $refs.pssInput.validity.valueMissing">The confirmation of
+                    password is required</small>
+                <small v-if="toued && $refs.pssInput && $refs.pssInput.validity.tooShort">The password must contain at
+                    least 8 characters</small>
+                <small v-if="toued && !passwordsMatch">The confirmation password does not match</small>
+            </div>
+
             <label for="nb_soc"><img src="../assets/user-experience.png" alt="nb_soc" id="nb_soc"></label>
             <input ref="nbInput" type="text" v-model="number" name="nb_soc" required
                 placeholder="Medical registration number" minlength="10" pattern="[0-9]+" @blur="toucheddddd = true"
                 id="i5" />
             <div class="controll">
-                <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.valueMissing">the social security number
+                <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.valueMissing">the social security
+                    number
                     is
                     required</small>
-                <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.tooShort">The password must contain at
+                <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.tooShort">The password must contain
+                    at
                     least 8 characters
                 </small>
             </div>
@@ -75,15 +89,16 @@
             <div class="controll">
                 <small v-if="touch && $refs.spInput && $refs.spInput.validity.valueMissing">The speciality is
                     required</small>
-                <small v-if="touch && $refs.spInput && $refs.spInput.validity.tooShort">The speciality must have at least
+                <small v-if="touch && $refs.spInput && $refs.spInput.validity.tooShort">The speciality must have at
+                    least
                     4 characters</small>
                 <small v-if="touch && $refs.spInput && $refs.spInput.validity.patternMismatch">The speciality must
                     contain only alphabetic characters</small>
             </div>
 
             <label for="experience"><img src="../assets/quality.png" alt="experience" id="cl"></label>
-            <input ref="dtInput" type="text" v-model="date" name="experience" @blur="tou = true" required placeholder="Experience"
-                pattern="\d{4}" id="i6" />
+            <input ref="dtInput" type="text" v-model="date" name="experience" @blur="tou = true" required
+                placeholder="Experience" pattern="\d{4}" id="i6" />
             <div class="controll">
                 <small v-if="tou && $refs.dtInput && $refs.dtInput.validity.valueMissing">The date is required</small>
                 <small v-if="tou && $refs.dtInput && $refs.dtInput.validity.patternMismatch">The date must be in correct
@@ -91,7 +106,7 @@
             </div>
 
 
-            <button  class="btnn1" @click.prevent="nextStep">Next <img src="../assets/next-g.png" id="next"/></button>
+            <button class="btnn1" @click.prevent="nextStep">Next <img src="../assets/next-g.png" id="next" /></button>
             <div class="inscr">
                 <p id="subsubtitle">Already have an account ? <router-link to="/login" id="link">Log in</router-link>
                 </p>
@@ -99,9 +114,9 @@
 
         </form>
 
-        <form class="form2" v-show="currentStep === 2" >
-            <p id="title">Welcome</p>
-            <p id="subtitle">Join our platform to manage <br /> appointments and connect with patients</p>
+        <form class="form2" v-show="currentStep === 2">
+            <p id="tittre">Welcome</p>
+            <p id="subtitre">Join our platform to manage <br /> appointments and connect with patients</p>
             <div class="stepper-wrapper">
                 <div class="stepper-item completed">
                     <div class="step-counter"><img src="../assets/check.png" alt="check" /></div>
@@ -125,30 +140,32 @@
                 <label for="i" class="custom-file-input">
                     <img src="../assets/camera.png" alt="Camera Icon" class="camera-icon">
                 </label>
-                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload"   name="image"
+                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload" name="image"
                     required @blur="tou1 = true" id="i" />
                 <div class="controll">
                     <small v-if="tou1 && imageUploadError">The image is required</small>
                 </div>
             </div>
             <label for="sexe"><img src="../assets/gender.png" alt="sexe" id="sexe"></label>
-      <select v-model="sexe" name="sexe" @blur="touchedddd = true" required id="i4">
-        <option value="" disabled selected hidden style="font-size: 14px;color:gray;">Sexe</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
-      <div class="controll">
-        <small v-if="touchedddd && !sexe">The sexe is required</small>
-      </div>
+            <select v-model="sexe" name="sexe" @blur="toud = true" required id="i4">
+                <option value="" disabled selected hidden style="font-size: 14px;color:gray;">Sexe</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <div class="controll">
+                <small v-if="toud && !sexe">The sexe is required</small>
+            </div>
 
             <label for="dateOfBirth"><img src="../assets/calendar.png" alt="calendare" id="cl"></label>
-      <input ref="dttInput" type="text" v-model="dateOfBirth" name="dateOfBirth" @blur="t111 = true" required
-        placeholder="Date of birth yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" id="i6" />
-      <div class="controll">
-        <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.valueMissing">The date is required</small>
-        <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.patternMismatch">The date must be in correct
-          format</small>
-      </div>
+            <input ref="dttInput" type="text" v-model="dateOfBirth" name="dateOfBirth" @blur="t111 = true" required
+                placeholder="Date of birth yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" id="i6" />
+            <div class="controll">
+                <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.valueMissing">The date is
+                    required</small>
+                <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.patternMismatch">The date must be in
+                    correct
+                    format</small>
+            </div>
 
             <label for="tel"><img src="../assets/telephone.png" alt="telephone" id="tel"></label>
             <input ref="tellInput" type="tel" v-model="telephone" @blur="tou2 = true" name="tel" required
@@ -159,7 +176,8 @@
                 <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.tooShort">The phone number must have 10
                     digits
                 </small>
-                <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.patternMismatch">The phone number must be
+                <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.patternMismatch">The phone number must
+                    be
                     in
                     correct format</small>
             </div>
@@ -175,9 +193,11 @@
 
             </div>
             <div class="but">
-            <button  class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png" id="next"/> Back  </button>
-            <button  class="btn1" @click.prevent="nextStep">Next <img src="../assets/next-g.png" id="next"/> </button>
-        </div>
+                <button class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png" id="next" /> Back
+                </button>
+                <button class="btn1" @click.prevent="nextStep">Next <img src="../assets/next-g.png" id="next" />
+                </button>
+            </div>
             <div class="inscr">
                 <p id="subsubtitle">Already have an account ? <router-link to="/login" id="link">Log in</router-link>
                 </p>
@@ -186,8 +206,8 @@
         </form>
 
         <form class="form2" v-show="currentStep === 3">
-            <p id="title">Welcome</p>
-            <p id="subtitle">Join our platform to manage <br /> appointments and connect with patients</p>
+            <p id="tittre">Welcome</p>
+            <p id="subtitre">Join our platform to manage <br /> appointments and connect with patients</p>
             <div class="stepper-wrapper">
                 <div class="stepper-item completed">
                     <div class="step-counter"><img src="../assets/check.png" alt="check" /></div>
@@ -211,8 +231,8 @@
                 <label for="i" class="custom-file-input">
                     <img src="../assets/camera.png" alt="Camera Icon" class="camera-icon">
                 </label>
-                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload2" name="image2"
-                    required @blur="tou1 = true" id="i" />
+                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" name="image2" required @blur="tou1 = true"
+                    id="i" />
                 <div class="controll">
                     <small v-if="tou1 && imageUploadError">The image is required</small>
                 </div>
@@ -224,10 +244,12 @@
             <div class="controll">
                 <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.valueMissing">The phone number is
                     required</small>
-                <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.tooShort">The phone number must have 10
+                <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.tooShort">The phone number must have
+                    10
                     digits
                 </small>
-                <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.patternMismatch">The phone number must be
+                <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.patternMismatch">The phone number
+                    must be
                     in
                     correct format</small>
             </div>
@@ -247,16 +269,20 @@
                 <small v-if="touc && $refs.stInput && $refs.stInput.validity.tooShort">The state must contain at least 8
                     characters.
                 </small>
-                <small v-if="touc && $refs.cstInput && $refs.stInput.validity.patternMismatch">The state must contain only
+                <small v-if="touc && $refs.cstInput && $refs.stInput.validity.patternMismatch">The state must contain
+                    only
                     alphabetic characters</small>
                 <small v-if="touc1 && $refs.ctInput && $refs.ctInput.validity.valueMissing">The city is required</small>
                 <small v-if="touc1 && $refs.ctInput && $refs.ctInput.validity.tooShort">The city must contain at least 8
                     characters.
                 </small>
-                <small v-if="touc1 && $refs.ctInput && $refs.ctInput.validity.patternMismatch">The city must contain only
+                <small v-if="touc1 && $refs.ctInput && $refs.ctInput.validity.patternMismatch">The city must contain
+                    only
                     alphabetic characters</small>
-                <small v-if="touc2 && $refs.sttInput && $refs.sttInput.validity.valueMissing">The street is required</small>
-                <small v-if="touc2 && $refs.sttInput && $refs.sttInput.validity.tooShort">The street must contain at least 8
+                <small v-if="touc2 && $refs.sttInput && $refs.sttInput.validity.valueMissing">The street is
+                    required</small>
+                <small v-if="touc2 && $refs.sttInput && $refs.sttInput.validity.tooShort">The street must contain at
+                    least 8
                     characters.
                 </small>
                 <small v-if="touc2 && $refs.sttInput && $refs.sttInput.validity.patternMismatch">The street must contain
@@ -269,11 +295,12 @@
                 <label for="terms"> I agree to the <span>terms and conditions</span></label>
             </div>
             <div class="but">
-            <button  class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png" id="next"/>Back </button>
-            <button @click="signup"  class="btn1">Sign up </button>
-        </div>
+                <button class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png" id="next" />Back
+                </button>
+                <button @click="signup" class="btn1">Sign up </button>
+            </div>
             <div class="inscr">
-                <p id="subsubtitle">Already have an account ?  <router-link to="/login" id="link">Log in</router-link>
+                <p id="subsubtitle">Already have an account ? <router-link to="/login" id="link">Log in</router-link>
                 </p>
             </div>
 
@@ -283,23 +310,25 @@
 
 <script>
 import axios from 'axios';
+import router from '@/router'
 export default {
     data() {
         return {
             nom: '',
             email: '',
             password: '',
+            cpassword: '',
             number: '',
             spec: '',
             dateOfBirth: '',
             date: '',
             telephone: '',
             telephonee: '',
-            additionalInfo:'',
+            additionalInfo: '',
             street: '',
             city: '',
             state: '',
-            sexe:'',
+            sexe: '',
             currentStep: 1,
             stepStatus: ['active', '', ''],
             touched: false,
@@ -312,25 +341,35 @@ export default {
             tou2: false,
             touc: false,
             touc1: false,
+            toued: false,
             touc2: false,
-            t111:  false,
+            t111: false,
+            toud: false,
             terms: false,
-            imagePath: ''
+            mgInput: '',
+            imagePath: '../assets/doctors/'
         };
+    },
+    computed: {
+        passwordsMatch() {
+            return this.cpassword === this.password
+        }
     },
     methods: {
         handleImageUpload(event) {
-            // Logique pour le premier champ de fichier
-          const  image=event.target.files[0];
-          console.log(image);
-          this.imagePath = URL.createObjectURL(image);
-            console.log(this.imagePath);
+            let file = event.target.files[0];
+            if (file) {
+                const file_name=file.name;
+                console.log("File name:", file_name);
+                this.imagePath=this.imagePath+file_name;
+                console.log(this.imagePath);
+            } else {
+                console.log("No file selected");
+            }
         },
-        handleImageUpload2(event) {
-            // Logique pour le deuxième champ de fichier
-            const image2= event.target.files[0];
-            console.log(image2);
-        },
+        //handleImageUpload2(event) {
+
+        //},
         validateStep1() {
             return (
                 this.nom.length >= 4 &&
@@ -361,10 +400,10 @@ export default {
             }
         },
         previousStep() {
-        if (this.currentStep > 1) {
-            this.currentStep--;
-        }
-    },
+            if (this.currentStep > 1) {
+                this.currentStep--;
+            }
+        },
         nextStep() {
             if (this.validateCurrentStep()) {
                 const previousStep = this.currentStep - 1;
@@ -372,38 +411,42 @@ export default {
                 this.currentStep++;
             }
         },
-        signup(){
-            if(this.terms){
+        signup() {
+            if (this.terms) {
                 const formData = {
-                fullname: this.nom,
-                email: this.email,
-                password: this.password,
-                dateOfBirth:this.dateOfBirth,
-                sexe:this.sexe,
-                biographie:this.additionalInfo,
-                experience:this.date,
-                phone:this.telephone,
-                speciality:this.spec,
-                numOrdre:this.number,
-      };
+                    fullName: this.nom,
+                    email: this.email,
+                    password: this.password,
+                    dateOfBirth: this.dateOfBirth,
+                    sexe: this.sexe,
+                    biographie: this.additionalInfo,
+                    experience: this.date,
+                    phone: this.telephone,
+                    speciality: this.spec,
+                    image: this.imagePath,
+                    numOrdre: this.number,
+                };
+                console.log(formData);
+                axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
+                    .then(response => {
+                        const medecinId = response.data;
+                        alert("Registered successfully ");
+                        router.push({ name: 'DashMed', params: { medecinId } });
 
-      axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
-        .then(() => {
-          alert("Registered successfully !");
-        })
-        .catch(error => {
-          console.log(error);
-          if (error.response && error.response.status === 404) {
-        alert("Num Ordre does not exist");
-    } else if (error.response && error.response.status === 500) {
-        alert("Email already exist");
-    } else {
-        alert("An error occurred. Please try again later.");
-    } // Affiche l'erreur dans la console pour un débogage supplémentaire
-        });
-    
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        if (error.response && error.response.status === 404) {
+                            alert("Num Ordre does not exist");
+                        } else if (error.response && error.response.status === 500) {
+                            alert("Email already exist");
+                        } else {
+                            alert("An error occurred. Please try again later.");
+                        }
+                    });
+
             }
-            else{
+            else {
                 alert("signup failed");
             }
         }
@@ -419,8 +462,8 @@ export default {
     align-items: center;
     height: 100%;
     width: 100%;
-    right:0;
-    bottom:0;
+    right: 0;
+    bottom: 0;
     margin-top: -8px;
     margin-left: -8px;
     background-image: url("../assets/background2.png");
@@ -430,8 +473,9 @@ export default {
 
 .form2 {
     width: 420px;
-    height: 650px;
+    height: 680px;
     padding: 15px;
+    margin-top: -10px;
     border: 1px solid rgb(171, 171, 171);
     border-radius: 50px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -439,11 +483,26 @@ export default {
     font-family: Poppins;
 }
 
+#tittre {
+    font-family: Poppins;
+    text-align: center;
+    font-size: 40px;
+    margin-top: -5px;
+}
+
+#subtitre {
+    font-family: Poppins;
+    text-align: center;
+    font-size: 16px;
+    margin-top: -5px;
+    color: gray;
+}
+
 .stepper-wrapper {
-    margin-top: auto;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .stepper-item {
@@ -488,7 +547,7 @@ export default {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color:  rgb(171, 171, 171);
+    background-color: rgb(171, 171, 171);
     margin-bottom: 6px;
     font-family: Poppins;
 }
@@ -575,22 +634,24 @@ export default {
     font-family: Poppins;
     width: 320px;
 }
+
 .but {
     display: flex;
     justify-content: space-between;
-    width:350px;
+    width: 350px;
     margin-left: 35px;
 }
 
-.btn1, .btn2 {
+.btn1,
+.btn2 {
     width: 115px;
     height: 50px;
     border-radius: 20px;
     font-family: 'Poppins';
     font-size: 14px;
     font-weight: 700;
-    border:none;
-    
+    border: none;
+
 }
 
 .btn1 {
@@ -600,7 +661,7 @@ export default {
     margin-top: 35px;
     align-items: center;
     justify-content: center;
-    display:flex;
+    display: flex;
     gap: 8px;
     padding-left: 15px;
 
@@ -613,10 +674,11 @@ export default {
     padding-left: -15px;
     align-items: center;
     justify-content: center;
-    display:flex;
-    gap:8px;
+    display: flex;
+    gap: 8px;
 }
-.btnn1{
+
+.btnn1 {
     width: 115px;
     height: 50px;
     border-radius: 20px;
@@ -631,11 +693,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Adjust the gap as needed */
+    gap: 8px;
+    /* Adjust the gap as needed */
     padding-left: 15px;
 }
-#next{
-    width:25px;
-    height:25px;
+
+#next {
+    width: 25px;
+    height: 25px;
 }
 </style>

@@ -119,30 +119,33 @@ export default {
       this.showList = true;
     },
     filterResults() {
-  this.showAll = false;
-  if (this.searchInput !== '') {
-    this.showList = true;
+      this.showAll = false;
+      if (this.searchInput !== '') {
+        this.showList = true;
 
-    if (this.displayedResults.length > 3) {
-      this.suggestionsMarginTop = 265;
-    } else if (this.displayedResults.length === 1 && this.displayedResults[0].name === 'Take Your Current Position') {
-      this.handleCurrentPosition(); 
-    } else if (this.displayedResults.length === 1) {
-      this.suggestionsMarginTop = 110; 
-    } else {
-      this.suggestionsMarginTop = 190; 
+        if (this.displayedResults.length > 3) {
+          this.suggestionsMarginTop = 265;
+        } else if (this.displayedResults.length === 1 && this.displayedResults[0].name === 'Take Your Current Position') {
+          this.handleCurrentPosition();
+        } else if (this.displayedResults.length === 2) {
+          this.suggestionsMarginTop = 155;
+        } else if (this.displayedResults.length === 1) {
+          this.suggestionsMarginTop = 110;
+        }
+        else {
+          this.suggestionsMarginTop = 190;
+        }
+      } else {
+        this.showList = false;
+        this.suggestionsMarginTop = 265;
+      }
+    },
+    methods: {
+      handleCurrentPosition() {
+        console.log("Special treatment for current position selected");
+      }
     }
-  } else {
-    this.showList = false;
-    this.suggestionsMarginTop = 0;
-  }
-},
-methods: {
-  handleCurrentPosition() {
-    console.log("Special treatment for current position selected");
-  }
-}
-,
+    ,
     selectSuggestion(value) {
       this.searchInput = value;
       this.showList = false;
