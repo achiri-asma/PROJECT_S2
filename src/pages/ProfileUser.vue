@@ -24,7 +24,7 @@
                         </div>
                         <label>Email: </label><span>{{ UserInfo.email }}</span><br>
                         <label>Sexe: </label><span>{{ UserInfo.sexe }}</span><br>
-                        <label>Address: </label><span>{{ UserInfo.adresse.wilaya }},{{ UserInfo.adresse.commune }},{{ UserInfo.adresse.rue }}</span><br>
+                        <label>Address: </label><span>{{ UserInfo.adresse.wilaya }}, {{ UserInfo.adresse.commune }}, {{ UserInfo.adresse.rue }}</span><br>
                         <label>Social security number: </label><span>{{ UserInfo.numSecuriteSociale }}</span><br>
                         <label>Date of birth: </label><span>{{ UserInfo.dateOfBirth }}</span><br>
                         <label>Phone number: </label><span>{{ UserInfo.phone }}</span>
@@ -43,7 +43,7 @@
                 <img src="../assets/linkedin.png" alt="linkedin">
             </div>
         </div>
-        <EditProfil3 v-show="showEditProfil3" @edit-profile="EditProfil3"/>
+        <EditProfil3 v-show="showEditProfil3" @edit-profile="EditProfil3" :userId="userId"/>
     </div>
 </template>
 

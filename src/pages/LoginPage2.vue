@@ -115,7 +115,7 @@ export default {
     width: 100%;
     margin-top: -8px;
     margin-left: -8px;
-    background-image: url("../assets/background1.png");
+    background-image: url("../assets/background2.png");
     background-repeat: no-repeat;
     background-size: cover;
 }

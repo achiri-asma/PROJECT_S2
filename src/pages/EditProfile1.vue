@@ -1,6 +1,6 @@
 <template>
     <div class="editprofil1">
-        <div>
+        <form>
             <h1>Edit Profile</h1>
             <p>Edit your personnel information as needed</p>
             <div class="editinputs">
@@ -15,7 +15,7 @@
                 <button class="cancel" @click="CancelEdit">Cancel</button>
                 <button class="save">Save <img src="../assets/diskette.png"> </button>
             </div>
-        </div>
+        </form>
     </div>
 </template>
 
@@ -38,7 +38,7 @@ export default{
         right: 0;
         bottom: 0;
     }
-    .editprofil1 > div, .editprofil2 > div, .editprofil3 > div{
+    .editprofil1 > form, .editprofil2 > form, .editprofil3 > form{
         width: 40%;
         height: 550px;
         text-align: center;
@@ -80,7 +80,7 @@ export default{
         background-size: 8%;
         margin-top: 20px;
     }
-    .editprofil1 .editinputs img, .editprofil2 div > img, .editprofil3 .editinputs img{
+    .editprofil1 .editinputs img, .editprofil2 form > img, .editprofil3 .editinputs img{
         width: 100px;
         height: 100px;
         border: 2px dashed black;

@@ -1,4 +1,3 @@
-
 import {createRouter,createWebHistory} from 'vue-router'
 import HomePage from './pages/HomePage.vue'
 import SignupPage from './pages/SignupPage.vue'
@@ -12,6 +11,7 @@ import ResetPassword2 from './pages/ResetPassword2.vue'
 import LandingPage from './pages/LandingPage.vue'
 import DashUser from './pages/DashUser.vue'
 import DashMed from './pages/DashMed.vue'
+import SearchResult from './pages/SearchResult.vue'
 
 const routes=[
     {path:'/',component:HomePage,name:'HomePage'},
@@ -25,7 +25,8 @@ const routes=[
     {path:'/reset-pass2',component:ResetPassword2,name:'ResetPassword2'},
     {path:'/landing-page',component:LandingPage,name:'LandingPage'},
     {path:'/DashUser/:id',component:DashUser,name:'DashUser'},
-    {path:'/DashMed/:id',component:DashMed,name:'DashMed'}
+    {path:'/DashMed/:id',component:DashMed,name:'DashMed'},
+    {path:'/SearchResult',component:SearchResult,name:'SearchResult'}
 ]
 const router = createRouter({
     history:createWebHistory(),

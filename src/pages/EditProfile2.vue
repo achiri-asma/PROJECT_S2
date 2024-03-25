@@ -1,6 +1,6 @@
 <template>
     <div class="editprofil2">
-        <div>
+        <form>
             <h1>Edit Profile</h1>
             <p>Edit your office information as needed</p>
             <input placeholder="0799567439">
@@ -12,7 +12,7 @@
                 <button class="cancel" @click="CancelEdit">Cancel</button>
                 <button class="save">Save <img src="../assets/diskette.png"> </button>
             </div>
-        </div>
+        </form>
     </div>
 </template>
 
