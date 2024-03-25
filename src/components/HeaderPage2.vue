@@ -8,25 +8,18 @@
       <RouterLink to="/faqs" class="li">FAQs</RouterLink>
       <RouterLink to="/contact" class="li">Contact</RouterLink>
     </nav>
-    <div class="button-containerr">
-      <button id="btt1" @click="login1" type="submit">A Doctor?</button>
-      <button id="btt2" @click="login2" type="submit">Log In</button>
-    </div>
+
+    <router-link :to="{ name: 'DashUser', params: { id: $route.params.userId } }"> <img src="../assets/image3.png"
+        alt="profil" id="profile"></router-link>
+
+
   </header>
 </template>
 
 <script>
-import router from '@/router';
+//import router from '@/router';
 export default {
   name: 'HeaderPage',
-  methods: {
-    login1() {
-      router.push({ name: 'LoginPage2', params: {} });
-    },
-    login2() {
-      router.push({ name: 'LoginPage1', params: {} });
-    }
-  }
 };
 </script>
 
@@ -57,7 +50,6 @@ nav {
   margin-right: 70px;
 }
 
-/* Styles pour les liens de navigation */
 .li {
   color: gray;
   font-size: 18px;
@@ -66,37 +58,15 @@ nav {
   margin-top: 10px;
 }
 
-/* Styles pour les liens de navigation au survol */
 .li:hover {
   font-weight: 700;
   color: black;
 }
 
-/* Styles pour le conteneur des boutons */
-.button-containerr {
-  display: flex;
-
-}
-
-/* Styles pour les boutons */
-.button-containerr button {
-  margin-left: 20px;
-  width: 160px;
+#profile {
+  width: 50px;
   height: 50px;
-  border-radius: 20px;
-  border: 1px solid white;
-  font-size: 18px;
-  color: white;
-  margin-top: 10px;
-}
-
-/* Styles pour le bouton "A Doctor?" */
-#btt1 {
-  background-color: #03C6C1;
-}
-
-/* Styles pour le bouton "Log In" */
-#btt2 {
-  background-color: #03C6C1;
+  border-radius: 50px;
+  margin-left: 220px;
 }
 </style>

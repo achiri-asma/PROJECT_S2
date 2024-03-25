@@ -16,10 +16,7 @@
       <p id="sous-titre">Our Online Appointment Booking System For Doctors Allows You To Easily <br />Find And Schedule
         Appointment With Trusted Doctors In Your Area. Sign up <br />Now To Experience Convenient And Hassle-Free
         Healthcare.</p>
-      <div class="button-container">
-        <button id="bt1" type="submit">learn more</button>
-        <button id="bt2" @click="signup" type="submit">sign up</button>
-      </div>
+
     </div>
   </div>
 </template>
@@ -28,7 +25,7 @@
 import router from '@/router';
 
 export default {
-  name: 'AppoinTement',
+  name: 'AppoinTement2',
   data() {
     return {
       searchInput: '',
@@ -139,6 +136,7 @@ export default {
         this.showList = false;
         this.suggestionsMarginTop = 265;
       }
+
     },
     methods: {
       handleCurrentPosition() {
@@ -159,7 +157,7 @@ export default {
   position: relative;
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 780px;
   overflow: hidden;
 
 
@@ -194,8 +192,7 @@ export default {
 }
 
 .with-icon1,
-.with-icon2,
-.with-icon3 {
+.with-icon2 {
   background-repeat: no-repeat;
   background-position: 10px center;
   padding-left: 60px;
@@ -252,30 +249,7 @@ export default {
   margin-top: 75px;
 }
 
-.button-container {
-  display: flex;
-  margin-left: 85px;
-  margin-top: 40px;
-  margin-bottom: 55px;
-}
 
-.button-container button {
-  margin-right: 25px;
-  width: 179px;
-  height: 61px;
-  border-radius: 20px;
-  border: none;
-  font-size: 20px;
-  color: white;
-}
-
-#bt1 {
-  background-color: #bbbbbb;
-}
-
-#bt2 {
-  background-color: #03C6C1;
-}
 
 .suggestions {
   position: absolute;
