@@ -5,17 +5,17 @@
       <h3 id="titre">Schedule Your <span>Appointment</span></h3>
       <div class="search-container">
         <input type="text" placeholder="Name, speciality, office" id="input1" class="with-icon1">
-        <input type="text" placeholder="Where?" id="input2" @focus="showAllResults" v-model="searchInput"
-          @input="filterResults" class="with-icon2">
+        <input type="text" placeholder="Where?" id="input2" @focus="showAllResults" v-model="searchInput" @input="filterResults" class="with-icon2">
         <ul v-show="showList" class="suggestions" :style="{ marginTop: suggestionsMarginTop + 'px' }">
-          <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name
-            }}</li>
+          <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}</li>
         </ul>
         <button type="submit" @click="showAllResults">search <img src="../assets/next-g.png" id="next" /></button>
       </div>
-      <p id="sous-titre">Our Online Appointment Booking System For Doctors Allows You To Easily <br />Find And Schedule
-        Appointment With Trusted Doctors In Your Area. Sign up <br />Now To Experience Convenient And Hassle-Free
-        Healthcare.</p>
+      <p id="sous-titre">
+        Our Online Appointment Booking System For Doctors Allows You To Easily <br />
+        Find And Schedule Appointment With Trusted Doctors In Your Area. Sign up <br />
+        Now To Experience Convenient And Hassle-Free Healthcare.
+      </p>
       <div class="button-container">
         <button id="bt1" type="submit">learn more</button>
         <button id="bt2" @click="signup" type="submit">sign up</button>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import router from '@/router';
+import router from '@/router'
 
 export default {
   name: 'AppoinTement',
@@ -161,8 +161,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-
-
 }
 
 .background-image {
@@ -176,7 +174,6 @@ export default {
   object-fit: cover;
   z-index: -1;
 }
-
 
 #titre {
   font-family: Poppins;
@@ -216,14 +213,11 @@ export default {
 
 .with-icon2 {
   background-image: url('../assets/position.png');
-
   border-left: none;
   width: 200px;
   height: 65px;
   background-size: 25px 25px;
 }
-
-
 
 .search-container button {
   background-color: #03C6C1;
@@ -240,7 +234,6 @@ export default {
   justify-content: center;
   display: flex;
   gap: 8px;
-
 }
 
 #sous-titre {

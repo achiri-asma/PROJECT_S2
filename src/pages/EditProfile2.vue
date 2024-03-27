@@ -1,6 +1,6 @@
 <template>
     <div class="editprofil2">
-        <form>
+        <form><!--@submit.prevent="updateProfile2"-->
             <h1>Edit Profile</h1>
             <p>Edit your office information as needed</p>
             <input placeholder="0799567439">
@@ -18,6 +18,7 @@
 
 <script>
 export default{
+    props : [ 'medecinId' ],
     methods : {
         CancelEdit() {
             this.$emit('edit-profile')

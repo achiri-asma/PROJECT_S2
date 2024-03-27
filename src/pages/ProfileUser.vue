@@ -2,14 +2,20 @@
     <div class="profileuser">
         <div class="header">
             <ul>
-                <li>Home</li>
-                <li>About Us</li>
-                <li>Features</li>
-                <li>FAQs</li>
-                <li>Contact</li>
+                <router-link :to="{ name: 'LandingPage', params: { userId: userId } }"><li>Home</li></router-link>
+                <router-link to="/about-us"><li>About Us</li></router-link>
+                <router-link to="/features"><li>Features</li></router-link>
+                <router-link to="/faqs"><li>FAQs</li></router-link>
+                <router-link to="/contact"><li>Contact</li></router-link>
             </ul>
-            <img v-if="UserInfo.image" :src="UserInfo.image">
-            <img v-else src="../assets/image3.png"/>
+            <div class="userImage">
+                <img v-if="UserInfo.image" :src="UserInfo.image" @click="toggleDropdown">
+                <img v-else src="../assets/image3.png" @click="toggleDropdown">
+                <div v-if="showDropdown" class="dropdown">
+                    <router-link :to="{ name: 'DashUser', params: { userId: userId } }" @click="showDropdown=false"><div>My Profile</div></router-link> 
+                    <router-link to="/"><div @click="logOut">Log out <img src="../assets/logout2.png"></div></router-link>
+                </div>
+            </div>
         </div>
         <div class="main">
             <div class="personinfo">
@@ -43,7 +49,7 @@
                 <img src="../assets/linkedin.png" alt="linkedin">
             </div>
         </div>
-        <EditProfil3 v-show="showEditProfil3" @edit-profile="EditProfil3" :userId="userId"/>
+        <EditProfil3 v-show="showEditProfil3" @edit-profile="EditProfil3" :userId="userId" :userInfo="UserInfo"/>
     </div>
 </template>
 
@@ -55,6 +61,7 @@ export default {
     data() {
         return {
             showEditProfil3 : false,
+            showDropdown: false,
             UserInfo: {
                 adresse: {
                     wilaya: '',
@@ -69,6 +76,9 @@ export default {
     methods : {
         EditProfil3() {
             this.showEditProfil3 = !this.showEditProfil3
+        },
+        toggleDropdown() {
+            this.showDropdown = !this.showDropdown
         }
     },
     mounted() {
@@ -81,19 +91,50 @@ export default {
 </script>
 
 <style>
-    .profileuser .header img{
+    .profileuser .header ul{
+        width: 50%;
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        margin-left: 100px;
+    }
+    .profileuser .header a {
+        text-decoration: none;
+        color: inherit;
+    }
+    .profileuser .userImage {
+        position: relative;
+    }
+    .profileuser .userImage > img{
         width: 50px;
         height: 50px;
         border: 2px solid #03c6c1;
         border-radius: 50px;
         margin-right: 30px;
     }
-    .profileuser .header ul{
-        width: 50%;
-        list-style: none;
-        display: flex;
-        justify-content: space-between;
-        margin-left: 100px;
+    .profileuser .dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 135px;
+        background-color: white;
+        border: 1px solid #cccccc;
+        border-radius: 15px;
+        text-align: center;
+        padding: 10px 0;
+        z-index: 1;
+    }
+    .profileuser .dropdown div {
+        box-sizing: border-box;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+    .profileuser .dropdown div:hover{
+        background-color: rgb(217, 217, 217, 0.5);
+    }
+    .profileuser .dropdown img{
+        width: 15px;
+        height: 15px;
     }
     .profileuser .personinfo h5{
         margin-left: 100px;

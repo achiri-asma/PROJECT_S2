@@ -1,6 +1,6 @@
 <template>
-    <HeaderPage2 />
-    <AppoinTement2 />
+    <HeaderPage class="HeaderPage" :id="$route.params.userId"/>
+    <AppoinTement class="AppoinTement"/>
     <div class="second-section">
         <img src="../assets/doctors.png" id="doctors" />
         <div class="right">
@@ -17,7 +17,6 @@
                         online.</p>
                 </div>
             </div>
-
             <div class="card">
                 <img src="../assets/pattern.png" alt="Image 2">
                 <div class="card-content">
@@ -26,7 +25,6 @@
                         accounts management. </p>
                 </div>
             </div>
-
             <div class="card">
                 <img src="../assets/filterr.png" alt="Image 3">
                 <div class="card-content">
@@ -35,7 +33,6 @@
                         expertise level <br /> and preferred location.</p>
                 </div>
             </div>
-
         </div>
     </div>
     <div class="third-section">
@@ -45,7 +42,6 @@
                 professionals. To ensure trust, we have implemented a rigorous registration and approval process for
                 doctors.</p>
         </div>
-
         <div class="rightt">
             <div class="conteneur">
                 <img src="../assets/Group 6.png" alt="Image 1">
@@ -57,7 +53,6 @@
             </div>
         </div>
     </div>
-
     <div class="fourth-section">
         <img src="../assets/Group 9.png" alt="image 4">
         <h3 id="titreee"><span>Never Miss </span> <br />An Appointment With Our <br />Confidence Appointment <br />
@@ -68,7 +63,6 @@
     </div>
     <div class="fifth-section">
         <img src="../assets/patients.png" id="patients" />
-
         <div class="right1">
             <h3 id="titrre1"><span>Save Time</span> And <span> Easily Access</span> <br /> Quality Healthcare
             </h3>
@@ -77,19 +71,13 @@
                 their Specialties and location, schedule appointment, and receive reminders.</p>
             <div class="carde">
                 <img src="../assets/save-time 1.png" alt="Image 1">
-
                 <p>Save time by easily <br /> searching for doctors online</p>
-
             </div>
-
             <div class="carde">
                 <img src="../assets/chat 1.png" alt="Image 2">
                 <p>Enhance communication <br />and streamlined <br />appointments booking </p>
-
             </div>
-
         </div>
-
     </div>
     <div class="sixth-section">
         <h3 id="titrre2">Find <span> Right Doctor </span> <br /> For You Medical <br /> <span>Needs </span></h3>
@@ -130,11 +118,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
     <div class="contact">
         <h3 id="titre-principale">Contact us</h3>
         <p id="sub-title">get in touch with our support team for any inquiries or assistance.</p>
@@ -164,25 +149,31 @@
                 </div>
             </div>
         </div>
-
     </div>
-
     <FooterPage />
-
-
-
 </template>
+
 <script>
-import AppoinTement2 from '../components/AppoinTement2.vue';
-import HeaderPage2 from '../components/HeaderPage2.vue';
-import FooterPage from '../components/FooterPage.vue';
+import HeaderPage from '../components/HeaderPage.vue'
+import AppoinTement from '../components/AppoinTement.vue'
+import FooterPage from '../components/FooterPage.vue'
 
 export default {
     name: 'LandingPage',
-    components: { AppoinTement2, HeaderPage2, FooterPage },
+    components: { HeaderPage, AppoinTement, FooterPage },
+    data() {
+    return {
+      isLandingPage: true, 
+    }
+  }
 }
 </script>
+
 <style>
+.HeaderPage .button-containerr, .AppoinTement #bt1, .AppoinTement #bt2 {
+    display: none;
+}
+
 .second-section {
     display: flex;
 }

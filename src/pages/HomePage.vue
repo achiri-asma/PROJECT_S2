@@ -182,30 +182,30 @@
                 </div>
             </div>
         </div>
-
     </div>
-
     <FooterPage />
 </template>
+
 <script>
-import router from '@/router';
-import AppoinTement from '../components/AppoinTement.vue';
-import HeaderPage from '../components/HeaderPage.vue';
-import FooterPage from '../components/FooterPage.vue';
+import router from '@/router'
+import HeaderPage from '../components/HeaderPage.vue'
+import AppoinTement from '../components/AppoinTement.vue'
+import FooterPage from '../components/FooterPage.vue'
+
 export default {
     name: 'HomePage',
     components: { AppoinTement, HeaderPage, FooterPage },
     methods: {
         register() {
-            router.push({ name: 'SignupDoctor', params: {} });
+            router.push({ name: 'SignupDoctor', params: {} })
         },
         registerr() {
-            router.push({ name: 'SignupPage', params: {} });
+            router.push({ name: 'SignupPage', params: {} })
         }
     }
-
 }
 </script>
+
 <style>
 .second-section {
     display: flex;
@@ -239,7 +239,6 @@ export default {
     float: right;
 }
 
-
 #titrre {
     font-family: Poppins;
     margin-top: 40px;
@@ -263,7 +262,6 @@ export default {
     font-weight: 600;
     font-size: 30px;
     line-height: 40px;
-
 }
 
 #souss-titre {
@@ -273,8 +271,6 @@ export default {
     margin-top: 40px;
     width: 700px;
 }
-
-
 
 .card {
     display: inline-block;
@@ -309,7 +305,6 @@ export default {
     background-image: url("../assets/third section.png");
     background-repeat: no-repeat;
     background-size: cover;
-
 }
 
 span {
@@ -324,7 +319,6 @@ span {
     line-height: 40px;
     margin-top: 80px;
 }
-
 
 #sousss-titre {
     font-family: Poppins;
@@ -391,7 +385,6 @@ span {
     height: 100%;
     width: 90%;
     margin-left: 85px;
-
 }
 
 #titreee {
@@ -409,7 +402,6 @@ span {
     font-weight: 400;
     margin-top: 45px;
     margin-left: 120px;
-
 }
 
 .fifth-section {
@@ -510,7 +502,6 @@ span {
     margin-left: 110px;
     border: 1px solid #bbbbbb;
     position: absolute;
-
 }
 
 .number {
@@ -532,7 +523,6 @@ span {
 
 .carte1 .contenu,
 .carte3 .contenu {
-
     background-color: white;
     padding: 20px;
     height: 230px;
@@ -572,7 +562,6 @@ span {
     background-image: url("../assets/seventh.png");
     background-repeat: no-repeat;
     background-size: cover;
-
 }
 
 #titree4 {

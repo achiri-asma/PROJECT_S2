@@ -8,7 +8,7 @@
                 <li @click="handleRating" :class="{'current' : cliked3}">Rating</li>
             </ul>
         </aside>
-        <ProfileMed v-show="cliked1"/>
+        <ProfileMed v-show="cliked1" :medecinId="medecinId"/>
     </div>
 </template>
 
@@ -20,8 +20,12 @@ export default {
         return {
             cliked1 : true,
             cliked2 : false,
-            cliked3 : false
+            cliked3 : false,
+            medecinId : null
         }
+    },
+    created() {
+        this.medecinId = this.$route.params.medecinId
     },
     components : { ProfileMed },
     methods : {

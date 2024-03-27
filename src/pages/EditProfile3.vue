@@ -1,6 +1,6 @@
 <template>
     <div class="editprofil3">
-        <form @submit.prevent="updateProfile">
+        <form><!--@submit.prevent="updateProfile3"-->
             <h1>Edit Profile</h1>
             <p>Edit your personnel information as needed</p>
             <div class="editinputs">
@@ -25,7 +25,7 @@
 import axios from 'axios'
 
 export default{
-    props : [ 'userId' ],
+    props : [ 'userId', 'userInfo' ],
     data() {
         return {
             email: '',
@@ -35,11 +35,24 @@ export default{
             rue: ''
         }
     },
+    watch: {
+        userInfo: {
+            immediate: true,
+            deep: true,
+            handler(newValue) {
+                this.email= newValue.email
+                this.phone= newValue.phone
+                this.wilaya= newValue.adresse.wilaya
+                this.commune= newValue.adresse.commune
+                this.rue= newValue.adresse.rue
+            }
+        }
+    },
     methods : {
         CancelEdit() {
             this.$emit('edit-profile')
         },
-        updateProfile() {
+        updateProfile3() {
             const formData = {
             email: this.email,
             phone: this.phone,

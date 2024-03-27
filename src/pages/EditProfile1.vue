@@ -1,16 +1,17 @@
 <template>
     <div class="editprofil1">
-        <form>
+        <form><!--@submit.prevent="updateProfile1"-->
             <h1>Edit Profile</h1>
             <p>Edit your personnel information as needed</p>
             <div class="editinputs">
                 <div>
-                    <input placeholder="exemple@gmail.com"><br>
-                    <input placeholder="0799567439">
+                    <input type="email" v-model="email" placeholder="exemple@gmail.com"><br>
+                    <input type="tel" v-model="phone" placeholder="0799567439">
                 </div>
-                <img src="../assets/image1.png">
+                <img v-if="image" :src="image">
+                <img v-else src="../assets/image3.png"/>
             </div>
-            <textarea name="textarea1" rows="6">As a passionate dentist, I've dedicated my career to crafting smiles that radiateconfidence. With over a decade of experience,I merge precision with compassion, transforming dental visits into positive experiences. Outside the clinic, I enjoy exploring new dental technologies and volunteering for community oral health initiatives.As a passionate dentist, I've dedicated my career to crafting smiles that radiateconfidence. With over a decade of experience,I merge precision with compassion, transforming dental visits into positive experiences. Outside the clinic, I enjoy exploring new dental technologies and volunteering for community oral health initiatives.</textarea>
+            <textarea name="textarea1" rows="6" v-model="biographie" placeholder="Edit your biography as needed."></textarea>
             <div class="buttons">
                 <button class="cancel" @click="CancelEdit">Cancel</button>
                 <button class="save">Save <img src="../assets/diskette.png"> </button>
@@ -21,6 +22,27 @@
 
 <script>
 export default{
+    props : [ 'medecinId', 'medecinInfo' ],
+    data() {
+        return {
+            email: '',
+            phone: '',
+            biographie: '',
+            image: ''
+        }
+    },
+    watch: {
+        medecinInfo: {
+            immediate: true,
+            deep: true,
+            handler(newValue) {
+                this.email= newValue.email
+                this.phone= newValue.phone
+                this.biographie= newValue.biographie
+                this.image= newValue.image
+            }
+        }
+    },
     methods : {
         CancelEdit() {
             this.$emit('edit-profile')

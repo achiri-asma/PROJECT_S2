@@ -2,32 +2,32 @@
     <div class="profilemed">
         <div class="header">
             <h3>Profile</h3>
-            <img src="../assets/logout.png">
+            <router-link to="/"> 
+                <span>Log out</span>&nbsp;
+                <img src="../assets/logout.png">
+            </router-link>
         </div>
         <div class="main">
             <div class="personinfo">
                 <h5>Personnel Information :</h5>
                 <div class="infos">
-                    <img src="../assets/image1.png">
+                    <img v-if="medecinInfo.image" :src="medecinInfo.image">
+                    <img v-else src="../assets/image3.png"/>
                     <div>
                         <div class="fullname">
-                            <p>Dr.Full name</p> 
+                            <p>Dr.{{ medecinInfo.fullName }}</p> 
                             <img src="../assets/editing.png" @click="EditProfil1">
                         </div>
-                        <label>Email: </label><span>exemple@gmail.com</span><br>
-                        <label>Speciality: </label><span>Dentist</span><br>
-                        <label>Experience: </label><span>11-05-2019</span><br>
-                        <label>Medical Registration Number: </label><span>0987g4djxp3</span><br>
-                        <label>Phone number: </label><span>0799567439</span>
+                        <label>Email: </label><span>{{ medecinInfo.email }}</span><br>
+                        <!--<label>Sexe: </label><span>{{ medecinInfo.sexe }}</span><br>-->
+                        <label>Speciality: </label><span>{{ medecinInfo.speciality }}</span><br>
+                        <label>Experience: </label><span>{{ medecinInfo.experience }}</span><br>
+                        <label>Medical Registration Number: </label><span>{{ medecinInfo.numOrdre }}</span><br>
+                        <!--<label>Date of birth: </label><span>{{ medecinInfo.dateOfBirth }}</span><br>-->
+                        <label>Phone number: </label><span>{{ medecinInfo.phone }}</span>
                         <fieldset>
                             <legend>Biography:&nbsp;&nbsp;&nbsp;</legend>
-                            <p>
-                                As a passionate dentist, I've dedicated my career to crafting smiles that radiate
-                                confidence. With over a decade of experience,I merge precision with compassion, 
-                                transforming dental visits into positive experiences. Outside the clinic, I 
-                                enjoy exploring new dental technologies and volunteering for community oral 
-                                health initiatives.
-                            </p>
+                            <p>{{ medecinInfo.biographie }}</p>
                         </fieldset>
                     </div>
                 </div>
@@ -59,23 +59,26 @@
                 </div>
             </div>
         </div>
-        <EditProfil1 v-show="showEditProfil1" @edit-profile="EditProfil1"/>
-        <EditProfil2 v-show="showEditProfil2" @edit-profile="EditProfil2"/>
+        <EditProfil1 v-show="showEditProfil1" @edit-profile="EditProfil1" :medecinId="medecinId" :medecinInfo="medecinInfo"/>
+        <EditProfil2 v-show="showEditProfil2" @edit-profile="EditProfil2" :medecinId="medecinId"/>
     </div>
 </template>
 
 <script>
 import EditProfil1 from './EditProfile1'
 import EditProfil2 from './EditProfile2'
+import axios from 'axios'
 
 export default {
     data() {
         return {
             showEditProfil1 : false,
-            showEditProfil2 : false
+            showEditProfil2 : false,
+            medecinInfo : ''
         }
     },
     components : { EditProfil1, EditProfil2},
+    props : [ 'medecinId' ],
     methods : {
         EditProfil1() {
             this.showEditProfil1 = !this.showEditProfil1
@@ -83,6 +86,12 @@ export default {
         EditProfil2() {
             this.showEditProfil2 = !this.showEditProfil2
         }
+    },
+    mounted() {
+        axios.get(`http://localhost:7777/service-profile/api/MedecinInfo/${this.medecinId}/`)
+        .then(response => {
+            this.medecinInfo = response.data;
+        })
     }
 }
 </script>
@@ -110,6 +119,9 @@ export default {
         font-weight: 600;
         letter-spacing: 0.05em;
         margin-left: 30px;
+    }
+    .profilemed .header a{
+        text-decoration: none;
     }
     .profilemed .header img{
         width: 20px;

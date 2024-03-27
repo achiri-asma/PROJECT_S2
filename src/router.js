@@ -11,6 +11,7 @@ import ResetPassword2 from './pages/ResetPassword2.vue'
 import LandingPage from './pages/LandingPage.vue'
 import DashUser from './pages/DashUser.vue'
 import DashMed from './pages/DashMed.vue'
+import ProfileUser from './pages/ProfileUser.vue'
 import SearchResult from './pages/SearchResult.vue'
 
 const routes=[
@@ -24,8 +25,9 @@ const routes=[
     {path:'/reset-pass1/:email',component:ResetPassword1,name:'ResetPassword1'},
     {path:'/reset-pass2/:email',component:ResetPassword2,name:'ResetPassword2'},
     {path:'/landing-page',component:LandingPage,name:'LandingPage'},
-    {path:'/DashUser/:id',component:DashUser,name:'DashUser'},
-    {path:'/DashMed/:id',component:DashMed,name:'DashMed'},
+    {path:'/DashUser/:userId',component:DashUser,name:'DashUser'},
+    {path:'/DashMed/:medecinId',component:DashMed,name:'DashMed'},
+    {path:'/ProfileUser',component:ProfileUser,name:'ProfileUser'},
     {path:'/SearchResult',component:SearchResult,name:'SearchResult'}
 ]
 const router = createRouter({
