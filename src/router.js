@@ -12,7 +12,8 @@ import LandingPage from './pages/LandingPage.vue'
 import DashUser from './pages/DashUser.vue'
 import DashMed from './pages/DashMed.vue'
 import ProfileUser from './pages/ProfileUser.vue'
-import SearchResult from './pages/SearchResult.vue'
+import SearchPage1 from './pages/SearchPage1.vue'
+import DoctorPage from './pages/DoctorPage.vue'
 
 const routes=[
     {path:'/',component:HomePage,name:'HomePage'},
@@ -24,11 +25,12 @@ const routes=[
     {path:'/fg-pass2',component:ForgetPassword2,name:'ForgetPassword2'},
     {path:'/reset-pass1/:email',component:ResetPassword1,name:'ResetPassword1'},
     {path:'/reset-pass2/:email',component:ResetPassword2,name:'ResetPassword2'},
-    {path:'/landing-page',component:LandingPage,name:'LandingPage'},
+    {path:'/landing-page/:userId',component:LandingPage,name:'LandingPage'},
     {path:'/DashUser/:userId',component:DashUser,name:'DashUser'},
     {path:'/DashMed/:medecinId',component:DashMed,name:'DashMed'},
     {path:'/ProfileUser',component:ProfileUser,name:'ProfileUser'},
-    {path:'/SearchResult',component:SearchResult,name:'SearchResult'}
+    {path:'/search-page/:userId/:input1/:input2',component:SearchPage1,name:'SearchPage1'} ,
+    {path:'/doc-page/:input1/:input2',component:DoctorPage,name:'DoctorPage'} ,
 ]
 const router = createRouter({
     history:createWebHistory(),

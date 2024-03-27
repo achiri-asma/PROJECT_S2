@@ -2,7 +2,7 @@
   <header class="header">
     <img src="../assets/logoo.png" alt="logo" id="logo" />
     <nav>
-      <RouterLink to="/" class="li">Home</RouterLink>
+      <RouterLink :to="isLandingPage ? '/landing-page/'+id : '/'" class="li">Home</RouterLink>
       <RouterLink to="/about-us" class="li">About Us</RouterLink>
       <RouterLink to="/features" class="li">Features</RouterLink>
       <RouterLink to="/faqs" class="li">FAQs</RouterLink>
@@ -45,7 +45,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
 .header {
   display: flex;
   justify-content: space-between;

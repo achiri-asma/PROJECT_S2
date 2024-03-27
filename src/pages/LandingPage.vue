@@ -1,6 +1,6 @@
 <template>
     <HeaderPage class="HeaderPage" :id="$route.params.userId"/>
-    <AppoinTement class="AppoinTement"/>
+    <AppoinTement class="AppoinTement" :id="$route.params.userId"/>
     <div class="second-section">
         <img src="../assets/doctors.png" id="doctors" />
         <div class="right">

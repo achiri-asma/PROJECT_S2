@@ -4,12 +4,12 @@
     <div>
       <h3 id="titre">Schedule Your <span>Appointment</span></h3>
       <div class="search-container">
-        <input type="text" placeholder="Name, speciality, office" id="input1" class="with-icon1">
+        <input type="text" placeholder="Name, speciality, office" id="input1" v-model="search_Input" class="with-icon1">
         <input type="text" placeholder="Where?" id="input2" @focus="showAllResults" v-model="searchInput" @input="filterResults" class="with-icon2">
         <ul v-show="showList" class="suggestions" :style="{ marginTop: suggestionsMarginTop + 'px' }">
           <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}</li>
         </ul>
-        <button type="submit" @click="showAllResults">search <img src="../assets/next-g.png" id="next" /></button>
+        <button type="submit" @click="next">search <img src="../assets/next-g.png" id="next" /></button>
       </div>
       <p id="sous-titre">
         Our Online Appointment Booking System For Doctors Allows You To Easily <br />
@@ -31,6 +31,7 @@ export default {
   name: 'AppoinTement',
   data() {
     return {
+      search_Input:'',
       searchInput: '',
       results: [
         { id: 0, name: 'Take your current position' },
@@ -150,6 +151,11 @@ export default {
       this.searchInput = value;
       this.showList = false;
     },
+    next(){
+      const input1=this.search_Input;
+      const input2 = this.searchInput;
+      router.push({name:'SearchPage1' ,params:{input1 , input2}});
+    }
   },
 }
 </script>
