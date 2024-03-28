@@ -1,5 +1,7 @@
 <template>
-    <HeaderPage2  :id="$route.params.userId"/>
+    <HeaderPage2 :id="$route.params.userId" />
+
+
     <div class="bar">
         <p>Sort by <img src="../assets/next-g.png" id="dir" alt="signe"></p>
         <button type="submit" id="m--btn" class="m-btn">Distance</button>
@@ -7,19 +9,23 @@
         <button type="submit" class="m-btn">Rating</button>
         <button type="submit" class="m-btn">Gender</button>
     </div>
-    <div class="displayer" @click="next">
-         <img src="../assets/doctors/image1.png" alt="doctor" id="doc" @click="next">
-        <div class="doc-info">
-            <h4>Dr.Sara Anttoine</h4>
+    <div class="displayer">
+        <img src="../assets/doctors/image1.png" alt="doctor" id="doc">
+        <div class="doc-info" @click="isLandingPage ? nextt() : next()">
             <p>Dentist</p>
             <p id="petit"><img src="../assets/rating (2) 2.png" alt="rating" style="vertical-align: middle;"> (02)</p>
             <p>6 Years Experience </p>
             <p>Sidi bel abbes , sidi bel abbes, wiam BP 73 </p>
         </div>
         <div class="doc-cont">
-            <button type="submit" id="bt1"><img src="../assets/calendar (1) 1.png" alt="" id="next"> Book
+            <button type="submit" id="bt1" v-if="!isLandingPage" @click="next1"><img src="../assets/calendar (1) 1.png"
+                    alt="" id="next"> Book
                 appointement</button>
-            <button type="submit" id="bt2"><img src="../assets/calendar 4.png" alt="" id="next">(213)0745612333</button>
+            <button type="submit" id="bt1" v-if="isLandingPage" @click="next2"><img src="../assets/calendar (1) 1.png"
+                    alt="" id="next"> Book
+                appointement</button>
+            <button type="submit" id="bt2"><img src="../assets/calendar 4.png" alt="" id="next">(213)
+                0745612333</button>
         </div>
     </div>
 </template>
@@ -30,22 +36,43 @@ import HeaderPage2 from '../components/HeaderPage2.vue';
 export default {
     name: 'SearchPage1',
     components: { HeaderPage2 },
-    data(){
-        return{
-            isLandingPage: true, 
+    data() {
+        return {
+            isLandingPage: false,
         }
     },
-   
-    methods:{
-        next(){
-            router.push({ name: 'DoctorPage', params: {} });
+    mounted() {
+       
+        if (this.$route.name === 'LandingPage') {
+            this.isLandingPage = true;
+        }
+        if (this.$route.name === 'SearchPage1' && this.$route.params.userId) {
+            this.isLandingPage = true;
+        }
+
+    },
+    methods: {
+        next() {
+            const input3 = this.$route.params.input1;
+            const input4 = this.$route.params.input2;
+            router.push({ name: 'DoctorPage1', params: { input3, input4 } });
+        },
+        nextt() {
+            const input3 = this.$route.params.input1;
+            const input4 = this.$route.params.input2;
+            const userId = this.$route.params.userId;
+            router.push({ name: 'DoctorPage', params: { userId, input3, input4 } });
+        },
+        next1() {
+            router.push({ name: 'LoginPage1', params: {} });
+        },
+        next2() {
+            router.push({ name: 'LoginPage2', params: {} });
         },
     },
 }
 </script>
 <style>
-
-
 .bar {
     margin-top: 20px;
     width: 100%;

@@ -9,7 +9,8 @@
         <ul v-show="showList" class="suggestions" :style="{ marginTop: suggestionsMarginTop + 'px' }">
           <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}</li>
         </ul>
-        <button type="submit" @click="next">search <img src="../assets/next-g.png" id="next" /></button>
+        <button type="submit" @click="next" v-if="!isLandingPage">search <img src="../assets/next-g.png" id="next" /></button>
+        <button type="submit" @click="next1" v-if="isLandingPage">search <img src="../assets/next-g.png" id="next" /></button>
       </div>
       <p id="sous-titre">
         Our Online Appointment Booking System For Doctors Allows You To Easily <br />
@@ -31,6 +32,7 @@ export default {
   name: 'AppoinTement',
   data() {
     return {
+      isLandingPage:false,
       search_Input:'',
       searchInput: '',
       results: [
@@ -100,6 +102,12 @@ export default {
       suggestionsMarginTop: 267
     }
   },
+  mounted() {
+    if (this.$route.name === 'LandingPage') {
+      this.isLandingPage = true;
+    }
+   
+  },
   computed: {
     displayedResults() {
       if (this.showAll) {
@@ -151,10 +159,17 @@ export default {
       this.searchInput = value;
       this.showList = false;
     },
+    
     next(){
       const input1=this.search_Input;
       const input2 = this.searchInput;
-      router.push({name:'SearchPage1' ,params:{input1 , input2}});
+      router.push({name:'SearchPage2' ,params:{input1 , input2}});
+    },
+    next1(){
+      const input1=this.search_Input;
+      const input2 = this.searchInput;
+      const userId = this.$route.params.userId;
+      router.push({name:'SearchPage1' ,params:{userId,input1 , input2}});
     }
   },
 }

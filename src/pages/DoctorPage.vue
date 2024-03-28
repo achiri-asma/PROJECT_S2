@@ -1,5 +1,5 @@
 <template>
-    <HeaderPage2 />
+    <HeaderPage2 :id="$route.params.userId" />
     <div classe="parts">
         <div class="part-one">
         </div>
@@ -23,11 +23,15 @@
                     initiatives.” </p>
             </div>
             <div class="doc-contt">
-                <button type="submit" id="bt1" @click="next"><img src="../assets/calendar (1) 1.png" alt="" id="next">
+                <button type="submit" id="bt1" v-if="!isLandingPage" @click="next1"><img
+                        src="../assets/calendar (1) 1.png" alt="" id="next">
                     Book
                     appointement</button>
-                <button type="submit" id="bt2"><img src="../assets/calendar 4.png" alt=""
-                        id="next">(213) 0745612333</button>
+                <button type="submit" id="bt1" v-if="isLandingPage" @click="next2"><img
+                        src="../assets/calendar (1) 1.png" alt="" id="next"> Book
+                    appointement</button>
+                <button type="submit" id="bt2"><img src="../assets/calendar 4.png" alt="" id="next">(213)
+                    0745612333</button>
             </div>
 
             <div id="map">
@@ -53,9 +57,11 @@ import HeaderPage2 from '../components/HeaderPage2.vue';
 
 export default {
     name: 'DoctorPage',
-    components: { HeaderPage2},
+    components: { HeaderPage2 },
     data() {
         return {
+
+            isLandingPage: false,
 
             mapData: {
                 lat: 20,
@@ -66,6 +72,14 @@ export default {
     },
     mounted() {
         this.initMap();
+
+        if (this.$route.name === 'SearchPage1' && this.$route.params.userId) {
+            this.isLandingPage = true;
+        }
+        if (this.$route.name === 'DoctorPage' && this.$route.params.userId) {
+            this.isLandingPage = true;
+        }
+
     },
     methods: {
         initMap() {
@@ -77,14 +91,28 @@ export default {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(this.map);
 
-            const marker = L.marker([51.505, -0.09]).addTo(this.map);
-            marker.bindPopup('A sample popup!').openPopup();
+            const redIcon = new L.Icon({
+                iconUrl: require('@/assets/marker-icon.png'),
+                iconSize: [25, 25],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+
+            L.marker([51.505, -0.09], { icon: redIcon }).addTo(this.map);
         },
         next() {
+            const input3 = this.$route.params.input1;
+            const input4 = this.$route.params.input2;
+            router.push({ name: 'DoctorPage1', params: { input3, input4 } });
+        },
+        next1() {
             router.push({ name: 'LoginPage1', params: {} });
-
-        }
-    }
+        },
+        next2() {
+            router.push({ name: 'LoginPage2', params: {} });
+        },
+    },
 }
 </script>
 <style>

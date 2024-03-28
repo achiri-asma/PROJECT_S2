@@ -33,7 +33,7 @@
                         <label>Address: </label><span>{{ UserInfo.adresse.wilaya }}, {{ UserInfo.adresse.commune }}, {{ UserInfo.adresse.rue }}</span><br>
                         <label>Social security number: </label><span>{{ UserInfo.numSecuriteSociale }}</span><br>
                         <label>Date of birth: </label><span>{{ UserInfo.dateOfBirth }}</span><br>
-                        <label>Phone number: </label><span>{{ UserInfo.phone }}</span>
+                        <label>Phone number: </label><span>{{ "0"+UserInfo.phone }}</span>
                     </div>
                 </div>
             </div>
@@ -90,7 +90,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
     .profileuser .header ul{
         width: 50%;
         list-style-type: none;

@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header class="headerr">
     <img src="../assets/logoo.png" alt="logo" id="logo" />
     <nav>
       <RouterLink :to="isLandingPage ? '/landing-page/'+id : '/'" class="li">Home</RouterLink>
@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style >
-.header {
+.headerr {
   display: flex;
   justify-content: space-between;
   align-items: center;

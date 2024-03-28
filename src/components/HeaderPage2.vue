@@ -3,18 +3,18 @@
     <div class="header3">
       <img src="../assets/logoo.png" alt="logo" id="logo" />
       <nav>
-        <router-link :to="isLandingPage ? '/landing-page/'+id : '/'" class="li">Home</router-link>
+        <RouterLink :to="isLandingPage ? '/landing-page/' + id : '/'" class="li">Home</RouterLink>
         <router-link to="/about-us" class="li">About Us</router-link>
         <router-link to="/features" class="li">Features</router-link>
         <router-link to="/faqs" class="li">FAQs</router-link>
         <router-link to="/contact" class="li">Contact</router-link>
       </nav>
 
-      <div v-if="isLandingPage" class="button-containerr">
+      <div v-if="!isLandingPage" class="button-containerr">
         <button id="btt2" @click="login2" type="submit">Log In</button>
       </div>
-      <router-link v-if="isLandingPage" :to="{ name: 'DashUser', params: { userId: id} }"> 
-        <img src="/assets/image3.png" alt="profil" id="profile1">
+      <router-link v-if="isLandingPage" :to="{ name: 'DashUser', params: { userId: id } }">
+        <img src="../assets/image3.png" alt="profil" id="profile1">
       </router-link>
     </div>
     <div class="search-containerr">
@@ -22,14 +22,15 @@
       <input type="text" placeholder="Where?" id="input2" @focus="showAllResults" v-model="searchInput"
         @input="filterResults" class="with-icon2">
       <ul v-show="showList" class="suggestion" :style="{ marginTop: suggestionsMarginTop + 'px' }">
-        <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}</li>
+        <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}
+        </li>
       </ul>
       <button type="submit" @click="next">search <img src="../assets/next-g.png" id="next" /></button>
     </div>
   </div>
-  <div class="results">
-    <p v-if="input1 && input2"><strong>{{ input1 }}</strong> Near <strong>{{ input2 }}</strong></p>  
-    <p v-if="input1" id="nbr-rslt">{{ input1 }} Results</p>  
+  <div class="results" v-if="!isDoctorPage">
+    <p v-if="input1 && input2"><strong>{{ input1 }}</strong> Near <strong>{{ input2 }}</strong></p>
+    <p v-if="input1" id="nbr-rslt">{{ input1 }} Results</p>
   </div>
 </template>
 
@@ -40,12 +41,13 @@ export default {
   name: 'HeaderPage2',
   data() {
     return {
-      isLogin: false,
+      isLandingPage: false,
+      isDoctorPage: false,
       search_Input: '',
       searchInput: '',
-      input1:'',
-      input2:'',
-      userId:'',
+      input1: '',
+      input2: '',
+      userId: '',
       results: [
         { id: 0, name: 'Take your current position' },
         { id: 1, name: 'Adrar' },
@@ -112,23 +114,46 @@ export default {
       showList: false,
       suggestionsMarginTop: 267
     }
+
   },
-  props : [ 'id' ],
+  watch: {
+    '$route'(to, from) {
+      if (to.name === 'LandingPage' && from.name === 'SearchPage1' && from.params.userId) {
+        this.isLandingPage = true;
+      } else {
+        this.isLandingPage = false;
+      }
+
+    }
+  },
+
   mounted() {
     if (this.$route.params.input1 && this.$route.params.input2) {
-      this.search_Input=this.$route.params.input1;
-      this.searchInput=this.$route.params.input2;
+      this.search_Input = this.$route.params.input1;
+      this.searchInput = this.$route.params.input2;
     }
-    this.userId = this.$route.params.userId;
-    this.input1=this.search_Input;
-    this.input2=this.searchInput;
-    
-  
+    this.input1 = this.search_Input;
+    this.input2 = this.searchInput;
+
+    if (this.$route.name === 'DoctorPage1') {
+      this.isDoctorPage = true;
+    }
+    if (this.$route.name === 'DoctorPage') {
+      this.isDoctorPage = true;
+    }
     if (this.$route.name === 'LandingPage') {
-      this.isLandingPage = true;
-      console.log(this.isLandingPage);
+      this.isDoctorPage = true;
     }
+    if (this.$route.name === 'SearchPage1' && this.$route.params.userId) {
+      this.isLandingPage = true;
+    }
+    if (this.$route.name === 'DoctorPage' && this.$route.params.userId) {
+      this.isLandingPage = true;
+    }
+
+
   },
+  props: ['id'],
   computed: {
     displayedResults() {
       if (this.showAll) {
@@ -141,69 +166,69 @@ export default {
     }
   },
   methods: {
-  login2() {
-    router.push({ name: 'LoginPage1', params: {} });
-  },
-  showAllResults() {
-    this.showAll = true;
-    this.showList = true;
-  },
-  filterResults() {
-    this.showAll = false;
-    if (this.searchInput !== '') {
-      this.showList = true;
-
-      if (this.displayedResults.length > 3) {
-        this.suggestionsMarginTop = 265;
-      } else if (this.displayedResults.length === 1 && this.displayedResults[0].name === 'Take Your Current Position') {
-        this.handleCurrentPosition();
-      } else if (this.displayedResults.length === 2) {
-        this.suggestionsMarginTop = 155;
-      } else if (this.displayedResults.length === 1) {
-        this.suggestionsMarginTop = 110;
-      }
-      else {
-        this.suggestionsMarginTop = 190;
-      }
-    } else {
-      this.showList = false;
-      this.suggestionsMarginTop = 265;
-    }
-  },
-  handleCurrentPosition() {
-    console.log("Special treatment for current position selected");
-  },
-  selectSuggestion(value) {
-    this.searchInput = value;
-    this.showList = false;
-  },
-  next() {
-    const input1 = this.search_Input || this.input1;
-    const input2 = this.searchInput || this.input2;
-    const userId = this.userId;
-      router.push({ name: 'SearchPage1', params: {input1, input2,userId } }).then(() => {
-      window.location.reload();
-  
-    });
+    login2() {
+      router.push({ name: 'LoginPage1', params: {} });
     },
-}
+    showAllResults() {
+      this.showAll = true;
+      this.showList = true;
+    },
+    filterResults() {
+      this.showAll = false;
+      if (this.searchInput !== '') {
+        this.showList = true;
+
+        if (this.displayedResults.length > 3) {
+          this.suggestionsMarginTop = 265;
+        } else if (this.displayedResults.length === 1 && this.displayedResults[0].name === 'Take Your Current Position') {
+          this.handleCurrentPosition();
+        } else if (this.displayedResults.length === 2) {
+          this.suggestionsMarginTop = 155;
+        } else if (this.displayedResults.length === 1) {
+          this.suggestionsMarginTop = 110;
+        }
+        else {
+          this.suggestionsMarginTop = 190;
+        }
+      } else {
+        this.showList = false;
+        this.suggestionsMarginTop = 265;
+      }
+    },
+    handleCurrentPosition() {
+      console.log("Special treatment for current position selected");
+    },
+    selectSuggestion(value) {
+      this.searchInput = value;
+      this.showList = false;
+    },
+    next() {
+      const input1 = this.search_Input || this.input1;
+      const input2 = this.searchInput || this.input2;
+      router.push({ name: 'SearchPage1', params: { input1, input2 } }).then(() => {
+        window.location.reload();
+
+      });
+    },
+  }
 
 }
 </script>
 
-<style scoped >
-.head{
-  width:100%;
-  height:250px;
+<style scoped>
+.head {
+  width: 100%;
+  height: 250px;
   background-color: #99FEF2;
   position: relative;
 }
+
 .header3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: absolute;
-  top:0;
+  top: 0;
   margin-left: 120px;
 }
 
@@ -239,6 +264,7 @@ nav {
   border-radius: 50px;
   margin-left: 220px;
 }
+
 .button-containerr {
   display: flex;
 
@@ -261,6 +287,7 @@ nav {
 #btt2 {
   background-color: #03C6C1;
 }
+
 .search-containerr {
   display: flex;
   align-items: center;
@@ -296,6 +323,7 @@ nav {
   height: 65px;
   background-size: 25px 25px;
 }
+
 .search-containerr button {
   background-color: #03C6C1;
   border: 2px solid white;
@@ -313,6 +341,7 @@ nav {
   gap: 8px;
 
 }
+
 .suggestion {
   position: absolute;
   margin-left: 680px;
@@ -333,25 +362,29 @@ nav {
 .suggestion li:hover {
   background-color: #f4f4f4;
 }
-.results{
-  width:100%;
+
+.results {
+  width: 100%;
 
 }
-.results p{
+
+.results p {
   padding-top: 25px;
   margin-left: 130px;
   font-size: 20px;
 }
-#nbr-rslt{
+
+#nbr-rslt {
   margin-top: -20px;
   font-size: 20px;
-  color:#03C6C1;
+  color: #03C6C1;
   font-weight: 700;
 }
+
 #profile1 {
   width: 50px;
   height: 50px;
   border-radius: 50px;
-  margin-left: 00px;
+  margin-left: 130px;
 }
 </style>
