@@ -24,7 +24,7 @@
                         <label>Experience: </label><span>{{ medecinInfo.experience }}</span><br>
                         <label>Medical Registration Number: </label><span>{{ medecinInfo.numOrdre }}</span><br>
                         <!--<label>Date of birth: </label><span>{{ medecinInfo.dateOfBirth }}</span><br>-->
-                        <label>Phone number: </label><span>{{ medecinInfo.phone }}</span>
+                        <label>Phone number: </label><span>{{ "0"+medecinInfo.phone }}</span>
                         <fieldset>
                             <legend>Biography:&nbsp;&nbsp;&nbsp;</legend>
                             <p>{{ medecinInfo.biographie }}</p>
