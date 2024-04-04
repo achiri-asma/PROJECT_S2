@@ -49,7 +49,7 @@
                 <img src="../assets/linkedin.png" alt="linkedin">
             </div>
         </div>
-        <EditProfil3 v-show="showEditProfil3" @edit-profile="EditProfil3" :userId="userId" :userInfo="UserInfo"/>
+        <EditProfil3 v-show="showEditProfil3" @edit-profile="EditProfil3" @profile-updated="updateUserInfo" :userId="userId" :userInfo="UserInfo"/>
     </div>
 </template>
 
@@ -74,11 +74,14 @@ export default {
     components : { EditProfil3 },
     props : [ 'userId' ],
     methods : {
+        toggleDropdown() {
+            this.showDropdown = !this.showDropdown
+        },
         EditProfil3() {
             this.showEditProfil3 = !this.showEditProfil3
         },
-        toggleDropdown() {
-            this.showDropdown = !this.showDropdown
+        updateUserInfo(updatedUserInfo) {
+            this.UserInfo = updatedUserInfo
         }
     },
     mounted() {

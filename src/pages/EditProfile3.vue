@@ -1,6 +1,6 @@
 <template>
     <div class="editprofil3">
-        <form><!--@submit.prevent="updateProfile3"-->
+        <form @submit.prevent="updateProfile3">
             <h1>Edit Profile</h1>
             <p>Edit your personnel information as needed</p>
             <div class="editinputs">
@@ -8,7 +8,9 @@
                     <input type="email" v-model="email" placeholder="exemple@gmail.com"><br>
                     <input type="tel" v-model="phone" placeholder="0799567439">
                 </div>
-                <img src="../assets/image3.png">
+                <img v-if="image" :src="image">
+                <img v-else src="../assets/image3.png">
+                <input type="file" @change="handleFileUpload">
             </div>
             <input type="text" v-model="wilaya" placeholder="Sidi bel abbes">&nbsp;
             <input type="text" v-model="commune" placeholder="Sidi bel abbes">&nbsp;
@@ -30,6 +32,7 @@ export default{
         return {
             email: '',
             phone: '',
+            image: '',
             wilaya: '',
             commune: '',
             rue: ''
@@ -42,6 +45,7 @@ export default{
             handler(newValue) {
                 this.email= newValue.email
                 this.phone= newValue.phone
+                this.image= newValue.image
                 this.wilaya= newValue.adresse.wilaya
                 this.commune= newValue.adresse.commune
                 this.rue= newValue.adresse.rue
@@ -52,19 +56,32 @@ export default{
         CancelEdit() {
             this.$emit('edit-profile')
         },
+        handleFileUpload(event) {
+            const file = event.target.files[0]
+            if (file) {
+                const reader = new FileReader()
+                reader.onload = () => {
+                this.image = reader.result
+                }
+                reader.readAsDataURL(file)
+            }
+        },
         updateProfile3() {
             const formData = {
             email: this.email,
             phone: this.phone,
+            image: this.image,
             adr: {
                 wilaya: this.wilaya,
                 commune: this.commune,
                 rue: this.rue
             }
             }
-            axios.put(`http://localhost:7777/service-profile/api/update/patient/${this.userId}/cordonnee`, formData)
+            console.log(formData)
+            axios.put(`http://localhost:7777/service-profile/api/update/patient/${this.userId}/cordonneeandimage`, formData)
             .then(response => {
                 console.log(response.data)
+                this.$emit('profile-updated', response.data)
                 this.CancelEdit()
             })
         } 
