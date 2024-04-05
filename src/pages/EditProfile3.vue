@@ -10,13 +10,14 @@
                 </div>
                 <img v-if="image" :src="image">
                 <img v-else src="../assets/image3.png">
-                <input type="file" @change="handleFileUpload">
+                <input type="file" ref="fileInput" @change="handleFileUpload3" style="display: none">
+                <div class="modify" @click="modify">Modify</div>
             </div>
             <input type="text" v-model="wilaya" placeholder="Sidi bel abbes">&nbsp;
             <input type="text" v-model="commune" placeholder="Sidi bel abbes">&nbsp;
             <input type="text" v-model="rue" placeholder=" wiam BP 73 ">
             <div class="buttons">
-                <button class="cancel" @click="CancelEdit">Cancel</button>
+                <button type="button" class="cancel" @click="CancelEdit">Cancel</button>
                 <button type="submit" class="save">Save <img src="../assets/diskette.png"> </button>
             </div>
         </form>
@@ -56,15 +57,11 @@ export default{
         CancelEdit() {
             this.$emit('edit-profile')
         },
-        handleFileUpload(event) {
-            const file = event.target.files[0]
-            if (file) {
-                const reader = new FileReader()
-                reader.onload = () => {
-                this.image = reader.result
-                }
-                reader.readAsDataURL(file)
-            }
+        modify() {
+            this.$refs.fileInput.click();
+        },
+        handleFileUpload3(event) {
+            this.image = URL.createObjectURL(event.target.files[0])
         },
         updateProfile3() {
             const formData = {
@@ -77,11 +74,10 @@ export default{
                 rue: this.rue
             }
             }
-            console.log(formData)
-            axios.put(`http://localhost:7777/service-profile/api/update/patient/${this.userId}/cordonneeandimage`, formData)
+            axios.put(`http://localhost:7777/service-profile/api/update/patient/${this.userId}/cordonnee`, formData)
             .then(response => {
                 console.log(response.data)
-                this.$emit('profile-updated', response.data)
+                this.$emit('user-profile-updated', response.data)
                 this.CancelEdit()
             })
         } 
