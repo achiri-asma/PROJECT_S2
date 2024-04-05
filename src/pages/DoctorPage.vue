@@ -3,24 +3,20 @@
     <div classe="parts">
         <div class="part-one">
         </div>
-        <div class="part-two">
+        <div  class="part-two">
             <img src="../assets/doctors/image1.png" alt="doctor" id="docc">
             <div class="doc-infos">
-                <h4>Dr.Sara Anttoine</h4>
-                <p>Dentist</p>
+                <h4  v-if="searchDataa[index]">Dr.{{ searchDataa[index].fullName }}</h4>
+                <p v-if="searchDataa[index]">{{ searchDataa[index].speciality }}</p>
                 <p id="petit"><img src="../assets/rating (2) 2.png" alt="rating" style="vertical-align: middle;"> (02)
                 </p>
-                <p> <img src="../assets/part-time.png" alt="experience"
-                        style="vertical-align: middle;width:25px;height:25px;"> 6 Years Experience </p>
+                <p v-if="searchDataa[index]"> <img src="../assets/part-time.png" alt="experience"
+                        style="vertical-align: middle;width:25px;height:25px;"> {{  calculateYearsSinceExperience  -searchDataa[index].experience}} Years Experience </p>
                 <p> <img src="../assets/maps-and-flags.png" alt="experience"
                         style="vertical-align: middle; width:25px;height:25px;"> Sidi bel abbes , sidi bel abbes, wiam
                     BP 73 </p>
-                <p id="biographie"> <img src="../assets/writer 1.png" alt="experience"
-                        style="vertical-align: middle; width:20px;height:25px;"> “As a passionate dentist, I've
-                    dedicated my career to crafting smiles that radiate confidence. With over a decade of experience,
-                    I merge precision with compassion, transforming dental visits into positive experiences. Outside the
-                    clinic, I enjoy exploring new dental technologies and volunteering for community oral health
-                    initiatives.” </p>
+                <p  v-if="searchDataa[index]" id="biographie"> <img src="../assets/writer 1.png" alt="experience"
+                        style="vertical-align: middle; width:20px;height:25px;"> “ {{searchDataa[index].biographie}}” </p>
             </div>
             <div class="doc-contt">
                 <button type="submit" id="bt1" v-if="!isLandingPage" @click="next1"><img
@@ -60,32 +56,55 @@ export default {
     components: { HeaderPage2 },
     data() {
         return {
-
             isLandingPage: false,
-
+            searchDataa: '',
+            index:'',
+            map: null,
             mapData: {
                 lat: 20,
                 lng: 20
             }
-
         }
     },
-    mounted() {
-        this.initMap();
+    computed: {
 
+    calculateYearsSinceExperience() {
+      const currentYear = new Date().getFullYear();
+      return currentYear ;
+    } 
+  
+  },
+    mounted() {
         if (this.$route.name === 'SearchPage1' && this.$route.params.userId) {
             this.isLandingPage = true;
         }
         if (this.$route.name === 'DoctorPage' && this.$route.params.userId) {
             this.isLandingPage = true;
         }
+        const searchDataString = localStorage.getItem('searchData');
+        const index = this.$route.params.indeex;
+        this.index = index;
+        console.log(this.index);
 
+        if (searchDataString) {
+            this.searchDataa = JSON.parse(searchDataString);
+            console.log(this.searchDataa);
+            console.log(this.searchDataLength);
+        }
+
+        // Initialize map
+        this.initMap();
     },
     methods: {
         initMap() {
+            // Check if the map container exists
+            const mapContainer = document.getElementById('map');
+            if (!mapContainer) {
+                console.error('Map container not found');
+                return;
+            }
 
             this.map = L.map('map').setView([51.505, -0.09], 13);
-
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
@@ -115,6 +134,10 @@ export default {
     },
 }
 </script>
+
+
+
+
 <style>
 #docc {
     border: 4px solid #03C6C1;
@@ -177,13 +200,13 @@ export default {
 
 .doc-contt {
     float: right;
-    margin-top: -315px;
+    margin-top: -250px;
     margin-right: 40px;
 }
 
 #map {
     float: right;
-    margin-top: -180px;
+    margin-top: -100px;
     margin-right: 40px;
     width: 300px;
     height: 300px;

@@ -188,7 +188,8 @@ export default {
               alert("An error occurred. Please try again later.");
             }
           })
-      } else {
+      } 
+      else {
         alert('Accept the conditions ')
       }
     }

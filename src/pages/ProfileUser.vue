@@ -49,7 +49,7 @@
                 <img src="../assets/linkedin.png" alt="linkedin">
             </div>
         </div>
-        <EditProfil3 v-show="showEditProfil3" @edit-profile="EditProfil3" @user-profile-updated="updateUserInfo" :userId="userId" :userInfo="UserInfo"/>
+        <EditProfil3 v-show="showEditProfil3" @edit-profile="EditProfil3" :userId="userId" :userInfo="UserInfo"/>
     </div>
 </template>
 
@@ -74,20 +74,17 @@ export default {
     components : { EditProfil3 },
     props : [ 'userId' ],
     methods : {
-        toggleDropdown() {
-            this.showDropdown = !this.showDropdown
-        },
         EditProfil3() {
             this.showEditProfil3 = !this.showEditProfil3
         },
-        updateUserInfo(updatedUserInfo) {
-            this.UserInfo = updatedUserInfo
+        toggleDropdown() {
+            this.showDropdown = !this.showDropdown
         }
     },
     mounted() {
         axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.userId}/`)
         .then(response => {
-            this.UserInfo = response.data
+            this.UserInfo = response.data;
         })
     }
 }

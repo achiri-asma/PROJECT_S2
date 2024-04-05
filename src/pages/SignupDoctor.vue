@@ -56,12 +56,10 @@
             </div>
 
             <label for="spec"><img src="../assets/registration.png" alt="speciality" id="profil"></label>
-            <input ref="spInput" type="text" v-model="spec" name="spec" required minlength="4" placeholder="Speciality" pattern="[a-zA-Z ]+" @blur="touch = true" id="i1" />
-            <div class="controll">
-                <small v-if="touch && $refs.spInput && $refs.spInput.validity.valueMissing">The speciality is required</small>
-                <small v-if="touch && $refs.spInput && $refs.spInput.validity.tooShort">The speciality must have at least 4 characters</small>
-                <small v-if="touch && $refs.spInput && $refs.spInput.validity.patternMismatch">The speciality must contain only alphabetic characters</small>
-            </div>
+            <input ref="spInput" type="text" v-model="spec" name="spec" required minlength="4" placeholder="Speciality" @focus="showAllResults"  @input="filterResults" @blur="touch = true" id="i1" />
+            <ul v-show="showList" class="suggestion" :style="{ marginTop: suggestionsMarginTop + 'px' }">
+          <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}</li>
+        </ul>
 
             <label for="experience"><img src="../assets/quality.png" alt="experience" id="cl"></label>
             <input ref="dtInput" type="text" v-model="date" name="experience" @blur="tou = true" required placeholder="Experience" pattern="\d{4}" id="i6" />
@@ -262,13 +260,63 @@ export default {
             toud: false,
             terms: false,
             mgInput: '',
-            imagePath: '../assets/doctors/'
+            imagePath: '../assets/doctors/',
+            results: [
+        { id: 1, name: 'Internal medicine' },
+        { id: 2, name: 'Pediatrics' },
+        { id: 3, name: 'Obstetrics and gynecology' },
+        { id: 4, name: 'Psychiatry' },
+        { id: 5, name: 'Dermatology' },
+        { id: 6, name: 'Radiology' },
+        { id: 7, name: 'Anesthesiology' },
+        { id: 8, name: 'Family medicine' },
+        { id: 9, name: 'Emergency medicine' },
+        { id: 10, name: 'Neurology' },
+        { id: 11, name: 'Ophthalmology' },
+        { id: 12, name: 'Orthopedics' },
+        { id: 13, name: 'Pathology' },
+        { id: 14, name: 'Cardiology' },
+        { id: 15, name: 'Gastroenterology' },
+        { id: 16, name: 'Urology' },
+        { id: 17, name: 'Endocrinology' },
+        { id: 18, name: 'Oncology' },
+        { id: 19, name: 'Pulmonology' },
+        { id: 20, name: 'Nephrology' },
+        { id: 21, name: 'Rheumatology' },
+        { id: 22, name: 'Infectious disease' },
+        { id: 23, name: 'Emergency medicine' },
+        { id: 24, name: 'Physical medicine and rehabilitation' },
+        { id: 25, name: 'Geriatrics' },
+        { id: 26, name: 'Hematology' },
+        { id: 27, name: 'Plastic surgery' },
+        { id: 28, name: 'Otolaryngology' },
+        { id: 29, name: 'Vascular surgery' },
+        { id: 30, name: 'Allergy and immunology' },
+        { id: 31, name: 'Dentistry' },
+        { id: 32, name: 'Oral pathology and surgery' },
+
+    ],
+        
+      showAll: false,
+      showList: false,
+      suggestionsMarginTop: 0
         };
     },
     computed: {
         passwordsMatch() {
             return this.cpassword === this.password
-        }
+        },
+  
+    displayedResults() {
+      if (this.showAll) {
+        return this.results;
+      } else {
+        return this.results.filter(result => {
+          return result.name.toLowerCase().startsWith(this.spec.toLowerCase());
+        });
+      }
+    }
+  
     },
     methods: {
         handleImageUpload(event) {
@@ -359,7 +407,37 @@ export default {
             else {
                 alert("signup failed")
             }
+        },
+        showAllResults() {
+      this.showAll = true;
+      this.showList = true;
+    },
+    filterResults() {
+      this.showAll = false;
+      if (this.spec !== '') {
+        this.showList = true;
+
+        if (this.displayedResults.length > 3) {
+          this.suggestionsMarginTop = 0;
+        } else if (this.displayedResults.length === 2) {
+          this.suggestionsMarginTop = 0;
+        } else if (this.displayedResults.length === 1) {
+          this.suggestionsMarginTop = 0;
         }
+        else {
+          this.suggestionsMarginTop = 10;
+        }
+      } else {
+        this.showList = false;
+        this.suggestionsMarginTop = 5;
+      }
+    }
+    ,
+    selectSuggestion(value) {
+      this.spec = value;
+      this.showList = false;
+    },
+    
     }
 }
 </script>
@@ -608,5 +686,28 @@ export default {
 #next {
     width: 25px;
     height: 25px;
+}
+
+.suggestion {
+  position: absolute;
+  margin-left: 30px;
+  background: rgba(255, 255, 255, 0.5);
+  list-style-type: none;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 345px;
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.suggestion li {
+  padding: 10px;
+  cursor: pointer;
+  color: rgb(99, 97, 97);
+}
+
+.suggestion li:hover {
+  background-color: #cfcdcd;
 }
 </style>

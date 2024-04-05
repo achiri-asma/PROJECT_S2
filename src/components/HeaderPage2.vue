@@ -25,23 +25,26 @@
         <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}
         </li>
       </ul>
-      <button type="submit" @click="next">search <img src="../assets/next-g.png" id="next" /></button>
+      <button type="submit" @click="isLandingPage ? nextt() : next()">search <img src="../assets/next-g.png" id="next" /></button>
     </div>
   </div>
   <div class="results" v-if="!isDoctorPage">
     <p v-if="input1 && input2"><strong>{{ input1 }}</strong> Near <strong>{{ input2 }}</strong></p>
-    <p v-if="input1" id="nbr-rslt">{{ input1 }} Results</p>
+    <p v-if="input1" id="nbr-rslt">{{ searchDataLength}} Results</p>
   </div>
 </template>
 
 
 <script>
-import router from '@/router';
+import router from '@/router'
+import axios from 'axios'
 export default {
   name: 'HeaderPage2',
   data() {
     return {
       isLandingPage: false,
+      queryParam:'',
+      wilaya:'',
       isDoctorPage: false,
       search_Input: '',
       searchInput: '',
@@ -112,7 +115,8 @@ export default {
 
       showAll: false,
       showList: false,
-      suggestionsMarginTop: 267
+      suggestionsMarginTop: 267,
+      
     }
 
   },
@@ -123,6 +127,7 @@ export default {
       } else {
         this.isLandingPage = false;
       }
+ 
 
     }
   },
@@ -152,8 +157,9 @@ export default {
     }
 
 
+
   },
-  props: ['id'],
+  props: ['id','searchDataLength'],
   computed: {
     displayedResults() {
       if (this.showAll) {
@@ -205,10 +211,43 @@ export default {
     next() {
       const input1 = this.search_Input || this.input1;
       const input2 = this.searchInput || this.input2;
-      router.push({ name: 'SearchPage1', params: { input1, input2 } }).then(() => {
+    
+      const data ={queryParam:input1,
+       wilaya:''}
+      axios.post('http://localhost:5000/medecin/search',data)
+      .then(response => {
+            console.log(response.data); 
+            const searchData= response.data;
+            localStorage.setItem('searchData', JSON.stringify(searchData));
+            router.push({name:'SearchPage2' ,params:{input1 , input2}}).then(() => {
         window.location.reload();
 
       });
+          })
+          .catch(error => {
+            console.log(error);      
+          })
+    },
+    nextt() {
+      const input1 = this.search_Input || this.input1;
+      const input2 = this.searchInput || this.input2;
+      const userId=this.id;
+    
+      const data ={queryParam:input1,
+       wilaya:''}
+      axios.post('http://localhost:5000/medecin/search',data)
+      .then(response => {
+            console.log(response.data); 
+            const searchData= response.data;
+            localStorage.setItem('searchData', JSON.stringify(searchData));
+            router.push({name:'SearchPage1' ,params:{input1 , input2,userId}}).then(() => {
+        window.location.reload();
+
+      });
+          })
+          .catch(error => {
+            console.log(error);      
+          })
     },
   }
 

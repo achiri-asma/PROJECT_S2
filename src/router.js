@@ -31,8 +31,8 @@ const routes=[
     {path:'/ProfileUser',component:ProfileUser,name:'ProfileUser'},
     {path:'/search-page/:input1/:input2',component:SearchPage1,name:'SearchPage2'} ,
     {path:'/search-page/:userId/:input1/:input2',component:SearchPage1,name:'SearchPage1'} ,
-    {path:'/doc-page/:input1/:input2',component:DoctorPage,name:'DoctorPage1'} ,
-    {path:'/doc-page/:userId/:input1/:input2',component:DoctorPage,name:'DoctorPage'} ,
+    {path:'/doc-page/:input1/:input2/:indeex',component:DoctorPage,name:'DoctorPage1'} ,
+    {path:'/doc-page/:userId/:input1/:input2/:indeex',component:DoctorPage,name:'DoctorPage'} ,
 ]
 const router = createRouter({
     history:createWebHistory(),

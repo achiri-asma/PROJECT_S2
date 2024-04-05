@@ -27,6 +27,7 @@
 
 <script>
 import router from '@/router'
+import axios from 'axios'
 
 export default {
   name: 'AppoinTement',
@@ -35,6 +36,8 @@ export default {
       isLandingPage:false,
       search_Input:'',
       searchInput: '',
+      queryParam:'',
+      wilaya:'',
       results: [
         { id: 0, name: 'Take your current position' },
         { id: 1, name: 'Adrar' },
@@ -162,15 +165,39 @@ export default {
     
     next(){
       const input1=this.search_Input;
-      const input2 = this.searchInput;
-      router.push({name:'SearchPage2' ,params:{input1 , input2}});
+     const input2 = this.searchInput;
+      const data ={queryParam:input1,
+       wilaya:''}
+      axios.post('http://localhost:5000/medecin/search',data)
+      .then(response => {
+            console.log(response.data); 
+            const searchData= response.data;
+            localStorage.setItem('searchData', JSON.stringify(searchData));
+            router.push({name:'SearchPage2' ,params:{input1 , input2}});
+          })
+          .catch(error => {
+            console.log(error);      
+          })
+     
     },
     next1(){
       const input1=this.search_Input;
       const input2 = this.searchInput;
       const userId = this.$route.params.userId;
-      router.push({name:'SearchPage1' ,params:{userId,input1 , input2}});
-    }
+      const data ={queryParam:input1,
+       wilaya:''}
+      axios.post('http://localhost:5000/medecin/search',data)
+      .then(response => {
+            console.log(response.data); 
+            const searchData= response.data;
+            localStorage.setItem('searchData', JSON.stringify(searchData));
+            router.push({name:'SearchPage1' ,params:{userId,input1 , input2}});
+
+          })
+          .catch(error => {
+            console.log(error);      
+          })
+}
   },
 }
 </script>

@@ -1,6 +1,5 @@
 <template>
-    <HeaderPage2 :id="$route.params.userId" />
-
+    <HeaderPage2 :id="$route.params.userId" :searchDataLength="searchDataLength" />
 
     <div class="bar">
         <p>Sort by <img src="../assets/next-g.png" id="dir" alt="signe"></p>
@@ -9,14 +8,15 @@
         <button type="submit" class="m-btn">Rating</button>
         <button type="submit" class="m-btn">Gender</button>
     </div>
-    <div class="displayer">
-        <img src="../assets/doctors/image1.png" alt="doctor" id="doc">
-        <div class="doc-info" @click="isLandingPage ? nextt() : next()">
-            <p>Dentist</p>
-            <p id="petit"><img src="../assets/rating (2) 2.png" alt="rating" style="vertical-align: middle;"> (02)</p>
-            <p>6 Years Experience </p>
-            <p>Sidi bel abbes , sidi bel abbes, wiam BP 73 </p>
-        </div>
+    <div  v-for="(result, index) in searchDataa" :key="index"  class="displayer">
+    <img src= "../assets/doctors/image1.png" alt="doctor" id="doc">
+    <div class="doc-info" @click="isLandingPage ? nextt(index) : next(index)">
+        <h4>{{result.fullName}}</h4>
+        <p>{{result.speciality}} </p>
+        <p id="petit"><img src="../assets/rating (2) 2.png" alt="rating" style="vertical-align: middle;"> (02)</p>
+        <p>{{  calculateYearsSinceExperience  - result.experience}} Years Experience </p>
+        <p>Sidi bel abbes , sidi bel abbes, wiam BP 73 </p>
+    </div>
         <div class="doc-cont">
             <button type="submit" id="bt1" v-if="!isLandingPage" @click="next1"><img src="../assets/calendar (1) 1.png"
                     alt="" id="next"> Book
@@ -39,36 +39,66 @@ export default {
     data() {
         return {
             isLandingPage: false,
+            input1: '',
+            input2: '',
+            searchDataa: []
+
+
         }
     },
     mounted() {
-       
+
         if (this.$route.name === 'LandingPage') {
             this.isLandingPage = true;
         }
         if (this.$route.name === 'SearchPage1' && this.$route.params.userId) {
             this.isLandingPage = true;
         }
+        
+        this.input1 = this.$route.query.input1;
+        this.input2 = this.$route.query.input2;
+        const searchDataString = localStorage.getItem('searchData');
 
+        if (searchDataString) {
+
+            this.searchDataa = JSON.parse(searchDataString);
+            console.log(this.searchDataa);
+             console.log(this.searchDataLength);
+ 
+        }
     },
+    computed: {
+    searchDataLength() {
+      return this.searchDataa.length;
+    },
+    calculateYearsSinceExperience() {
+      const currentYear = new Date().getFullYear();
+      return currentYear ;
+    } 
+  
+  },
     methods: {
-        next() {
+        next(index) {
             const input3 = this.$route.params.input1;
             const input4 = this.$route.params.input2;
-            router.push({ name: 'DoctorPage1', params: { input3, input4 } });
+            const indeex=index;
+
+            router.push({ name: 'DoctorPage1', params: { input3, input4,indeex } });
         },
-        nextt() {
+        nextt(index) {
             const input3 = this.$route.params.input1;
             const input4 = this.$route.params.input2;
             const userId = this.$route.params.userId;
-            router.push({ name: 'DoctorPage', params: { userId, input3, input4 } });
+            const indeex=index;
+            router.push({ name: 'DoctorPage', params: { userId, input3, input4,indeex } });
         },
         next1() {
             router.push({ name: 'LoginPage1', params: {} });
         },
         next2() {
             router.push({ name: 'LoginPage2', params: {} });
-        },
+
+        }
     },
 }
 </script>

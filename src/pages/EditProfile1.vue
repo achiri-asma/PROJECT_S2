@@ -1,6 +1,6 @@
 <template>
     <div class="editprofil1">
-        <form @submit.prevent="updateProfile1">
+        <form><!--@submit.prevent="updateProfile1"-->
             <h1>Edit Profile</h1>
             <p>Edit your personnel information as needed</p>
             <div class="editinputs">
@@ -10,21 +10,17 @@
                 </div>
                 <img v-if="image" :src="image">
                 <img v-else src="../assets/image3.png"/>
-                <input type="file" ref="fileInput" @change="handleFileUpload1" style="display: none">
-                <div class="modify" @click="modify">Modify</div>
             </div>
             <textarea name="textarea1" rows="6" v-model="biographie" placeholder="Edit your biography as needed."></textarea>
             <div class="buttons">
-                <button type="button" class="cancel" @click="CancelEdit">Cancel</button>
-                <button type="submit" class="save">Save <img src="../assets/diskette.png"> </button>
+                <button class="cancel" @click="CancelEdit">Cancel</button>
+                <button class="save">Save <img src="../assets/diskette.png"> </button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default{
     props : [ 'medecinId', 'medecinInfo' ],
     data() {
@@ -50,27 +46,7 @@ export default{
     methods : {
         CancelEdit() {
             this.$emit('edit-profile')
-        },
-        modify() {
-            this.$refs.fileInput.click();
-        },
-        handleFileUpload1(event) {
-            this.image = URL.createObjectURL(event.target.files[0])
-        },
-        updateProfile1() {
-            const formData = {
-            email: this.email,
-            phone: this.phone,
-            bio: this.biographie,
-            image: this.image
-            }
-            axios.put(`http://localhost:7777/service-profile/api/update/medecin/${this.medecinId}/cordonnee`, formData)
-            .then(response => {
-                console.log(response.data)
-                this.$emit('medecin-profile-updated', response.data)
-                this.CancelEdit()
-            })
-        } 
+        }
     }
 }
 </script>
@@ -102,7 +78,6 @@ export default{
         display: flex;
         justify-content: space-between;
         margin: 40px;
-        position: relative;
     }
     .editprofil1 .editinputs input, .editprofil2 input, .editprofil3 input{
         border: none;
@@ -132,14 +107,6 @@ export default{
         height: 100px;
         border: 2px dashed black;
         border-radius: 50px;
-    }
-    .editprofil1 .modify, .editprofil3 .modify{
-        width: 104px;
-        color: rgb(9, 9, 9);
-        background-color: rgb(217, 217, 217, 0.6);
-        position: absolute;
-        right: 0;
-        top: 40%;
     }
     .editprofil1 textarea{
         width: 85%;

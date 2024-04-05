@@ -5,7 +5,7 @@
       <h4>Address:</h4>
       <p>BP 73, Bureau de poste EL WIAM <br /> Sidi Bel Abbés 22016, Algérie</p>
       <h4 id="contact">Contact:</h4>
-      <p>info@nom_website.com</p>
+      <p>medi.sphere.dz@gmail.com</p>
       <div class="social-media">
         <img src="../assets/facebook.png" alt="facebook">
         <img src="../assets/instagram.png" alt="instagram">
