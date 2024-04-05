@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <EditProfil1 v-show="showEditProfil1" @edit-profile="EditProfil1" :medecinId="medecinId" :medecinInfo="medecinInfo"/>
+        <EditProfil1 v-show="showEditProfil1" @edit-profile="EditProfil1" @medecin-profile-updated="updateMedecinInfo" :medecinId="medecinId" :medecinInfo="medecinInfo"/>
         <EditProfil2 v-show="showEditProfil2" @edit-profile="EditProfil2" :medecinId="medecinId"/>
     </div>
 </template>
@@ -85,6 +85,9 @@ export default {
         },
         EditProfil2() {
             this.showEditProfil2 = !this.showEditProfil2
+        },
+        updateMedecinInfo(updatedMedecinInfo) {
+            this.medecinInfo = updatedMedecinInfo
         }
     },
     mounted() {

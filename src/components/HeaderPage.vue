@@ -12,26 +12,39 @@
       <button id="btt1" @click="login1" type="submit">A Doctor?</button>
       <button id="btt1" @click="login2" type="submit">Log In</button>
     </div>
-    <router-link v-if="isLandingPage" :to="{ name: 'DashUser', params: { userId: id } }"> 
-      <img src="../assets/image3.png" alt="profil" id="profile">
+    <router-link v-if="isLandingPage" :to="{ name: 'DashUser', params: { userId: id } }">
+      <img v-if="UserInfo.image" :src="UserInfo.image" id="profile"> 
+      <img v-else src="../assets/image3.png" id="profile">
     </router-link>
   </header>
 </template>
 
 <script>
 import router from '@/router'
+import axios from 'axios'
 
 export default {
   name: 'HeaderPage',
   data() {
     return {
       isLandingPage: false, 
+      UserInfo: {
+        adresse: {
+          wilaya: '',
+          commune: '',
+          rue: ''
+        }
+      }
     }
   },
   mounted() {
     if (this.$route.name === 'LandingPage') {
       this.isLandingPage = true;
     }
+    axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.id}/`)
+    .then(response => {
+      this.UserInfo = response.data
+    })
   },
   props : [ 'id' ],
   methods: {
