@@ -367,8 +367,15 @@ export default {
         },
         signup() {
             if (this.terms) {
-                const Imagefile = new FormData()
-                Imagefile.append('file', this.file)
+                if (this.file) {
+                    const Imagefile = new FormData()
+                    Imagefile.append('file', this.file)
+                    axios.post('http://localhost:7777/service-profile/api/update/upload', Imagefile, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                }
                 const formData = {
                     fullName: this.nom,
                     email: this.email,
@@ -382,11 +389,6 @@ export default {
                     image: this.image,
                     numOrdre: this.number,
                 }
-                axios.post('http://localhost:7777/service-profile/api/update/upload', Imagefile, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
                 axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
                 .then(response => {
                     const medecinId = response.data
