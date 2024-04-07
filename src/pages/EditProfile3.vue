@@ -34,6 +34,8 @@ export default{
             email: '',
             phone: '',
             image: '',
+            imagesent: '',
+            file: '',
             wilaya: '',
             commune: '',
             rue: ''
@@ -46,10 +48,23 @@ export default{
             handler(newValue) {
                 this.email= newValue.email
                 this.phone= newValue.phone
-                this.image= newValue.image
                 this.wilaya= newValue.adresse.wilaya
                 this.commune= newValue.adresse.commune
                 this.rue= newValue.adresse.rue
+                if (newValue.image) {
+                    axios.get(`http://localhost:7777/service-profile/api/image/${newValue.image}`, {
+                        responseType: 'blob'
+                    })
+                    .then(response => {
+                        if (response.status === 200) {
+                            this.image = URL.createObjectURL(response.data)
+                        } else {
+                            throw new Error('Image not found')
+                        }
+                    })
+                } else {
+                    this.image= newValue.image
+                }
             }
         }
     },
@@ -61,13 +76,32 @@ export default{
             this.$refs.fileInput.click();
         },
         handleFileUpload3(event) {
-            this.image = URL.createObjectURL(event.target.files[0])
+            this.file = event.target.files[0]
+            this.imagesent = event.target.files[0].name 
+            if (this.file) {
+                const reader = new FileReader()
+                reader.onload = () => {
+                this.image = reader.result
+                }
+                reader.readAsDataURL(this.file)
+            }
         },
         updateProfile3() {
+            if (this.file) {
+                const Imagefile = new FormData()
+                Imagefile.append('file', this.file)
+                axios.post('http://localhost:7777/service-profile/api/update/upload', Imagefile, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+            } else {
+                this.imagesent = this.image.name
+            }
             const formData = {
             email: this.email,
             phone: this.phone,
-            image: this.image,
+            image: this.imagesent,
             adr: {
                 wilaya: this.wilaya,
                 commune: this.commune,
@@ -81,7 +115,7 @@ export default{
                 this.CancelEdit()
             })
         } 
-    }
+    },
 }
 </script>
 

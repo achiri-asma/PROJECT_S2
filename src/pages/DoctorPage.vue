@@ -4,7 +4,7 @@
         <div class="part-one">
         </div>
         <div  class="part-two">
-            <img src="../assets/doctors/image1.png" alt="doctor" id="docc">
+            <img src="../assets/image1.png" alt="doctor" id="docc">
             <div class="doc-infos">
                 <h4  v-if="searchDataa[index]">Dr.{{ searchDataa[index].fullName }}</h4>
                 <p v-if="searchDataa[index]">{{ searchDataa[index].speciality }}</p>

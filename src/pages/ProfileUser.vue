@@ -9,7 +9,7 @@
                 <router-link to="/contact"><li>Contact</li></router-link>
             </ul>
             <div class="userImage">
-                <img v-if="UserInfo.image" :src="UserInfo.image" @click="toggleDropdown">
+                <img v-if="imageUrl" :src="imageUrl" @click="toggleDropdown">
                 <img v-else src="../assets/image3.png" @click="toggleDropdown">
                 <div v-if="showDropdown" class="dropdown">
                     <router-link :to="{ name: 'DashUser', params: { userId: userId } }" @click="showDropdown=false"><div>My Profile</div></router-link> 
@@ -21,7 +21,7 @@
             <div class="personinfo">
                 <h5>Personnel Information :</h5>
                 <div class="infos">
-                    <img v-if="UserInfo.image" :src="UserInfo.image">
+                    <img v-if="imageUrl" :src="imageUrl">
                     <img v-else src="../assets/image3.png"/>
                     <div>
                         <div class="fullname">
@@ -68,7 +68,8 @@ export default {
                     commune: '',
                     rue: ''
                 }
-            }
+            },
+            imageUrl: ''
         }
     },
     components : { EditProfil3 },
@@ -82,12 +83,36 @@ export default {
         },
         updateUserInfo(updatedUserInfo) {
             this.UserInfo = updatedUserInfo
+            if (this.UserInfo.image) {
+                axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfo.image}`, {
+                    responseType: 'blob'
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        this.imageUrl = URL.createObjectURL(response.data)
+                    } else {
+                        throw new Error('Image not found')
+                    }
+                })
+            }
         }
     },
     mounted() {
         axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.userId}/`)
         .then(response => {
             this.UserInfo = response.data
+            if (this.UserInfo.image) { 
+                return axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfo.image}`, {
+                    responseType: 'blob'
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        this.imageUrl = URL.createObjectURL(response.data)
+                    } else {
+                        throw new Error('Image not found')
+                    }
+                })
+            }
         })
     }
 }

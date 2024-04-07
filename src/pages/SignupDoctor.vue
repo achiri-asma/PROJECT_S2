@@ -242,6 +242,7 @@ export default {
             city: '',
             state: '',
             sexe: '',
+            image: '',
             currentStep: 1,
             stepStatus: ['active', '', ''],
             touched: false,
@@ -260,7 +261,7 @@ export default {
             toud: false,
             terms: false,
             mgInput: '',
-            imagePath: '../assets/doctors/',
+            file: '',
             results: [
         { id: 1, name: 'Internal medicine' },
         { id: 2, name: 'Pediatrics' },
@@ -320,15 +321,8 @@ export default {
     },
     methods: {
         handleImageUpload(event) {
-            let file = event.target.files[0];
-            if (file) {
-                const file_name=file.name;
-                console.log("File name:", file_name);
-                this.imagePath=this.imagePath+file_name;
-                console.log(this.imagePath);
-            } else {
-                console.log("No file selected");
-            }
+            this.file = event.target.files[0]
+            this.image = event.target.files[0].name
         },
         validateStep1() {
             return (
@@ -373,6 +367,8 @@ export default {
         },
         signup() {
             if (this.terms) {
+                const Imagefile = new FormData()
+                Imagefile.append('file', this.file)
                 const formData = {
                     fullName: this.nom,
                     email: this.email,
@@ -383,10 +379,14 @@ export default {
                     experience: this.date,
                     phone: this.telephone,
                     speciality: this.spec,
-                    image: this.imagePath,
+                    image: this.image,
                     numOrdre: this.number,
                 }
-                console.log(formData)
+                axios.post('http://localhost:7777/service-profile/api/update/upload', Imagefile, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
                 axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
                 .then(response => {
                     const medecinId = response.data

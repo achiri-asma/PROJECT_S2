@@ -11,7 +11,7 @@
             <div class="personinfo">
                 <h5>Personnel Information :</h5>
                 <div class="infos">
-                    <img v-if="medecinInfo.image" :src="medecinInfo.image">
+                    <img v-if="imageUrl" :src="imageUrl">
                     <img v-else src="../assets/image3.png"/>
                     <div>
                         <div class="fullname">
@@ -74,7 +74,8 @@ export default {
         return {
             showEditProfil1 : false,
             showEditProfil2 : false,
-            medecinInfo : ''
+            medecinInfo : '',
+            imageUrl : ''
         }
     },
     components : { EditProfil1, EditProfil2},
@@ -88,12 +89,36 @@ export default {
         },
         updateMedecinInfo(updatedMedecinInfo) {
             this.medecinInfo = updatedMedecinInfo
+            if (this.medecinInfo.image) {
+                axios.get(`http://localhost:7777/service-profile/api/image/${this.medecinInfo.image}`, {
+                    responseType: 'blob'
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        this.imageUrl = URL.createObjectURL(response.data)
+                    } else {
+                        throw new Error('Image not found')
+                    }
+                })
+            }
         }
     },
     mounted() {
         axios.get(`http://localhost:7777/service-profile/api/MedecinInfo/${this.medecinId}/`)
         .then(response => {
-            this.medecinInfo = response.data;
+            this.medecinInfo = response.data
+            if (this.medecinInfo.image) { 
+                return axios.get(`http://localhost:7777/service-profile/api/image/${this.medecinInfo.image}`, {
+                    responseType: 'blob'
+                })
+                .then(response => {
+                    if (response.status === 200) {
+                        this.imageUrl = URL.createObjectURL(response.data)
+                    } else {
+                        throw new Error('Image not found')
+                    }
+                })
+            }
         })
     }
 }

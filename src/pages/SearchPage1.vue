@@ -9,7 +9,7 @@
         <button type="submit" class="m-btn">Gender</button>
     </div>
     <div  v-for="(result, index) in searchDataa" :key="index"  class="displayer">
-    <img src= "../assets/doctors/image1.png" alt="doctor" id="doc">
+    <img src= "../assets/image1.png" alt="doctor" id="doc">
     <div class="doc-info" @click="isLandingPage ? nextt(index) : next(index)">
         <h4>{{result.fullName}}</h4>
         <p>{{result.speciality}} </p>

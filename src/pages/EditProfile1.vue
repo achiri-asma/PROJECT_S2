@@ -32,7 +32,9 @@ export default{
             email: '',
             phone: '',
             biographie: '',
-            image: ''
+            image: '',
+            imagesent: '',
+            file: ''
         }
     },
     watch: {
@@ -43,7 +45,20 @@ export default{
                 this.email= newValue.email
                 this.phone= newValue.phone
                 this.biographie= newValue.biographie
-                this.image= newValue.image
+                if (newValue.image) {
+                    axios.get(`http://localhost:7777/service-profile/api/image/${newValue.image}`, {
+                        responseType: 'blob'
+                    })
+                    .then(response => {
+                        if (response.status === 200) {
+                            this.image = URL.createObjectURL(response.data)
+                        } else {
+                            throw new Error('Image not found')
+                        }
+                    })
+                } else {
+                    this.image= newValue.image
+                }
             }
         }
     },
@@ -55,15 +70,30 @@ export default{
             this.$refs.fileInput.click();
         },
         handleFileUpload1(event) {
-            this.image = URL.createObjectURL(event.target.files[0])
+            this.file = event.target.files[0]
+            this.imagesent = event.target.files[0].name 
+            if (this.file) {
+                const reader = new FileReader()
+                reader.onload = () => {
+                this.image = reader.result
+                }
+                reader.readAsDataURL(this.file)
+            }
         },
         updateProfile1() {
+            const Imagefile = new FormData()
+            Imagefile.append('file', this.file)
             const formData = {
             email: this.email,
             phone: this.phone,
             bio: this.biographie,
-            image: this.image
+            image: this.imagesent
             }
+            axios.post('http://localhost:7777/service-profile/api/update/upload', Imagefile, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
             axios.put(`http://localhost:7777/service-profile/api/update/medecin/${this.medecinId}/cordonnee`, formData)
             .then(response => {
                 console.log(response.data)
