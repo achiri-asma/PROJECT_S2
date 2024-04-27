@@ -39,7 +39,7 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.name === 'LandingPage') {
+    if (this.$route.name === 'LandingPage' || this.$route.name === 'RequestAppointement' ) {
       this.isLandingPage = true;
     }
     if (this.isLandingPage) {

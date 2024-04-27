@@ -14,6 +14,8 @@ import DashMed from './pages/DashMed.vue'
 import ProfileUser from './pages/ProfileUser.vue'
 import SearchPage1 from './pages/SearchPage1.vue'
 import DoctorPage from './pages/DoctorPage.vue'
+import RequestAppointement from './pages/RequestAppointement.vue'
+import SuccessAppointement from './pages/SuccessAppointement'
 
 const routes=[
     {path:'/',component:HomePage,name:'HomePage'},
@@ -33,6 +35,8 @@ const routes=[
     {path:'/search-page/:userId/:input1/:input2',component:SearchPage1,name:'SearchPage1'} ,
     {path:'/doc-page/:input1/:input2/:indeex',component:DoctorPage,name:'DoctorPage1'} ,
     {path:'/doc-page/:userId/:input1/:input2/:indeex',component:DoctorPage,name:'DoctorPage'} ,
+    {path:'/RequestAppointement',component:RequestAppointement,name:'RequestAppointement'} ,
+    {path:'/SuccessAppointement',component:SuccessAppointement,name:'SuccessAppointement'} 
 ]
 const router = createRouter({
     history:createWebHistory(),
