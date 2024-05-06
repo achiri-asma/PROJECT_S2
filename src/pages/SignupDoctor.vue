@@ -1,6 +1,6 @@
 <template>
     <div class="containerr">
-        <form class="form2" v-show="currentStep === 1">
+        <form class="form2" v-show="currentStep === 1" @submit.prevent="signup">
             <p id="tittre">Welcome</p>
             <p id="subtitre">Join our platform to manage <br /> appointments and connect with patients</p>
             <div class="stepper-wrapper">
@@ -96,7 +96,7 @@
                 </p>
             </div>
         </form>
-        <form class="form2" v-show="currentStep === 2">
+        <form class="form2" v-show="currentStep === 2" @submit.prevent="signup">
             <p id="tittre">Welcome</p>
             <p id="subtitre">Join our platform to manage <br /> appointments and connect with patients</p>
             <div class="stepper-wrapper">
@@ -178,7 +178,7 @@
                 </p>
             </div>
         </form>
-        <form class="form2" v-show="currentStep === 3">
+        <form class="form2" v-show="currentStep === 3" @submit.prevent="signup">
             <p id="tittre">Welcome</p>
             <p id="subtitre">Join our platform to manage <br /> appointments and connect with patients</p>
             <div class="stepper-wrapper">
@@ -196,12 +196,12 @@
                 </div>
             </div>
 
-            <textarea ref="additionalInfoInput" v-model="additionalInfo" name="additionalInfo"
+            <textarea ref="additionalInfoInput" v-model="biographie" name="biographie"
                 placeholder="Briefly describe your professional background and any relevant information you'd like to share"
-                rows="3" cols="45" @blur="additionalInfoTouched = true" id="ii">
+                rows="3" cols="45" @blur="biographieTouched = true" id="ii">
             </textarea>
             <div class="controll">
-                <small v-if="additionalInfoTouched && !additionalInfo.trim()">Additional information is required</small>
+                <small v-if="biographieTouched && !biographie.trim()">Additional information is required</small>
             </div>
 
             <div class="terms">
@@ -211,7 +211,7 @@
             <div class="but">
                 <button class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png"
                         id="next" />Back</button>
-                <button @click="signup" class="btn1">Sign up</button>
+                <button type="submit" class="btn1">Sign up</button>
             </div>
             <div class="inscr">
                 <p id="subsubtitle">
@@ -239,7 +239,7 @@ export default {
             date: '',
             telephone: '',
             lisenceNumber: '',
-            additionalInfo: '',
+            biographie: '',
             sexe: '',
             image: '',
             currentStep: 1,
@@ -367,7 +367,7 @@ export default {
                     password: this.password,
                     dateOfBirth: this.dateOfBirth,
                     sexe: this.sexe,
-                    biographie: this.additionalInfo,
+                    biographie: this.biographie,
                     experience: this.date,
                     phone: this.telephone,
                     speciality: this.spec,
@@ -375,25 +375,13 @@ export default {
                     numOrdre: this.number,
                     lisenceNumber: this.lisenceNumber
                 }
-                console.log("fullName:", formData.fullName);
-                console.log("email:", formData.email);
-                console.log("password:", formData.password);
-                console.log("dateOfBirth:", formData.dateOfBirth);
-                console.log("sexe:", formData.sexe);
-                console.log("biographie:", formData.biographie);
-                console.log("experience:", formData.experience);
-                console.log("phone:", formData.phone);
-                console.log("speciality:", formData.speciality);
-                console.log("image:", formData.image);
-                console.log("numOrdre:", formData.numOrdre);
-                console.log("lisenceNumber:", formData.lisenceNumber);
-                axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
+                console.log(formData)
+                axios.post('http://localhost:7777/service-profile/api/medecinregister', formData)
                     .then(response => {
-                        console.log("Response:", response.data); // Log the entire response data
-                        const medecinId = response.data;
-                        console.log("Medecin ID:", medecinId); // Log the extracted medecinId
+                        const medecinId = response.data
+                        console.log("Medecin ID:", medecinId)
                         alert("Registered successfully ");
-                        router.push({ name: 'DashMed', params: { medecinId }});
+                        router.push({ name: 'DashMed', params: { medecinId }})
                     })
                     .catch(error => {
                         console.log(error)
