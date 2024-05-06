@@ -19,53 +19,74 @@
             </div>
 
             <label for="nom"><img src="../assets/user.png" alt="profil" id="profil"></label>
-            <input ref="nomInput" type="text" v-model="nom" name="nom" required minlength="4" placeholder="Full name" pattern="[a-zA-Z ]+" @blur="touched = true" id="i1" />
+            <input ref="nomInput" type="text" v-model="nom" name="nom" required minlength="4" placeholder="Full name"
+                pattern="[a-zA-Z ]+" @blur="touched = true" id="i1" />
             <div class="controll">
-                <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.valueMissing">The full name is required</small>
-                <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.tooShort">The full name must have at least 4 characters</small>
-                <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.patternMismatch">The full name must contain only alphabetic characters</small>
+                <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.valueMissing">The full name is
+                    required</small>
+                <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.tooShort">The full name must have at
+                    least 4 characters</small>
+                <small v-if="touched && $refs.nomInput && $refs.nomInput.validity.patternMismatch">The full name must
+                    contain only alphabetic characters</small>
             </div>
 
             <label for="email"><img src="../assets/email.png" alt="email" id="email"></label>
-            <input ref="emailInput" type="email" v-model="email" name="email" required placeholder="Email" pattern="[a-zA-Z0-9._]+@[a-z]+\.[a-zA-Z]{2,}$" @blur="touchedd = true" id="i2" />
+            <input ref="emailInput" type="email" v-model="email" name="email" required placeholder="Email"
+                pattern="[a-zA-Z0-9._]+@[a-z]+\.[a-zA-Z]{2,}$" @blur="touchedd = true" id="i2" />
             <div class="control">
-                <small v-if="touchedd && $refs.emailInput && $refs.emailInput.validity.valueMissing">The email is required</small>
-                <small v-if="touchedd && $refs.emailInput && $refs.emailInput.validity.patternMismatch">Enter a valid address email</small>
+                <small v-if="touchedd && $refs.emailInput && $refs.emailInput.validity.valueMissing">The email is
+                    required</small>
+                <small v-if="touchedd && $refs.emailInput && $refs.emailInput.validity.patternMismatch">Enter a valid
+                    address email</small>
             </div>
 
             <label for="password"><img src="../assets/padlock.png" alt="password" id="password"></label>
-            <input ref="psInput" type="password" v-model="password" @blur="toucheddd = true" name="password" required placeholder="Password" minlength="8" id="i3" />
+            <input ref="psInput" type="password" v-model="password" @blur="toucheddd = true" name="password" required
+                placeholder="Password" minlength="8" id="i3" />
             <div class="controll">
-                <small v-if="toucheddd && $refs.psInput && $refs.psInput.validity.valueMissing">The password is required</small>
-                <small v-if="toucheddd && $refs.psInput && $refs.psInput.validity.tooShort">The password must contain atleast 8 characters</small>
+                <small v-if="toucheddd && $refs.psInput && $refs.psInput.validity.valueMissing">The password is
+                    required</small>
+                <small v-if="toucheddd && $refs.psInput && $refs.psInput.validity.tooShort">The password must contain
+                    atleast 8 characters</small>
             </div>
 
             <label for="cpassword"><img src="../assets/padlock.png" alt="password" id="password"></label>
-            <input ref="pssInput" type="password" v-model="cpassword" @blur="toued = true" name="cpassword" required placeholder="Confirm password" minlength="8" id="i3" />
+            <input ref="pssInput" type="password" v-model="cpassword" @blur="toued = true" name="cpassword" required
+                placeholder="Confirm password" minlength="8" id="i3" />
             <div class="controll">
-                <small v-if="toued && $refs.pssInput && $refs.pssInput.validity.valueMissing">The confirmation of password is required</small>
-                <small v-if="toued && $refs.pssInput && $refs.pssInput.validity.tooShort">The password must contain at least 8 characters</small>
+                <small v-if="toued && $refs.pssInput && $refs.pssInput.validity.valueMissing">The confirmation of
+                    password is required</small>
+                <small v-if="toued && $refs.pssInput && $refs.pssInput.validity.tooShort">The password must contain at
+                    least 8 characters</small>
                 <small v-if="toued && !passwordsMatch">The confirmation password does not match</small>
             </div>
 
             <label for="nb_soc"><img src="../assets/user-experience.png" alt="nb_soc" id="nb_soc"></label>
-            <input ref="nbInput" type="text" v-model="number" name="nb_soc" required placeholder="Medical registration number" minlength="10" pattern="[0-9]+" @blur="toucheddddd = true" id="i5" />
+            <input ref="nbInput" type="text" v-model="number" name="nb_soc" required
+                placeholder="Medical registration number" minlength="10" pattern="[0-9]+" @blur="toucheddddd = true"
+                id="i5" />
             <div class="controll">
-                <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.valueMissing">the social security number is required</small>
-                <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.tooShort">The password must contain at least 8 characters</small>
+                <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.valueMissing">the social security
+                    number is required</small>
+                <small v-if="toucheddddd && $refs.nbInput && $refs.nbInput.validity.tooShort">The password must contain
+                    at least 8 characters</small>
             </div>
 
             <label for="spec"><img src="../assets/registration.png" alt="speciality" id="profil"></label>
-            <input ref="spInput" type="text" v-model="spec" name="spec" required minlength="4" placeholder="Speciality" @focus="showAllResults"  @input="filterResults" @blur="touch = true" id="i1" />
+            <input ref="spInput" type="text" v-model="spec" name="spec" required minlength="4" placeholder="Speciality"
+                @focus="showAllResults" @input="filterResults" @blur="touch = true" id="i1" />
             <ul v-show="showList" class="suggestion" :style="{ marginTop: suggestionsMarginTop + 'px' }">
-          <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}</li>
-        </ul>
+                <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{
+                    result.name }}</li>
+            </ul>
 
             <label for="experience"><img src="../assets/quality.png" alt="experience" id="cl"></label>
-            <input ref="dtInput" type="text" v-model="date" name="experience" @blur="tou = true" required placeholder="Experience" pattern="\d{4}" id="i6" />
+            <input ref="dtInput" type="text" v-model="date" name="experience" @blur="tou = true" required
+                placeholder="Experience" pattern="\d{4}" id="i6" />
             <div class="controll">
                 <small v-if="tou && $refs.dtInput && $refs.dtInput.validity.valueMissing">The date is required</small>
-                <small v-if="tou && $refs.dtInput && $refs.dtInput.validity.patternMismatch">The date must be in correct format</small>
+                <small v-if="tou && $refs.dtInput && $refs.dtInput.validity.patternMismatch">The date must be in correct
+                    format</small>
             </div>
 
             <button class="btnn1" @click.prevent="nextStep">Next <img src="../assets/next-g.png" id="next" /></button>
@@ -99,7 +120,8 @@
                 <label for="i" class="custom-file-input">
                     <img src="../assets/camera.png" alt="Camera Icon" class="camera-icon">
                 </label>
-                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload" name="image" required @blur="tou1 = true" id="i" />
+                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" @change="handleImageUpload" name="image"
+                    required @blur="tou1 = true" id="i" />
                 <div class="controll">
                     <small v-if="tou1 && imageUploadError">The image is required</small>
                 </div>
@@ -115,31 +137,40 @@
             </div>
 
             <label for="dateOfBirth"><img src="../assets/calendar.png" alt="calendare" id="cl"></label>
-            <input ref="dttInput" type="text" v-model="dateOfBirth" name="dateOfBirth" @blur="t111 = true" required placeholder="Date of birth yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" id="i6" />
+            <input ref="dttInput" type="text" v-model="dateOfBirth" name="dateOfBirth" @blur="t111 = true" required
+                placeholder="Date of birth yyyy-mm-dd" pattern="\d{4}-\d{2}-\d{2}" id="i6" />
             <div class="controll">
-                <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.valueMissing">The date is required</small>
-                <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.patternMismatch">The date must be in correct format</small>
+                <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.valueMissing">The date is
+                    required</small>
+                <small v-if="t111 && $refs.dttInput && $refs.dttInput.validity.patternMismatch">The date must be in
+                    correct format</small>
             </div>
 
             <label for="tel"><img src="../assets/telephone.png" alt="telephone" id="tel"></label>
-            <input ref="tellInput" type="tel" v-model="telephone" @blur="tou2 = true" name="tel" required placeholder="Phone number" pattern="^(07|06|05)[0-9]{8}$" id="i7" />
+            <input ref="tellInput" type="tel" v-model="telephone" @blur="tou2 = true" name="tel" required
+                placeholder="Phone number" pattern="^(07|06|05)[0-9]{8}$" id="i7" />
             <div class="controll">
-                <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.valueMissing">The phone number is required</small>
-                <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.tooShort">The phone number must have 10 digits</small>
-                <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.patternMismatch">The phone number must be in correct format</small>
+                <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.valueMissing">The phone number is
+                    required</small>
+                <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.tooShort">The phone number must have 10
+                    digits</small>
+                <small v-if="tou2 && $refs.tellInput && $refs.tellInput.validity.patternMismatch">The phone number must
+                    be in correct format</small>
+            </div>
+            <label for="telll"><img src="../assets/user-experience.png" alt="telephone" id="tel"></label>
+            <input ref="telllInput" type="tel" v-model="lisenceNumber" @blur="tou3 = true" name="telll" required
+                placeholder="Cabinet licence number" id="i7" />
+            <div class="controll">
+                <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.valueMissing">The cabinet licence
+                    numbe is required</small>
             </div>
 
-            <textarea ref="additionalInfoInput" v-model="additionalInfo" name="additionalInfo"
-                placeholder="Briefly describe your professional background and any relevant information you'd like to share"
-                rows="3" cols="45" @blur="additionalInfoTouched = true" id="ii">
-            </textarea>
-            <div class="controll">
-                <small v-if="additionalInfoTouched && !additionalInfo.trim()">Additional information is required</small>
-            </div>
 
             <div class="but">
-                <button class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png" id="next" /> Back</button>
-                <button class="btn1" @click.prevent="nextStep">Next <img src="../assets/next-g.png" id="next" /></button>
+                <button class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png" id="next" />
+                    Back</button>
+                <button class="btn1" @click.prevent="nextStep">Next <img src="../assets/next-g.png"
+                        id="next" /></button>
             </div>
             <div class="inscr">
                 <p id="subsubtitle">
@@ -164,43 +195,13 @@
                     <div class="step-name">Office <br /> Information</div>
                 </div>
             </div>
-            <div class="image-upload-container">
-                <label for="image2" class="lb">
-                    Upload Office Picture <img src="../assets/pointing-to-right.png" alt="hand" id="hand">
-                </label>
-                <label for="i" class="custom-file-input">
-                    <img src="../assets/camera.png" alt="Camera Icon" class="camera-icon">
-                </label>
-                <input ref="mgInput" type="file" accept=".jpg, .jpeg, .png" name="image2" required @blur="tou1 = true" id="i" />
-                <div class="controll">
-                    <small v-if="tou1 && imageUploadError">The image is required</small>
-                </div>
-            </div>
 
-            <label for="telll"><img src="../assets/telephone.png" alt="telephone" id="tel"></label>
-            <input ref="telllInput" type="tel" v-model="telephonee" @blur="tou3 = true" name="telll" required placeholder="Landline number" pattern="^(0)[0-9]{8}$" id="i7" />
+            <textarea ref="additionalInfoInput" v-model="additionalInfo" name="additionalInfo"
+                placeholder="Briefly describe your professional background and any relevant information you'd like to share"
+                rows="3" cols="45" @blur="additionalInfoTouched = true" id="ii">
+            </textarea>
             <div class="controll">
-                <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.valueMissing">The phone number is required</small>
-                <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.tooShort">The phone number must have 10 digits</small>
-                <small v-if="tou3 && $refs.telllInput && $refs.telllInput.validity.patternMismatch">The phone number must be in correct format</small>
-            </div>
-
-            <div class="address-container">
-                <label for="address"><img src="../assets/address.png" alt="address" id="address"></label>
-                <input ref="stInput" type="text" v-model="state" @blur="touc = true" name="address" required placeholder="State" minlength="4" pattern="[a-zA-Z ]+" id="i11" />
-                <input ref="ctInput" type="text" v-model="city" @blur="touc1 = true" name="address" required placeholder="City" minlength="4" pattern="[a-zA-Z ]+" id="i12" />
-                <input ref="sttInput" type="text" v-model="street" @blur="touc2 = true" name="address" required placeholder="Street" minlength="4" pattern="[a-zA-Z ]+" id="i13" />
-            </div>
-            <div class="controll">
-                <small v-if="touc && $refs.stInput && $refs.stInput.validity.valueMissing">The state is required</small>
-                <small v-if="touc && $refs.stInput && $refs.stInput.validity.tooShort">The state must contain at least 8 characters</small>
-                <small v-if="touc && $refs.cstInput && $refs.stInput.validity.patternMismatch">The state must contain only alphabetic characters</small>
-                <small v-if="touc1 && $refs.ctInput && $refs.ctInput.validity.valueMissing">The city is required</small>
-                <small v-if="touc1 && $refs.ctInput && $refs.ctInput.validity.tooShort">The city must contain at least 8 characters</small>
-                <small v-if="touc1 && $refs.ctInput && $refs.ctInput.validity.patternMismatch">The city must contain only alphabetic characters</small>
-                <small v-if="touc2 && $refs.sttInput && $refs.sttInput.validity.valueMissing">The street is required</small>
-                <small v-if="touc2 && $refs.sttInput && $refs.sttInput.validity.tooShort">The street must contain at least 8 characters</small>
-                <small v-if="touc2 && $refs.sttInput && $refs.sttInput.validity.patternMismatch">The street must contain only alphabetic characters</small>
+                <small v-if="additionalInfoTouched && !additionalInfo.trim()">Additional information is required</small>
             </div>
 
             <div class="terms">
@@ -208,7 +209,8 @@
                 <label for="terms"> I agree to the <span>terms and conditions</span></label>
             </div>
             <div class="but">
-                <button class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png" id="next" />Back</button>
+                <button class="btn2" @click.prevent="previousStep"> <img src="../assets/next-d.png"
+                        id="next" />Back</button>
                 <button @click="signup" class="btn1">Sign up</button>
             </div>
             <div class="inscr">
@@ -221,8 +223,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import router from '@/router'
+import axios from 'axios';
+import router from '@/router';
 
 export default {
     data() {
@@ -236,88 +238,71 @@ export default {
             dateOfBirth: '',
             date: '',
             telephone: '',
-            telephonee: '',
+            lisenceNumber: '',
             additionalInfo: '',
-            street: '',
-            city: '',
-            state: '',
             sexe: '',
             image: '',
             currentStep: 1,
             stepStatus: ['active', '', ''],
-            touched: false,
-            touchedd: false,
-            toucheddd: false,
-            toucheddddd: false,
-            touch: false,
-            tou: false,
-            tou1: false,
-            tou2: false,
-            touc: false,
-            touc1: false,
-            toued: false,
-            touc2: false,
-            t111: false,
-            toud: false,
             terms: false,
             mgInput: '',
             file: '',
             results: [
-        { id: 1, name: 'Internal medicine' },
-        { id: 2, name: 'Pediatrics' },
-        { id: 3, name: 'Obstetrics and gynecology' },
-        { id: 4, name: 'Psychiatry' },
-        { id: 5, name: 'Dermatology' },
-        { id: 6, name: 'Radiology' },
-        { id: 7, name: 'Anesthesiology' },
-        { id: 8, name: 'Family medicine' },
-        { id: 9, name: 'Emergency medicine' },
-        { id: 10, name: 'Neurology' },
-        { id: 11, name: 'Ophthalmology' },
-        { id: 12, name: 'Orthopedics' },
-        { id: 13, name: 'Pathology' },
-        { id: 14, name: 'Cardiology' },
-        { id: 15, name: 'Gastroenterology' },
-        { id: 16, name: 'Urology' },
-        { id: 17, name: 'Endocrinology' },
-        { id: 18, name: 'Oncology' },
-        { id: 19, name: 'Pulmonology' },
-        { id: 20, name: 'Nephrology' },
-        { id: 21, name: 'Rheumatology' },
-        { id: 22, name: 'Infectious disease' },
-        { id: 23, name: 'Emergency medicine' },
-        { id: 24, name: 'Physical medicine and rehabilitation' },
-        { id: 25, name: 'Geriatrics' },
-        { id: 26, name: 'Hematology' },
-        { id: 27, name: 'Plastic surgery' },
-        { id: 28, name: 'Otolaryngology' },
-        { id: 29, name: 'Vascular surgery' },
-        { id: 30, name: 'Allergy and immunology' },
-        { id: 31, name: 'Dentistry' },
-        { id: 32, name: 'Oral pathology and surgery' },
+                { id: 1, name: 'Internal medicine' },
+                { id: 2, name: 'Pediatrics' },
+                { id: 3, name: 'Obstetrics and gynecology' },
+                { id: 4, name: 'Psychiatry' },
+                { id: 5, name: 'Dermatology' },
+                { id: 6, name: 'Radiology' },
+                { id: 7, name: 'Anesthesiology' },
+                { id: 8, name: 'Family medicine' },
+                { id: 9, name: 'Emergency medicine' },
+                { id: 10, name: 'Neurology' },
+                { id: 11, name: 'Ophthalmology' },
+                { id: 12, name: 'Orthopedics' },
+                { id: 13, name: 'Pathology' },
+                { id: 14, name: 'Cardiology' },
+                { id: 15, name: 'Gastroenterology' },
+                { id: 16, name: 'Urology' },
+                { id: 17, name: 'Endocrinology' },
+                { id: 18, name: 'Oncology' },
+                { id: 19, name: 'Pulmonology' },
+                { id: 20, name: 'Nephrology' },
+                { id: 21, name: 'Rheumatology' },
+                { id: 22, name: 'Infectious disease' },
+                { id: 23, name: 'Emergency medicine' },
+                { id: 24, name: 'Physical medicine and rehabilitation' },
+                { id: 25, name: 'Geriatrics' },
+                { id: 26, name: 'Hematology' },
+                { id: 27, name: 'Plastic surgery' },
+                { id: 28, name: 'Otolaryngology' },
+                { id: 29, name: 'Vascular surgery' },
+                { id: 30, name: 'Allergy and immunology' },
+                { id: 31, name: 'Dentistry' },
+                { id: 32, name: 'Oral pathology and surgery' },
 
-    ],
-        
-      showAll: false,
-      showList: false,
-      suggestionsMarginTop: 0
+            ],
+
+            showAll: false,
+            showList: false,
+            suggestionsMarginTop: 0
         };
     },
     computed: {
         passwordsMatch() {
             return this.cpassword === this.password
         },
-  
-    displayedResults() {
-      if (this.showAll) {
-        return this.results;
-      } else {
-        return this.results.filter(result => {
-          return result.name.toLowerCase().startsWith(this.spec.toLowerCase());
-        });
-      }
-    }
-  
+
+        displayedResults() {
+            if (this.showAll) {
+                return this.results;
+            } else {
+                return this.results.filter(result => {
+                    return result.name.toLowerCase().startsWith(this.spec.toLowerCase());
+                });
+            }
+        }
+
     },
     methods: {
         handleImageUpload(event) {
@@ -388,58 +373,73 @@ export default {
                     speciality: this.spec,
                     image: this.image,
                     numOrdre: this.number,
+                    lisenceNumber: this.lisenceNumber
                 }
+                console.log("fullName:", formData.fullName);
+                console.log("email:", formData.email);
+                console.log("password:", formData.password);
+                console.log("dateOfBirth:", formData.dateOfBirth);
+                console.log("sexe:", formData.sexe);
+                console.log("biographie:", formData.biographie);
+                console.log("experience:", formData.experience);
+                console.log("phone:", formData.phone);
+                console.log("speciality:", formData.speciality);
+                console.log("image:", formData.image);
+                console.log("numOrdre:", formData.numOrdre);
+                console.log("lisenceNumber:", formData.lisenceNumber);
                 axios.post("http://localhost:7777/service-profile/api/medecinregister", formData)
-                .then(response => {
-                    const medecinId = response.data
-                    alert("Registered successfully ")
-                    router.push({ name: 'DashMed', params: { medecinId } })
-                })
-                .catch(error => {
-                    console.log(error)
-                    if (error.response && error.response.status === 404) {
-                        alert("Num Ordre does not exist")
-                    } else if (error.response && error.response.status === 500) {
-                        alert("Email already exist")
-                    } else {
-                        alert("An error occurred. Please try again later.")
-                    }
-                })
+                    .then(response => {
+                        console.log("Response:", response.data); // Log the entire response data
+                        const medecinId = response.data;
+                        console.log("Medecin ID:", medecinId); // Log the extracted medecinId
+                        alert("Registered successfully ");
+                        router.push({ name: 'DashMed', params: { medecinId }});
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        if (error.response && error.response.status === 404) {
+                            alert("Num Ordre does not exist")
+                        } else if (error.response && error.response.status === 500) {
+                            alert("Email already exist")
+                        } else {
+                            alert("An error occurred. Please try again later.")
+                        }
+                    })
             }
             else {
                 alert("signup failed")
             }
         },
         showAllResults() {
-      this.showAll = true;
-      this.showList = true;
-    },
-    filterResults() {
-      this.showAll = false;
-      if (this.spec !== '') {
-        this.showList = true;
+            this.showAll = true;
+            this.showList = true;
+        },
+        filterResults() {
+            this.showAll = false;
+            if (this.spec !== '') {
+                this.showList = true;
 
-        if (this.displayedResults.length > 3) {
-          this.suggestionsMarginTop = 0;
-        } else if (this.displayedResults.length === 2) {
-          this.suggestionsMarginTop = 0;
-        } else if (this.displayedResults.length === 1) {
-          this.suggestionsMarginTop = 0;
+                if (this.displayedResults.length > 3) {
+                    this.suggestionsMarginTop = 0;
+                } else if (this.displayedResults.length === 2) {
+                    this.suggestionsMarginTop = 0;
+                } else if (this.displayedResults.length === 1) {
+                    this.suggestionsMarginTop = 0;
+                }
+                else {
+                    this.suggestionsMarginTop = 10;
+                }
+            } else {
+                this.showList = false;
+                this.suggestionsMarginTop = 5;
+            }
         }
-        else {
-          this.suggestionsMarginTop = 10;
-        }
-      } else {
-        this.showList = false;
-        this.suggestionsMarginTop = 5;
-      }
-    }
-    ,
-    selectSuggestion(value) {
-      this.spec = value;
-      this.showList = false;
-    },
-    
+        ,
+        selectSuggestion(value) {
+            this.spec = value;
+            this.showList = false;
+        },
+
     }
 }
 </script>
@@ -691,25 +691,25 @@ export default {
 }
 
 .suggestion {
-  position: absolute;
-  margin-left: 30px;
-  background: rgba(255, 255, 255, 0.5);
-  list-style-type: none;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  width: 345px;
-  max-height: 200px;
-  overflow-y: auto;
-  scrollbar-width: thin;
+    position: absolute;
+    margin-left: 30px;
+    background: rgba(255, 255, 255, 0.5);
+    list-style-type: none;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 345px;
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 
 .suggestion li {
-  padding: 10px;
-  cursor: pointer;
-  color: rgb(99, 97, 97);
+    padding: 10px;
+    cursor: pointer;
+    color: rgb(99, 97, 97);
 }
 
 .suggestion li:hover {
-  background-color: #cfcdcd;
+    background-color: #cfcdcd;
 }
 </style>
