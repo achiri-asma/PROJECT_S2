@@ -42,7 +42,7 @@
                 <label>Address: </label>
                 <p>BP 73, Bureau de poste EL WIAM <br> Sidi Bel Abbés 22016, Algérie</p>
                 <label>Contact: </label><br><br>
-                <span>info@nom_website.com</span><br><br>
+                <span>medi.sphere.dz@gmail.com</span><br><br>
                 <img src="../assets/facebook.png" alt="facebook">&nbsp;&nbsp;
                 <img src="../assets/instagram.png" alt="instagram">&nbsp;&nbsp;
                 <img src="../assets/twitter.png" alt="twitter">&nbsp;&nbsp;
@@ -83,6 +83,7 @@ export default {
         },
         updateUserInfo(updatedUserInfo) {
             this.UserInfo = updatedUserInfo
+            console.log(this.UserInfo)
             if (this.UserInfo.image) {
                 axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfo.image}`, {
                     responseType: 'blob'
@@ -99,19 +100,17 @@ export default {
     },
     mounted() {
         axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.userId}/`)
-        .then(response => {
+        .then(async response => {
             this.UserInfo = response.data
             if (this.UserInfo.image) { 
-                return axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfo.image}`, {
+                const response_1 = await axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfo.image}`, {
                     responseType: 'blob'
                 })
-                .then(response => {
-                    if (response.status === 200) {
-                        this.imageUrl = URL.createObjectURL(response.data)
-                    } else {
-                        throw new Error('Image not found')
-                    }
-                })
+                if (response_1.status === 200) {
+                    this.imageUrl = URL.createObjectURL(response_1.data)
+                } else {
+                    throw new Error('Image not found')
+                }
             }
         })
     }

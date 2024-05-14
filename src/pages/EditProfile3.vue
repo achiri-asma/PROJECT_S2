@@ -108,11 +108,12 @@ export default{
                 rue: this.rue
             }
             }
-            axios.put(`http://localhost:7777/service-profile/api/update/patient/${this.userId}/cordonnee`, formData)
+            axios.put(`http://localhost:7777/service-profile/api/update/patient/${this.userId}/cordonneeandimage`, formData)
             .then(response => {
                 console.log(response.data)
                 this.$emit('user-profile-updated', response.data)
                 this.CancelEdit()
+                window.location.reload()
             })
         } 
     },

@@ -4,7 +4,7 @@
         <div class="part-one">
         </div>
         <div  class="part-two">
-            <img src="../assets/image1.png" alt="doctor" id="docc">
+            <img  v-if="searchDataa[index]" :src="require(`@/assets/${searchDataa[index].image}`)" alt="doctor" id="docc">
             <div class="doc-infos">
                 <h4  v-if="searchDataa[index]">Dr.{{ searchDataa[index].fullName }}</h4>
                 <p v-if="searchDataa[index]">{{ searchDataa[index].speciality }}</p>
@@ -12,9 +12,8 @@
                 </p>
                 <p v-if="searchDataa[index]"> <img src="../assets/part-time.png" alt="experience"
                         style="vertical-align: middle;width:25px;height:25px;"> {{  calculateYearsSinceExperience  -searchDataa[index].experience}} Years Experience </p>
-                <p> <img src="../assets/maps-and-flags.png" alt="experience"
-                        style="vertical-align: middle; width:25px;height:25px;"> Sidi bel abbes , sidi bel abbes, wiam
-                    BP 73 </p>
+                <p v-if="searchDataa[index]"> <img src="../assets/maps-and-flags.png" alt="experience"
+                        style="vertical-align: middle; width:25px;height:25px;">{{searchDataa[index].wilaya}}, {{searchDataa[index].commune}}, {{searchDataa[index].rue}} </p>
                 <p  v-if="searchDataa[index]" id="biographie"> <img src="../assets/writer 1.png" alt="experience"
                         style="vertical-align: middle; width:20px;height:25px;"> “ {{searchDataa[index].biographie}}” </p>
             </div>
@@ -26,8 +25,8 @@
                 <button type="submit" id="bt1" v-if="isLandingPage" @click="next2"><img
                         src="../assets/calendar (1) 1.png" alt="" id="next"> Book
                     appointement</button>
-                <button type="submit" id="bt2"><img src="../assets/calendar 4.png" alt="" id="next">(213)
-                    0745612333</button>
+                <button type="submit" id="bt2" v-if="searchDataa[index]"><img src="../assets/calendar 4.png" alt="" id="next">(213)
+                    0{{searchDataa[index].phone}}</button>
             </div>
 
             <div id="map">
@@ -200,13 +199,13 @@ export default {
 
 .doc-contt {
     float: right;
-    margin-top: -250px;
+    margin-top: -200px;
     margin-right: 40px;
 }
 
 #map {
     float: right;
-    margin-top: -100px;
+    margin-top: -60px;
     margin-right: 40px;
     width: 300px;
     height: 300px;

@@ -213,7 +213,7 @@ export default {
       const input2 = this.searchInput || this.input2;
     
       const data ={queryParam:input1,
-       wilaya:''}
+       wilaya:input2}
       axios.post('http://localhost:5000/medecin/search',data)
       .then(response => {
             console.log(response.data); 
@@ -234,10 +234,10 @@ export default {
       const userId=this.id;
     
       const data ={queryParam:input1,
-       wilaya:''}
+       wilaya:input2}
       axios.post('http://localhost:5000/medecin/search',data)
       .then(response => {
-            console.log(response.data); 
+        console.log(response.data); 
             const searchData= response.data;
             localStorage.setItem('searchData', JSON.stringify(searchData));
             router.push({name:'SearchPage1' ,params:{input1 , input2,userId}}).then(() => {

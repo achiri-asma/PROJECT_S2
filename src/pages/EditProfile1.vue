@@ -85,10 +85,11 @@ export default{
             Imagefile.append('file', this.file)
             const formData = {
             email: this.email,
+            image: this.imagesent,
             phone: this.phone,
             bio: this.biographie,
-            image: this.imagesent
             }
+            console.log(formData)
             axios.post('http://localhost:7777/service-profile/api/update/upload', Imagefile, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -99,6 +100,7 @@ export default{
                 console.log(response.data)
                 this.$emit('medecin-profile-updated', response.data)
                 this.CancelEdit()
+                window.location.reload();
             })
         } 
     }

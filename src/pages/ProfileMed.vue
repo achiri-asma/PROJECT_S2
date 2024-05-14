@@ -34,21 +34,23 @@
             </div>
             <div>
                 <div class="officeinfo">
-                    <h5>Office informations :</h5>
+                    <h5>Office informations :  {{ medecinInfos.name }}</h5>
                     <div class="offimg">
                         <img src="../assets/image2.png">
                         <img src="../assets/editing.png" @click="EditProfil2">
                     </div>
                     <label>Address: </label>
-                    <span>Sidi bel abbes, sidi bel abbes, wiam BP 73</span><br>
+                    <span id="small">{{ addresse.wilaya}} , {{ addresse.commune}} , {{ addresse.rue}}</span><br>
+                    <label>Cabinet licence number : </label>
+                    <span>{{ medecinInfos.licenseNumber }}</span>
                     <label>Phone number: </label>
-                    <span>04399567439</span>
+                    <span>{{ medecinInfos.phone }}</span>
                 </div>
                 <div class="contact">
                     <div>
                         <img src="../assets/logo2.png" alt="logo2"><br>
                         <label>Contact: </label><br>
-                        <span>info@nom_website.com</span>
+                        <span>medi.sphere.dz@gmail.com</span>
                     </div>
                     <div>
                         <img src="../assets/facebook.png" alt="facebook">
@@ -63,7 +65,6 @@
         <EditProfil2 v-show="showEditProfil2" @edit-profile="EditProfil2" :medecinId="medecinId"/>
     </div>
 </template>
-
 <script>
 import EditProfil1 from './EditProfile1'
 import EditProfil2 from './EditProfile2'
@@ -72,15 +73,17 @@ import axios from 'axios'
 export default {
     data() {
         return {
-            showEditProfil1 : false,
-            showEditProfil2 : false,
-            medecinInfo : '',
-            imageUrl : ''
+            showEditProfil1: false,
+            showEditProfil2: false,
+            medecinInfo: '',
+            medecinInfos: '',
+            addresse:'',
+            imageUrl: ''
         }
     },
-    components : { EditProfil1, EditProfil2},
-    props : [ 'medecinId' ],
-    methods : {
+    components: { EditProfil1, EditProfil2 },
+    props: ['medecinId'],
+    methods: {
         EditProfil1() {
             this.showEditProfil1 = !this.showEditProfil1
         },
@@ -91,35 +94,48 @@ export default {
             this.medecinInfo = updatedMedecinInfo
             if (this.medecinInfo.image) {
                 axios.get(`http://localhost:7777/service-profile/api/image/${this.medecinInfo.image}`, {
-                    responseType: 'blob'
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        this.imageUrl = URL.createObjectURL(response.data)
-                    } else {
-                        throw new Error('Image not found')
-                    }
-                })
+                        responseType: 'blob'
+                    })
+                    .then(response => {
+                        if (response.status === 200) {
+                            this.imageUrl = URL.createObjectURL(response.data)
+                        } else {
+                            throw new Error('Image not found')
+                        }
+                    })
             }
+        },
+        getCabinetInfos() {
+            axios.get(`http://localhost:7777/service-profile/api/CabinetInfo/${this.medecinId}/`)
+                .then(response => {
+                    // Gérer la réponse réussie
+                    this.medecinInfos = response.data;
+                    this.addresse=this.medecinInfos.adresse;
+                })
+                .catch(error => {
+                    // Gérer l'erreur de requête
+                    console.error('Erreur lors de la récupération des informations du cabinet :', error);
+                    // Afficher un message d'erreur à l'utilisateur
+                    // Peut-être définir une variable pour indiquer qu'il y a eu une erreur
+                });
         }
     },
     mounted() {
+        this.getCabinetInfos();
         axios.get(`http://localhost:7777/service-profile/api/MedecinInfo/${this.medecinId}/`)
-        .then(response => {
-            this.medecinInfo = response.data
-            if (this.medecinInfo.image) { 
-                return axios.get(`http://localhost:7777/service-profile/api/image/${this.medecinInfo.image}`, {
-                    responseType: 'blob'
-                })
-                .then(response => {
-                    if (response.status === 200) {
-                        this.imageUrl = URL.createObjectURL(response.data)
+            .then(async response => {
+                this.medecinInfo = response.data
+                if (this.medecinInfo.image) {
+                    const response_1 = await axios.get(`http://localhost:7777/service-profile/api/image/${this.medecinInfo.image}`, {
+                        responseType: 'blob'
+                    })
+                    if (response_1.status === 200) {
+                        this.imageUrl = URL.createObjectURL(response_1.data)
                     } else {
                         throw new Error('Image not found')
                     }
-                })
-            }
-        })
+                }
+            });
     }
 }
 </script>
@@ -257,6 +273,7 @@ export default {
         display: inline-block;
         margin-left: 30px;
         margin-bottom: 30px;
+ 
     }
     .profilemed .contact{
         height: 150px;
@@ -279,5 +296,8 @@ export default {
     }
     .profilemed .contact div:last-child img{
        margin-right: 5px; 
+    }
+    #small{
+        font-size: 15px;
     }
 </style>

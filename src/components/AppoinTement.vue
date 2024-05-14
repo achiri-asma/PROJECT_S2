@@ -165,10 +165,9 @@ export default {
     
     next(){
       const input1=this.search_Input;
-     const input2 = this.searchInput;
-      const data ={queryParam:input1,
-       wilaya:''}
-      axios.post('http://localhost:5000/medecin/search',data)
+      const input2 = this.searchInput;
+      const data ={queryParam:input1,wilaya:input2}
+      axios.post(`http://localhost:5000/medecin/search`,data)
       .then(response => {
             console.log(response.data); 
             const searchData= response.data;
@@ -177,16 +176,15 @@ export default {
           })
           .catch(error => {
             console.log(error);      
-          })
+          });
      
     },
     next1(){
       const input1=this.search_Input;
       const input2 = this.searchInput;
       const userId = this.$route.params.userId;
-      const data ={queryParam:input1,
-       wilaya:''}
-      axios.post('http://localhost:5000/medecin/search',data)
+      const data ={queryParam:input1,wilaya:input2}
+      axios.post(`http://localhost:5000/medecin/search`,data)
       .then(response => {
             console.log(response.data); 
             const searchData= response.data;

@@ -10,11 +10,11 @@
                 </div>
                 <div class="stepper-item active">
                     <div class="step-counter"><img src="../assets/two.png" alt="two" /></div>
-                    <div class="step-name">Additional Information <br /> (Optional)</div>
+                    <div class="step-name">Required<br /> Information </div>
                 </div>
                 <div class="stepper-item active">
                     <div class="step-counter"><img src="../assets/three.png" alt="three" /></div>
-                    <div class="step-name">Office <br /> Information</div>
+                    <div class="step-name">Additional  <br /> Information</div>
                 </div>
             </div>
 

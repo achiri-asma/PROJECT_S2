@@ -3,19 +3,19 @@
 
     <div class="bar">
         <p>Sort by <img src="../assets/next-g.png" id="dir" alt="signe"></p>
-        <button type="submit" id="m--btn" class="m-btn">Distance</button>
-        <button type="submit" class="m-btn"> Experience</button>
-        <button type="submit" class="m-btn">Rating</button>
-        <button type="submit" class="m-btn">Gender</button>
+        <button type="submit" v-if="!showLowExperienceButton" id="m--btn" class="m-btn"  @click="Highexperience()">High Experience</button>
+        <button type="submit"  v-if="showLowExperienceButton"  id="m--btn" class="m-btn"  @click="Lowexperience()">Low Experience</button>
+        <button type="submit" v-if="!showFemaleButton"  @click="Female()" class="m-btn">Female Gender</button>
+        <button type="submit" v-if="showFemaleButton" @click="Male()" class="m-btn">Male Gender</button>
     </div>
     <div  v-for="(result, index) in searchDataa" :key="index"  class="displayer">
-    <img src= "../assets/image1.png" alt="doctor" id="doc">
+    <img :src="require(`@/assets/${result.image}`)" alt="doctor" id="doc">
     <div class="doc-info" @click="isLandingPage ? nextt(index) : next(index)">
         <h4>{{result.fullName}}</h4>
         <p>{{result.speciality}} </p>
         <p id="petit"><img src="../assets/rating (2) 2.png" alt="rating" style="vertical-align: middle;"> (02)</p>
         <p>{{  calculateYearsSinceExperience  - result.experience}} Years Experience </p>
-        <p>Sidi bel abbes , sidi bel abbes, wiam BP 73 </p>
+        <p>{{result.wilaya}}, {{result.commune}}, {{result.rue}} </p>
     </div>
         <div class="doc-cont">
             <button type="submit" id="bt1" v-if="!isLandingPage" @click="next1"><img src="../assets/calendar (1) 1.png"
@@ -25,12 +25,13 @@
                     alt="" id="next"> Book
                 appointement</button>
             <button type="submit" id="bt2"><img src="../assets/calendar 4.png" alt="" id="next">(213)
-                0745612333</button>
+                0{{result.phone}} </button>
         </div>
     </div>
 </template>
 <script>
 import router from '@/router'
+import axios from 'axios'
 import HeaderPage2 from '../components/HeaderPage2.vue';
 
 export default {
@@ -41,13 +42,16 @@ export default {
             isLandingPage: false,
             input1: '',
             input2: '',
-            searchDataa: []
-
+            searchDataa: [],
+            showLowExperienceButton : false,
+            showFemaleButton : false
 
         }
     },
+    
     mounted() {
-
+        this.loadState();
+        this.loadType();
         if (this.$route.name === 'LandingPage') {
             this.isLandingPage = true;
         }
@@ -66,6 +70,9 @@ export default {
              console.log(this.searchDataLength);
  
         }
+   
+
+      
     },
     computed: {
     searchDataLength() {
@@ -78,6 +85,32 @@ export default {
   
   },
     methods: {
+        saveState() {
+  const state = {
+    showLowExperienceButton: this.showLowExperienceButton
+  };
+  localStorage.setItem('state', JSON.stringify(state));
+},
+loadState() {
+  const stateString = localStorage.getItem('state');
+  if (stateString) {
+    const state = JSON.parse(stateString);
+    this.showLowExperienceButton = state.showLowExperienceButton;
+  }
+},
+saveType() {
+  const type = {
+    showFemaleButton: this.showFemaleButton
+  };
+  localStorage.setItem('type', JSON.stringify(type));
+},
+loadType() {
+  const typeString = localStorage.getItem('type');
+  if (typeString) {
+    const type = JSON.parse(typeString);
+    this.showFemaleButton = type.showFemaleButton;
+  }
+},
         next(index) {
             const input3 = this.$route.params.input1;
             const input4 = this.$route.params.input2;
@@ -98,8 +131,114 @@ export default {
         next2() {
             router.push({ name: 'LoginPage2', params: {} });
 
-        }
-    },
+        },
+      
+        Highexperience() {
+  this.input1 = this.$route.params.input1; // Définir la spécialité "Pediatrics" comme valeur de input1
+  this.input2 = this.$route.params.input2; // Définir la wilaya "Sidi bel abbes" comme valeur de input2
+
+  const dataaa = {
+    queryParam: this.input1,
+   wilaya: this.input2
+  };
+
+  axios.post(`http://localhost:5000/medecin/order-desc`, dataaa)
+    .then(response => {
+ 
+      localStorage.removeItem('searchData');
+      // Enregistrer les nouvelles données dans le localStorage
+      localStorage.setItem('searchData', JSON.stringify(response.data));
+      
+      const searchDatanew=localStorage.getItem('searchData');
+      this.searchDataa=JSON.parse(searchDatanew);
+      this.showLowExperienceButton = true;
+      this.saveState();
+    })
+    .catch(error => {
+      // Gérer les erreurs
+      console.error('Une erreur est survenue :', error);
+    });
+},
+Lowexperience() {
+  this.input1 = this.$route.params.input1; // Définir la spécialité "Pediatrics" comme valeur de input1
+  this.input2 = this.$route.params.input2; // Définir la wilaya "Sidi bel abbes" comme valeur de input2
+
+  const dataaa = {
+    queryParam: this.input1,
+   wilaya: this.input2
+  };
+
+  axios.post(`http://localhost:5000/medecin/order-asc`, dataaa)
+    .then(response => {
+ 
+      localStorage.removeItem('searchData');
+      // Enregistrer les nouvelles données dans le localStorage
+      localStorage.setItem('searchData', JSON.stringify(response.data));
+      
+      const searchDatanew=localStorage.getItem('searchData');
+      this.searchDataa=JSON.parse(searchDatanew);
+      this.showLowExperienceButton = false;
+      this.saveState();
+    })
+    .catch(error => {
+      // Gérer les erreurs
+      console.error('Une erreur est survenue :', error);
+    });
+},
+Male() {
+  this.input1 = this.$route.params.input1; // Définir la spécialité "Pediatrics" comme valeur de input1
+  this.input2 = this.$route.params.input2; // Définir la wilaya "Sidi bel abbes" comme valeur de input2
+
+  const dataaa = {
+    queryParam: this.input1,
+   wilaya: this.input2
+  };
+
+  axios.post(`http://localhost:5000/medecin/homme`, dataaa)
+    .then(response => {
+ 
+      localStorage.removeItem('searchData');
+      // Enregistrer les nouvelles données dans le localStorage
+      localStorage.setItem('searchData', JSON.stringify(response.data));
+      
+      const searchDatanew=localStorage.getItem('searchData');
+      this.searchDataa=JSON.parse(searchDatanew);
+      this.showFemaleButton = false;
+      this.saveType();
+    })
+    .catch(error => {
+      // Gérer les erreurs
+      console.error('Une erreur est survenue :', error);
+    });
+},
+Female() {
+  this.input1 = this.$route.params.input1; // Définir la spécialité "Pediatrics" comme valeur de input1
+  this.input2 = this.$route.params.input2; // Définir la wilaya "Sidi bel abbes" comme valeur de input2
+
+  const dataaa = {
+    queryParam: this.input1,
+   wilaya: this.input2
+  };
+
+  axios.post(`http://localhost:5000/medecin/femme`, dataaa)
+    .then(response => {
+ 
+      localStorage.removeItem('searchData');
+      // Enregistrer les nouvelles données dans le localStorage
+      localStorage.setItem('searchData', JSON.stringify(response.data));
+      
+      const searchDatanew=localStorage.getItem('searchData');
+      this.searchDataa=JSON.parse(searchDatanew);
+      this.showFemaleButton = true;
+      this.saveType();
+    })
+    .catch(error => {
+      // Gérer les erreurs
+      console.error('Une erreur est survenue :', error);
+    });
+},
+
+    }
 }
 </script>
 <style>
@@ -127,7 +266,7 @@ export default {
 }
 
 #m--btn {
-    margin-left: 380px;
+    margin-left: 745px;
 }
 
 .m-btn {
@@ -144,7 +283,7 @@ export default {
     margin-left: 130px;
     margin-top: 45px;
     width: 1210px;
-    height: 180px;
+    height: 200px;
     border-radius: 20px;
     box-shadow: 0 0 7px gray;
 }
@@ -159,9 +298,10 @@ export default {
 }
 
 .doc-info {
-    margin-right: 700px;
-    margin-top: 18px;
+    margin-right: 730px;
+    margin-top: 28px;
     float: right;
+    width:310px;
 }
 
 .doc-info h4 {
