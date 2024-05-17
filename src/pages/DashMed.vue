@@ -4,17 +4,20 @@
             <img src="../assets/logo.png" alt="logo">
             <ul>
                 <li @click="handleProfile" :class="{'current' : cliked1}">Profile</li>
-                <li @click="handleHistory" :class="{'current' : cliked2}">History</li>
-                <li @click="handleRating" :class="{'current' : cliked3}">Rating</li>
+                <li @click="handleHistory" :class="{'current' : cliked2}">Appointement</li>
+                <li @click="handleRating" :class="{'current' : cliked3}">Medfiles</li>
             </ul>
         </aside>
         <ProfileMed v-show="cliked1" :medecinId="medecinId"/>
+        <AppointementPage v-show="cliked2" :medecinId="medecinId"/>
+        <MedfilePage v-show="cliked3" :medecinId="medecinId"/>
     </div>
 </template>
 
 <script>
 import ProfileMed from './ProfileMed'
-
+import AppointementPage from './AppointementPage.vue'
+import MedfilePage from './MedfilePage.vue'
 export default {
     data() {
         return {
@@ -27,7 +30,7 @@ export default {
     created() {
         this.medecinId = this.$route.params.medecinId
     },
-    components : { ProfileMed },
+    components : { ProfileMed ,AppointementPage,MedfilePage},
     methods : {
         handleProfile() {
             this.cliked1 = true,
@@ -58,43 +61,45 @@ export default {
         display: flex;
     }
     .dashmed aside, .dashuser aside{
-        width: 260px;
+        width:390px;
         height: 100vh;
         background-color: #03c6c1;
         position: sticky;
         top: 0;
     }
     .dashmed img[alt="logo"], .dashuser img[alt="logo"]{
-        width: 150px;
-        height: 60px;
-        margin: 30px 30px 30px 80px;
+        width: 185px;
+        height: 55px;
+        margin-top: 20px;
+        margin-left: 50px;
     }
     .dashmed aside li, .dashuser aside li{
         list-style: none;
         height: 50px;
         color: white;
-        font-size: 18px;
+        font-size: 17px;
         letter-spacing: 0.08em;
         box-sizing: border-box;
-        padding-left: 80px;
-        padding-top: 10px;
-        margin-left: 70px;
+        padding-left: 65px;
+        padding-top: 012px;
+        margin-top: 10px;
+        margin-left: 45px;
         margin-bottom: 10px;
     }
     .dashmed aside li:first-child, .dashuser aside li:first-child{
         background: url(../assets/user1.png) no-repeat;
-        background-size: 15%;
-        background-position: 40px center;
+        background-size:9%;
+        background-position: 15px center;
     }
     .dashmed aside li:first-child + li{
-        background: url(../assets/backintime.png) no-repeat;
-        background-size: 15%;
-        background-position: 40px center;
+        background: url(../assets/health-insurance-3.png) no-repeat;
+        background-size: 9%;
+        background-position: 15px center;
     }
     .dashmed aside li:last-child{
-        background: url(../assets/rating.png) no-repeat;
-        background-size: 14%;
-        background-position: 40px center;
+        background: url(../assets/folder.png) no-repeat;
+        background-size: 9%;
+        background-position: 15px center;
     }
     .dashmed aside li.current{
         background-color: rgba(255, 255, 255, 0.8) !important;
@@ -106,9 +111,9 @@ export default {
         background-image: url(../assets/user2.png);
     }
     .dashmed aside li:first-child + li.current{
-        background-image: url(../assets/backintime2.png);
+        background-image: url(../assets/health-insurance-2.png);
     }
     .dashmed aside li.current:last-child{
-        background-image: url(../assets/rating2.png);
+        background-image: url(../assets/file-folder.png);
     }
 </style>
