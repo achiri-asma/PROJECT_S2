@@ -8,9 +8,9 @@
             </router-link>
         </div>
         <div class="main">
-            <div class="personinfoooo">
+            <div class="personinfoooo" v-if="main1">
                 <div class="add">
-                    <button type="submit">
+                    <button type="submit"  @click="main2 = true,main1=false,main3=false">
                         <img src="../assets/plus.png" alt="submit"/>
                     </button>
                     <p>Add new Medical Dossier</p>
@@ -31,24 +31,66 @@
                     <div class="hs">
                         <img src="../assets/calendar.png" alt="calendar" class="pt"> &nbsp; &nbsp;
                         date / time 
-                        <img src="../assets/pen.png" alt="edit" id="ed" class="bm">
+                        <img src="../assets/pen.png" alt="edit" id="ed" class="bm" >
                         <img src="../assets/bin.png" alt="delete" class="bm" @click="showConfirmDialog = true">
                     </div>
                  </div>
             </div>
+            
         </div>
-
-    </div>
-    <div v-if="showConfirmDialog" class="confirm-dialog">
+        <div v-if="showConfirmDialog" class="confirm-dialog">
             <div class="confirm-dialog-content">
-                <h3>Confirmation de suppression</h3>
-                <p>Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+                <h3>Confirm Deletion</h3>
+                <p>Are you sure you want to delete this medical file? <br/> This action cannot be undone.</p>
                 <div class="confirm-dialog-buttons">
-                    <button @click="confirmDelete">Supprimer</button>
-                    <button @click="cancelDelete">Annuler</button>
+                    <button @click="cancelDelete" id="del" >Cancel</button>
+                    <button @click="confirmDelete" id="dell">Delete <img src="../assets/bin1.png" alt="bin"></button>
                 </div>
             </div>
         </div>
+
+        <div class="personinfooo" v-if="main2">
+            <div class="prec">
+                <button type="submit"  @click="main2 = false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
+            </div>
+            <div class="tete">
+               <img src="../assets/Group 14.png" alt="tete">
+            </div>
+            <div class="search__container">
+                        <div class="search__icon">
+                            <img src="../assets/clip 1.png" alt="Icône d attachement">
+                        </div>
+                        <input type="text" placeholder="Enter detailed description here..." class="search__input">
+                        <div class="adde">
+                    <button type="submit"  @click="main2 = true,main1=false,main3=false">
+                        <img src="../assets/plus.png" alt="submit"/>
+                    </button>
+                </div>
+            </div>
+            <button type="submit"  @click="main2 = false,main1=false,main3=true" id="nexxt">Next</button>         
+        </div>
+        <div class="personinfooo" v-if="main3">
+            <div class="prec">
+                <button type="submit"  @click="main2 = false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
+            </div>
+            <div class="tete">
+               <img src="../assets/Group 14.png" alt="tete">
+            </div>
+            <div class="search__container">
+                        <div class="search__icon">
+                            <img src="../assets/clip 1.png" alt="Icône d attachement">
+                        </div>
+                        <input type="text" placeholder="Enter detailed description here..." class="search__input">
+                        <div class="adde">
+                    <button type="submit"  @click="main2 = true,main1=false,main3=false">
+                        <img src="../assets/plus.png" alt="submit"/>
+                    </button>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+   
 
     
 
@@ -61,6 +103,9 @@ export default {
     data() {
         return {
             showConfirmDialog: false,
+            main1:true,
+            main2:false,
+            main3:false,
         }
     },
 
@@ -75,7 +120,8 @@ export default {
         },
         cancelDelete() {
             this.showConfirmDialog = false
-        }
+        },
+
     }
 }
 </script>
@@ -236,15 +282,129 @@ font-size: 16px;
 .confirm-dialog-content {
   background-color: white;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 25px;
   text-align: center;
+  width:500px;
+  height:200px;
+}
+.confirm-dialog-content h3{
+color:rgb(68, 67, 67);
+font-size: 32px;
+
 }
 
+.confirm-dialog-content p{
+color:gray;
+font-size: 18px;
+font-weight: 400;
+padding-top: 20px;
+}
+ 
 .confirm-dialog-buttons {
   margin-top: 20px;
 }
 
 .confirm-dialog-buttons button {
   margin: 0 10px;
+}
+#del{
+    color:black;
+    width:100px;
+    height:45px;
+    border:none;
+    font-size: 15px;
+    border-radius: 10px;
+  
+}
+#dell{
+    background-color: #FF0000;
+    color:white;
+    width:100px;
+    height:45px;
+    border:none;
+    font-size: 15px;
+    border-radius: 10px;
+    margin-left: 180px;
+}
+#dell img{
+    width:15px;
+    height:15px;
+}
+.profilemed .personinfooo {
+    width: 90%;
+    height: 570px;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+    margin-left: 60px;
+   
+}
+.prec button{
+    background-color: white;
+   
+    margin-left:25px ;
+    margin-top: 25px;
+    border: none ;
+}
+.prec button img{
+   width:35px;
+   height: 35px;
+}
+.tete img{
+    margin-left: 220px;
+    height: 100px;
+}
+.search__container {
+    display: flex;
+    margin-left: 25px;
+    border: #03c6c1 1px solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 700px;
+    height: 50px;
+    margin-left: 180px;
+    margin-top: 70px;
+}
+
+.search__input {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    flex: 1;
+    padding: 5px;
+}
+
+.search__icon {
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+}
+
+.search__icon img {
+    width: 100%;
+    height: 100%;
+}
+.adde button{
+    width:50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 15px;
+    border: #03c6c1 3px dotted;
+    margin-left:25px;
+}
+.adde button img{
+    width:20px;
+    height: 20px;
+}
+#nexxt{
+    margin-left: 800px;
+    margin-top: 50px;
+    width:100px;
+    height:40px;
+    color:white;
+    background-color: #03c6c1;
+    border-radius: 10px;
+    border:none;
+    font-size: 16px;
 }
 </style>
