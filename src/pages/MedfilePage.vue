@@ -31,7 +31,7 @@
                     <div class="hs">
                         <img src="../assets/calendar.png" alt="calendar" class="pt"> &nbsp; &nbsp;
                         date / time 
-                        <img src="../assets/pen.png" alt="edit" id="ed" class="bm" >
+                        <img src="../assets/pen.png" alt="edit" id="ed" class="bm" @click="main5 = true,main1=false" >
                         <img src="../assets/bin.png" alt="delete" class="bm" @click="showConfirmDialog = true">
                     </div>
                  </div>
@@ -51,7 +51,7 @@
 
         <div class="personinfooo" v-if="main2">
             <div class="prec">
-                <button type="submit"  @click="main2 = false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
+                <button type="submit"  @click="main2=false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
             </div>
             <div class="tete">
                <img src="../assets/Group 14.png" alt="tete">
@@ -62,32 +62,131 @@
                         </div>
                         <input type="text" placeholder="Enter detailed description here..." class="search__input">
                         <div class="adde">
-                    <button type="submit"  @click="main2 = true,main1=false,main3=false">
+                    <button type="submit">
                         <img src="../assets/plus.png" alt="submit"/>
                     </button>
                 </div>
             </div>
-            <button type="submit"  @click="main2 = false,main1=false,main3=true" id="nexxt">Next</button>         
+            <button type="submit"  @click="main2=false,main3=true" id="nexxt1">Next</button>         
         </div>
         <div class="personinfooo" v-if="main3">
             <div class="prec">
-                <button type="submit"  @click="main2 = false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
+                <button type="submit"  @click="main3=false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
             </div>
             <div class="tete">
-               <img src="../assets/Group 14.png" alt="tete">
+               <img src="../assets/Group115.png" alt="tete">
             </div>
             <div class="search__container">
-                        <div class="search__icon">
-                            <img src="../assets/clip 1.png" alt="Icône d attachement">
-                        </div>
-                        <input type="text" placeholder="Enter detailed description here..." class="search__input">
+                        
+                        <input type="text" placeholder="Enter medications..." class="search1">
+                        <input type="text" placeholder="Enter dosage..." class="search2">
                         <div class="adde">
-                    <button type="submit"  @click="main2 = true,main1=false,main3=false">
+                    <button type="submit">
                         <img src="../assets/plus.png" alt="submit"/>
                     </button>
                 </div>
             </div>
-           
+            <button type="submit"  @click="main2=true,main3=false" id="precc">Back</button> 
+            <button type="submit"  @click="main4=true,main3 =false" id="nexxt">Next</button>       
+             
+        </div>
+        <div class="personinfooo" v-if="main4">
+            <div class="prec">
+                <button type="submit"  @click="main4=false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
+            </div>
+            <div class="tete">
+               <img src="../assets/Group116.png" alt="tete">
+            </div>
+            <div class="search__container1">
+                        
+                        <input type="text" placeholder="Enter test name..." class="search1">
+                        <input type="text" placeholder="Enter result..." class="search3">
+                        <input type="text" placeholder="Enter normal range..." class="search2">
+                        <div class="adde">
+                    <button type="submit">
+                        <img src="../assets/plus.png" alt="submit"/>
+                    </button>
+                </div>
+            </div>
+            <button type="submit"  @click="main3 = true,main4=false" id="precc">Back</button>  
+            <button type="submit"  @click="main4 = false,main1=true" id="nexxt">Finish</button>       
+        </div>
+        <div class="personinfooo" v-if="main5">
+            <div class="prec">
+                <button type="submit"  @click="main5 = false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
+            </div>
+            <div class="tete">
+               <img src="../assets/Group 14.png" alt="tete">
+            </div>
+            <div class="search__container2">
+                        <div class="search__icon2">
+                            <img src="../assets/clip 1.png" alt="Icône d attachement">
+                        </div>
+                        <input type="text" placeholder="Enter detailed description here..." class="search__input2">
+                        <div class="adde2">
+                    <button type="submit">
+                        <img src="../assets/pen 1.png" alt="submit"/>
+                    </button>
+                </div>
+            </div>
+            <button type="submit"  @click="main5 = false,main6=true" id="nexxt1">Next</button>         
+        </div>
+        <div class="personinfooo" v-if="main6">
+            <div class="prec">
+                <button type="submit"  @click="main6 = false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
+            </div>
+            <div class="tete">
+               <img src="../assets/Group115.png" alt="tete">
+            </div>
+            <div class="search__container2">
+                        
+                        <input type="text" placeholder="Enter medications..." class="search1">
+                        <div class="adde3">
+                        <button type="submit">
+                        <img src="../assets/pen 1.png" alt="submit"/>
+                        </button>
+                        </div>
+                        <input type="text" placeholder="Enter dosage..." class="search2">
+                        <div class="adde3">
+                    <button type="submit">
+                        <img src="../assets/pen 1.png" alt="submit"/>
+                    </button>
+                </div>
+            </div>
+            <button type="submit"  @click="main5=true,main6=false" id="precc">Back</button> 
+            <button type="submit"  @click="main7=true,main6=false" id="nexxt">Next</button>       
+             
+        </div>
+        <div class="personinfooo" v-if="main7">
+            <div class="prec">
+                <button type="submit"  @click="main7 = false,main1=true"><img src="../assets/Rectangle 187.png" alt="prec"></button>
+            </div>
+            <div class="tete">
+               <img src="../assets/Group116.png" alt="tete">
+            </div>
+            <div class="search__container3">
+                        
+                        <input type="text" placeholder="Enter test name..." class="search1">
+                        <div class="adde3">
+                    <button type="submit">
+                        <img src="../assets/pen 1.png" alt="submit"/>
+                    </button>
+                </div>
+                        <input type="text" placeholder="Enter result..." class="search3">
+                        <div class="adde3">
+                    <button type="submit">
+                        <img src="../assets/pen 1.png" alt="submit"/>
+                    </button>
+                </div>
+                        <input type="text" placeholder="Enter normal range..." class="search2">
+                        <div class="adde3">
+                    <button type="submit">
+                        <img src="../assets/pen 1.png" alt="submit"/>
+                    </button>
+                </div>
+            </div>
+            <button type="submit"  @click="main6=true,main6=false" id="precc">Back</button>  
+            <button type="submit"  @click="main1=true" id="nexxt">Finish</button>       
         </div>
     </div>
    
@@ -106,6 +205,10 @@ export default {
             main1:true,
             main2:false,
             main3:false,
+            main4:false,
+            main5:false,
+            main6:false,
+            main7:false,
         }
     },
 
@@ -365,6 +468,27 @@ padding-top: 20px;
     margin-left: 180px;
     margin-top: 70px;
 }
+.search__container1 {
+    display: flex;
+    border: #03c6c1 1px solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 780px;
+    height: 50px;
+    margin-left: 140px;
+    margin-top: 70px;
+}
+
+.search__container3 {
+    display: flex;
+    border: #03c6c1 1px solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 980px;
+    height: 50px;
+    margin-left: 50px;
+    margin-top: 70px;
+}
 
 .search__input {
     border: none;
@@ -372,6 +496,8 @@ padding-top: 20px;
     outline: none;
     flex: 1;
     padding: 5px;
+    font-size: 15px;
+    color:gray;
 }
 
 .search__icon {
@@ -390,13 +516,24 @@ padding-top: 20px;
     background-color: white;
     border-radius: 15px;
     border: #03c6c1 3px dotted;
-    margin-left:25px;
+    margin-left:20px;
 }
 .adde button img{
     width:20px;
     height: 20px;
 }
 #nexxt{
+    margin-left: 580px;
+    margin-top: 50px;
+    width:100px;
+    height:40px;
+    color:white;
+    background-color: #03c6c1;
+    border-radius: 10px;
+    border:none;
+    font-size: 16px;
+}
+#nexxt1{
     margin-left: 800px;
     margin-top: 50px;
     width:100px;
@@ -406,5 +543,108 @@ padding-top: 20px;
     border-radius: 10px;
     border:none;
     font-size: 16px;
+}
+.search1 {
+    border: 1px solid gray;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: transparent;
+    outline: none;
+    flex: 1;
+    padding-left: 10px;
+    margin-right: 5px;
+    font-size: 15px;
+    color:gray;
+}
+.search2 {
+    border: 1px solid gray;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: transparent;
+    outline: none;
+    flex: 1;
+    padding-left: 10px; 
+    font-size: 15px;
+    color:gray;
+}
+.search3 {
+    border: 1px solid gray;
+    background-color: transparent;
+    outline: none;
+    flex: 1;
+    padding-left: 10px; 
+    width:100px;
+    margin-right: 5px;
+    font-size: 15px;
+    color:gray;
+}
+#precc{
+
+    margin-left: 150px;
+    margin-top: 50px;
+    width:100px;
+    height:40px;
+    color:white;
+    background-color: gray;
+    border-radius: 10px;
+    border:none;
+    font-size: 16px;
+
+}
+
+
+.search__container2 {
+    display: flex;
+    border: #03c6c1 1px solid;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 740px;
+    height: 50px;
+    margin-left: 160px;
+    margin-top: 70px;
+}
+
+.search__input2 {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    flex: 1;
+    padding: 5px;
+    font-size: 15px;
+    color:gray;
+}
+
+.search__icon2 {
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+}
+
+.search__icon2 img {
+    width: 100%;
+    height: 100%;
+}
+.adde2 button{
+    width:50px;
+    height: 50px;
+    margin-left:20px;
+    background-color: transparent;
+    border:none;
+}
+.adde2 button img{
+    width:40px;
+    height: 40px;
+}
+
+.adde3 button{
+    width:50px;
+    height: 50px;
+    margin-left:0px;
+    background-color: transparent;
+    border:none;
+}
+.adde3 button img{
+    width:40px;
+    height: 40px;
 }
 </style>
