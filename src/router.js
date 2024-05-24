@@ -31,13 +31,13 @@ const routes=[
     {path:'/DashUser/:userId',component:DashUser,name:'DashUser'},
     {path:'/DashMed/:medecinId',component:DashMed,name:'DashMed'},
     {path:'/ProfileUser',component:ProfileUser,name:'ProfileUser'},
-    {path:'/search-page/:input1/:input2',component:SearchPage1,name:'SearchPage2'} ,
     {path:'/search-page/:userId/:input1/:input2',component:SearchPage1,name:'SearchPage1'} ,
+    {path:'/search-page/:input1/:input2',component:SearchPage1,name:'SearchPage2'} ,
     {path:'/doc-page/:input1/:input2/:indeex',component:DoctorPage,name:'DoctorPage1'} ,
     {path:'/doc-page/:userId/:input1/:input2/:indeex',component:DoctorPage,name:'DoctorPage'} ,
-    {path:'/RequestAppointement',component:RequestAppointement,name:'RequestAppointement'} ,
-    {path:'/SuccessAppointement',component:SuccessAppointement,name:'SuccessAppointement'} ,
-    
+    {path:'/RequestAppointement/medecin/:medecinId/patient/:userId',component:RequestAppointement,name:'RequestAppointement'} ,
+    {path:'/SuccessAppointement/:userId',component:SuccessAppointement,name:'SuccessAppointement'} ,
+    {path:'/FailedAppointement/:userId',component:SuccessAppointement,name:'FailedAppointement'} ,
 ]
 const router = createRouter({
     history:createWebHistory(),

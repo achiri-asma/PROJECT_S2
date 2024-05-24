@@ -1,54 +1,59 @@
 <template>
     <HeaderPage2 :id="$route.params.userId" />
     <div classe="parts">
-        <div class="part-one">
-        </div>
-        <div  class="part-two">
-            <img  v-if="searchDataa[index]" :src="require(`@/assets/${searchDataa[index].image}`)" alt="doctor" id="docc">
+        <div class="part-one"></div>
+        <div class="part-two">
+            <img v-if="searchDataa[index]" :src="require(`@/assets/${searchDataa[index].image}`)" id="docc">
             <div class="doc-infos">
-                <h4  v-if="searchDataa[index]">Dr.{{ searchDataa[index].fullName }}</h4>
+                <h4 v-if="searchDataa[index]">Dr.{{ searchDataa[index].fullName }}</h4>
                 <p v-if="searchDataa[index]">{{ searchDataa[index].speciality }}</p>
-                <p id="petit"><img src="../assets/rating (2) 2.png" alt="rating" style="vertical-align: middle;"> (02)
+                <p id="petit">
+                    <img src="../assets/rating (2) 2.png" alt="rating" style="vertical-align: middle;"> (02)
                 </p>
-                <p v-if="searchDataa[index]"> <img src="../assets/part-time.png" alt="experience"
-                        style="vertical-align: middle;width:25px;height:25px;"> {{  calculateYearsSinceExperience  -searchDataa[index].experience}} Years Experience </p>
-                <p v-if="searchDataa[index]"> <img src="../assets/maps-and-flags.png" alt="experience"
-                        style="vertical-align: middle; width:25px;height:25px;">{{searchDataa[index].wilaya}}, {{searchDataa[index].commune}}, {{searchDataa[index].rue}} </p>
-                <p  v-if="searchDataa[index]" id="biographie"> <img src="../assets/writer 1.png" alt="experience"
-                        style="vertical-align: middle; width:20px;height:25px;"> “ {{searchDataa[index].biographie}}” </p>
+                <p v-if="searchDataa[index]"> 
+                    <img src="../assets/part-time.png" alt="experience" style="vertical-align: middle;width:25px;height:25px;"> 
+                    {{ calculateYearsSinceExperience - searchDataa[index].experience}} Years Experience 
+                </p>
+                <p v-if="searchDataa[index]"> 
+                    <img src="../assets/maps-and-flags.png" alt="experience" style="vertical-align: middle; width:25px;height:25px;">
+                    {{ searchDataa[index].wilaya }}, {{ searchDataa[index].commune }}, {{ searchDataa[index].rue }} 
+                </p>
+                <p v-if="searchDataa[index]" id="biographie"> 
+                    <img src="../assets/writer 1.png" alt="experience" style="vertical-align: middle; width:20px;height:25px;"> 
+                    “ {{ searchDataa[index].biographie }}”
+                </p>
             </div>
             <div class="doc-contt">
-                <button type="submit" id="bt1" v-if="!isLandingPage" @click="next1"><img
-                        src="../assets/calendar (1) 1.png" alt="" id="next">
-                    Book
-                    appointement</button>
-                <button type="submit" id="bt1" v-if="isLandingPage" @click="next2"><img
-                        src="../assets/calendar (1) 1.png" alt="" id="next"> Book
-                    appointement</button>
-                <button type="submit" id="bt2" v-if="searchDataa[index]"><img src="../assets/calendar 4.png" alt="" id="next">(213)
-                    0{{searchDataa[index].phone}}</button>
+                <button type="submit" id="bt1" v-if="!isLandingPage" @click="next1(searchDataa[index].id)">
+                    <img src="../assets/calendar (1) 1.png" id="next">
+                    Book appointement
+                </button>
+                <button type="submit" id="bt1" v-if="isLandingPage" @click="next2(searchDataa[index].id)">
+                    <img src="../assets/calendar (1) 1.png" id="next"> 
+                    Book appointement
+                </button>
+                <button type="submit" id="bt2" v-if="searchDataa[index]">
+                    <img src="../assets/calendar 4.png" id="next">
+                    (213) 0{{ searchDataa[index].phone }}
+                </button>
             </div>
-
             <div id="map">
                 <div style="height: 300px; width: 100%">
                     <div style="height: 200px; overflow: auto;">
                         <p>First marker is placed at {{ mapData.lat }}, {{ mapData.lng }}</p>
                         <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
-                        <button>
-                            Toggle long popup
-                        </button>
+                        <button> Toggle long popup </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 </template>
 <script>
-import router from '@/router';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import HeaderPage2 from '../components/HeaderPage2.vue';
+import HeaderPage2 from '../components/HeaderPage2.vue'
+import router from '@/router'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 
 export default {
     name: 'DoctorPage',
@@ -57,7 +62,7 @@ export default {
         return {
             isLandingPage: false,
             searchDataa: '',
-            index:'',
+            index: '',
             map: null,
             mapData: {
                 lat: 20,
@@ -66,13 +71,11 @@ export default {
         }
     },
     computed: {
-
-    calculateYearsSinceExperience() {
-      const currentYear = new Date().getFullYear();
-      return currentYear ;
-    } 
-  
-  },
+        calculateYearsSinceExperience() {
+            const currentYear = new Date().getFullYear();
+            return currentYear;
+        }
+    },
     mounted() {
         if (this.$route.name === 'SearchPage1' && this.$route.params.userId) {
             this.isLandingPage = true;
@@ -84,14 +87,11 @@ export default {
         const index = this.$route.params.indeex;
         this.index = index;
         console.log(this.index);
-
         if (searchDataString) {
             this.searchDataa = JSON.parse(searchDataString);
             console.log(this.searchDataa);
             console.log(this.searchDataLength);
         }
-
-        // Initialize map
         this.initMap();
     },
     methods: {
@@ -102,13 +102,10 @@ export default {
                 console.error('Map container not found');
                 return;
             }
-
             this.map = L.map('map').setView([51.505, -0.09], 13);
-
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; OpenStreetMap contributors'
             }).addTo(this.map);
-
             const redIcon = new L.Icon({
                 iconUrl: require('@/assets/marker-icon.png'),
                 iconSize: [25, 25],
@@ -116,7 +113,6 @@ export default {
                 popupAnchor: [1, -34],
                 shadowSize: [41, 41]
             });
-
             L.marker([51.505, -0.09], { icon: redIcon }).addTo(this.map);
         },
         next() {
@@ -124,19 +120,16 @@ export default {
             const input4 = this.$route.params.input2;
             router.push({ name: 'DoctorPage1', params: { input3, input4 } });
         },
-        next1() {
+        next1(medecinId) {
+            localStorage.setItem('medecin_id', medecinId);
             router.push({ name: 'LoginPage1', params: {} });
         },
-        next2() {
-            router.push({ name: 'LoginPage2', params: {} });
+        next2(medecinId) {
+            router.push({ name: 'RequestAppointement', params: { medecinId } });
         },
     },
 }
 </script>
-
-
-
-
 <style>
 #docc {
     border: 4px solid #03C6C1;
@@ -183,7 +176,6 @@ export default {
     color: rgb(114, 112, 112);
     font-size: 16px;
     padding-top: 10px;
-
 }
 
 #petit {

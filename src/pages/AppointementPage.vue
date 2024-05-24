@@ -10,55 +10,98 @@
         <div class="main">
             <div class="personinfoooo">
                 <div class="search_bar">
-                    <select name="choices" id="choice">
-                        <option class="ch" value="Today’s Appointments">Today’s Appointments</option>
-                        <option class="ch" value="Future Appointments">Future Appointments</option>
-                        <option class="ch" value="Past Appointments">Past Appointments</option>
-                        <option class="ch" value="All Appointments">All Appointments</option>
+                    <select name="choices" id="choice" v-model="selectedOption">
+                        <option class="ch" value="today">Today's Appointments</option>
+                        <option class="ch" value="future">Future Appointments</option>
+                        <option class="ch" value="past">Past Appointments</option>
+                        <option class="ch" value="all">All Appointments</option>
                     </select>
-
                     <div class="search_container">
-                        <input type="text" placeholder="Search patients...." class="search_input">
+                        <input type="text" placeholder="Search patients...." class="search_input" v-model="searchQuery">
                         <div class="search_icon">
                             <img src="../assets/search.png" alt="Icône de recherche">
                         </div>
                     </div>
                 </div>
-                <div class="con_tainer">
+                <div class="con_tainer" v-for="appointment in filteredAppointments" :key="appointment.id">
                     <div class="c1">
-
                         <img src="../assets/user.png" alt="patient">
-
-                        name of patient 
+                        {{ appointment.patientName }} 
                     </div>
                     <div class="c2">
                         <img src="../assets/calendar.png" alt="calendar">
-
-                        10:00_11:00
+                        {{ appointment.date }}
                     </div>
                     <div class="c3">
-                        new patient 
+                        {{ appointment.demandeType }}
                         <img src="../assets/file-folder.png" alt="calendar">
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 </template>
+
 <script>
-//import axios from 'axios'
+import axios from 'axios'
 
 export default {
     data() {
         return {
-
+            selectedOption: 'all',
+            appointments: [],
+            searchQuery: null
         }
     },
-
     props: ['medecinId'],
+    computed: {
+        filteredAppointments() {
+            if (this.searchQuery) {
+                return this.appointments.filter(appointment =>
+                    appointment.patientName.toLowerCase().includes(this.searchQuery.toLowerCase())
+                )
+            }
+            return this.appointments
+        }
+    },
     methods: {
+        fetchAppointments() {
+            let endpoint = ''
+            switch (this.selectedOption) {
+                case 'today':
+                    endpoint = `http://localhost:8083/rendezvous/medecin/${this.medecinId}`;
+                    break;
+                case 'future':
+                    endpoint = `http://localhost:8083/rendezvous/medecin/future/${this.medecinId}`;
+                    break;
+                case 'past':
+                    endpoint = `http://localhost:8083/rendezvous/medecin/past/${this.medecinId}`;
+                    break;
+                case 'all':
+                    endpoint = `http://localhost:8083/rendezvous/medecin/${this.medecinId}`;
+                    break;
+            }
+
+            axios.get(endpoint)
+            .then(response => {
+                this.appointments = response.data.body
+                return Promise.all(this.appointments.map(async appointment => {
+                    const res = await axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${appointment.idPatient}/`)
+                    appointment.patientName = res.data.fullName
+                }))
+            })
+            .catch(error => {
+                console.error(error)
+            })
+        }
+    },
+    watch: {
+        selectedOption() {
+            this.fetchAppointments()
+        }
+    },
+    mounted() {
+        this.fetchAppointments()
     }
 }
 </script>
@@ -182,43 +225,44 @@ export default {
   margin-top: 15px;
 }
 
-.c1{
+.c1 {
     border-right: #03c6c1 1px solid;
     width:350px;
     font-size: 14px;
     font-family: Poppins;
 }
-.c2{
+
+.c2 {
     border-right: #03c6c1 1px solid;
     width:380px;
     margin-left: 10px;
     font-size: 14px;
     font-family: Poppins;
 }
-.c3{
+
+.c3 {
     margin-left: 10px;
     width:350px;
     font-size: 14px;
     font-family: Poppins;
- 
 }
-.c2 img{
-    height:20px;
-    padding-top: 10px;
 
-}
 .c1 img{
     width:20px;
     height:20px;
     padding-top:10px;
     padding-left: 7px;
-   
 }
+
+.c2 img{
+    height:20px;
+    padding-top: 10px;
+}
+
 .c3 img{
     height:20px;
     padding-top: 10px;
-    padding-left: 210px;
-
+    padding-right: 10px;
+    float: right;
 }
-
 </style>

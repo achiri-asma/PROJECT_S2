@@ -16,16 +16,11 @@
                     <div class="input-container">
                         <div class="input-group">
                             <label for="input1" class="lb1">From:</label>
-                            <input type="time" id="input1">
+                            <input type="time" id="input1" v-model="workStart">
                         </div>
                         <div class="input-group">
                             <label for="input2" class="lb2">To:</label>
-                            <input type="time" id="input2" >
-                        </div>
-                        <div class="ad_d">
-                            <button type="submit" @click="addWorkHour" >
-                                <img src="../assets/plus.png" alt="Add">
-                            </button>
+                            <input type="time" id="input2" v-model="workEnd">
                         </div>
                     </div>
                 </div>
@@ -35,79 +30,131 @@
                     <div class="input-container">
                         <div class="input-group">
                             <label for="input3" class="lb1">From:</label>
-                            <input type="time" id="input3"  >
+                            <input type="time" id="input3" v-model="breakStart">
                         </div>
                         <div class="input-group">
                             <label for="input4" class="lb2">To:</label>
-                            <input type="time" id="input4" >
-                        </div>
-                        <div class="ad_d">
-                            <button type="submit" @click="BreakTime">
-                                <img src="../assets/plus.png" alt="Add">
-                            </button>
+                            <input type="time" id="input4" v-model="breakEnd">
                         </div>
                     </div>
-                    
                 </div>
                 <div class="horaires">
-                    <span style="color: gray;">Appointment Duration:</span>
+                    <span style="color: gray">Appointment Duration:</span>
                     <div class="input-container1">
                         <div class="input-group">
-                            <label for="input3" class="lb1">Duration:</label>
-                            <input type="text" id="input5"  v-model="duration">
+                            <label for="input5" class="lb3">Duration:</label>
+                            <input type="number" id="input5" min="1" max="1440" v-model="duration">
                             <label class="lb3">min</label>
                         </div>
-                        
                     </div>  
                 </div>
                 <div class="butts">
                     <button type="reset" id="res" @click="resetInputs">Reset</button>
-                    <button @click="confirmDelete" id="sv" type="submit">Save</button>
+                    <button type="submit" id="sv" @click="setSchedule">Save</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-
+import axios from 'axios'
 
 export default {
     data() {
         return {
-            workHours: '00:00 - 00:00',
-            breakTime: '00:00 - 00:00',
-            initialWorkHours: '00:00 - 00:00',
-            duration:'00'
+            workStart: '',
+            workEnd: '',
+            breakStart: '',
+            breakEnd: '',
+            duration: 0,
+            workHours: localStorage.getItem('workHours') || '00:00 - 00:00',
+            breakTime: localStorage.getItem('breakTime') || '00:00 - 00:00',
+            date: new Date()
         }
     },
-  
     props: ['medecinId'],
     methods: {
-        addWorkHour() {
-      const startTime = document.getElementById('input1').value;
-      const endTime = document.getElementById('input2').value;
-      if (startTime && endTime) {
-        this.workHours=`${startTime} - ${endTime}`;
-      }
-    },
-    BreakTime() {
-      const startTime = document.getElementById('input3').value;
-      const endTime = document.getElementById('input4').value;
-      if (startTime && endTime) {
-      this.breakTime = `${startTime} - ${endTime}`;
+        resetInputs() {
+            document.getElementById('input1').value = '';
+            document.getElementById('input2').value = '';
+            document.getElementById('input3').value = '';
+            document.getElementById('input4').value = '';
+            document.getElementById('input5').value = 0;
+        },
+        formatTime(time) {
+            return `${this.date.getFullYear()}-0${this.date.getMonth()+1}-${this.date.getDate()}T${time}:00`;
+        },
+        calculateWorkingHours(workStart, workEnd, pauseStart, pauseEnd) {
+            const workstart = new Date(`2024-05-22T${workStart}:00`);
+            const workend = new Date(`2024-05-22T${workEnd}:00`);
+            const pausestart = new Date(`2024-05-22T${pauseStart}:00`);
+            const pauseend = new Date(`2024-05-22T${pauseEnd}:00`);
+            const result = pauseStart && pauseEnd 
+            ? ((workend - workstart)/ (1000 * 60 * 60)) - ((pauseend - pausestart)/ (1000 * 60 * 60))
+            : ((workend - workstart)/ (1000 * 60 * 60)) 
+            return result;
+        },
+        setSchedule(e) {
+            e.preventDefault()
+            if (!this.workStart || !this.workEnd || !this.duration) {
+                alert('Please enter all the required fields.')
+                return
+            }
+            if ((this.workStart && !this.workEnd) || (!this.workStart && this.workEnd)) {
+                alert('Please enter both work start and end times.')
+                return
+            }
+            if ((this.breakStart && !this.breakEnd) || (!this.breakStart && this.breakEnd)) {
+                alert('Please enter both break start and end times.')
+                return
+            }
+            if (this.formatTime(this.workStart) >= this.formatTime(this.workEnd)) {
+                alert('Work start time must be earlier than end time.')
+                return
+            }
+            if (this.breakStart && this.breakEnd && this.formatTime(this.breakStart) >= this.formatTime(this.breakEnd)) {
+                alert('Break start time must be earlier than end time.')
+                return
+            }
+            if (this.duration < 1 || this.duration > 1440) {
+                alert('Duration must be between 1 and 1440 minutes.')
+                return
+            }
+            const scheduleWithPause = {
+                dayStart: this.formatTime(this.workStart),
+                workingSessionLong: this.duration,
+                workingHours: this.calculateWorkingHours(this.workStart, this.workEnd, this.breakStart, this.breakEnd),
+                pauseStart: this.formatTime(this.breakStart),
+                pauseEnd: this.formatTime(this.breakEnd)
+            }
+            const scheduleWithoutPause = {
+                dayStart: this.formatTime(this.workStart),
+                workingSessionLong: this.duration,
+                workingHours: this.calculateWorkingHours(this.workStart, this.workEnd, this.breakStart, this.breakEnd),
+            }
+            const schedule = this.breakStart && this.breakEnd ? scheduleWithPause : scheduleWithoutPause
+            const endpoint = this.breakStart && this.breakEnd
+            ? `http://localhost:8083/calendrier/medecin/${this.medecinId}/createCreudsWithPause`
+            : `http://localhost:8083/calendrier/medecin/${this.medecinId}/createCreudsWithoutPause`
+            axios.post(endpoint, schedule)
+            .then(response => {
+                console.log(response.data)
+                if(response.data.body.length==0) {
+                    alert('Y\'a un chevauchement enter les horaires')
+                } else {
+                    this.workHours = `${this.workStart} - ${this.workEnd}`
+                    localStorage.setItem('workHours', this.workHours)
+                    if (this.breakStart && this.breakEnd) {
+                        this.breakTime = `${this.breakStart} - ${this.breakEnd}`
+                        localStorage.setItem('breakTime', this.breakTime)
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Une erreur est survenue :', error)
+            })
+        }
     }
-    },
-    resetInputs() {
-      document.getElementById('input1').value = '';
-      document.getElementById('input2').value = '';
-      document.getElementById('input3').value = '';
-      document.getElementById('input4').value = '';
-      document.getElementById('input5').value = '';
-      this.workHours = this.initialWorkHours;
-      this.breakTime = '00:00 - 00:00';
-      this.duration='00';
-    }
-  }
 }
 </script>
 
@@ -168,8 +215,10 @@ export default {
 
 .input-container {
     display: flex;
+    justify-content: center;
     gap: 20px;
 }
+
 .input-container1 {
     display: flex;
     gap: 20px;
@@ -183,6 +232,7 @@ export default {
 .horaires {
     display: flex;
 }
+
 .personinfoos h2{
     text-align: center;
     font-size: 30px;
@@ -198,17 +248,19 @@ export default {
     color:gray;
     font-weight: 550;
 }
+
 .disp_horaires{
-width:150px;
-height:40px;
-background-color:#90f4f0;
-border: #03c6c1 2px solid;
-margin-left: 25px;
-border-radius: 15px;
-margin-top: -10px;
-padding-top: 10px;
-padding-left: 20px;
+    width:150px;
+    height:40px;
+    background-color:#90f4f0;
+    border: #03c6c1 2px solid;
+    margin-left: 25px;
+    border-radius: 15px;
+    margin-top: -10px;
+    padding-top: 10px;
+    padding-left: 20px;
 }
+
 .input-container{
     width:450px;
     height:50px;
@@ -217,6 +269,7 @@ padding-left: 20px;
     margin-top: -10px;
     border-radius: 20px;
 }
+
 .input-container1{
     width:280px;
     height:50px;
@@ -225,27 +278,36 @@ padding-left: 20px;
     margin-top: -10px;
     border-radius: 20px;
 }
+
 .lb1{
    padding-top: 10px;
-   padding-left: 15px;
 }
+
 .lb3{
    padding-top: 10px;
    padding-left: 25px;
 }
+
 #input5{
-    width:50px;
+    width: 55px;
+    box-sizing: border-box;
 }
+
+#input5::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
 .input-container input{
   margin-top: 3px;
   margin-left: 5px;
-  width:80px;
+  width:85px;
   height:40px;
   font-size: 18px;
   color:#03c6c1;
   font-weight: 550;
   padding-left: 20px;
 }
+
 .input-container1 input{
   margin-top: 3px;
   margin-left: 5px;
@@ -256,6 +318,7 @@ padding-left: 20px;
   font-weight: 550;
   padding-left: 20px;
 }
+
 .lb2{
     padding-top: 10px;
 }
@@ -269,14 +332,17 @@ padding-left: 20px;
     margin-top: 05px;
     margin-left:50px;
 }
+
 .ad_d button img{
     width:20px;
     height: 20px;
 }
+
 .butts{
     margin-top: 90px;
     margin-left: 120px;
 }
+
 #res{
     margin-right: 590px;
     width:100px;
@@ -287,6 +353,7 @@ padding-left: 20px;
     font-size: 18px;
     color:white;
 }
+
 #sv{
     width:100px;
     height:40px;
@@ -295,6 +362,5 @@ padding-left: 20px;
     border: none;
     font-size: 18px;
     color:white;
-
 }
 </style>

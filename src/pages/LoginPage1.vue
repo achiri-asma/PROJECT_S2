@@ -81,7 +81,12 @@ export default {
                 .then(response => {
                     const userId = response.data;
                     alert("Log In successful");
-                    router.push({ name: 'LandingPage', params: { userId } });
+                    if ((localStorage.getItem('previousPage')==='SearchPage2')||(localStorage.getItem('previousPage')==='DoctorPage1')) {
+                        const medecinId = localStorage.getItem('medecin_id');
+                        router.push({ name: 'RequestAppointement', params: { medecinId, userId } });
+                    } else {
+                        router.push({ name: 'LandingPage', params: { userId } });
+                    }
                 })
                 .catch(error => {
                     console.error('Sign in failed:', error);

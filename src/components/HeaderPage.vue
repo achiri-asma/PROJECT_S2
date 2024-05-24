@@ -13,7 +13,7 @@
       <button id="btt1" @click="login2" type="submit">Log In</button>
     </div>
     <router-link v-if="isLandingPage" :to="{ name: 'DashUser', params: { userId: id } }">
-      <img v-if="UserInfo.image" :src="imageUrl" id="profile"> 
+      <img v-if="UserInfo.image" :src="UserInfo.image" id="profile"> 
       <img v-else src="../assets/image3.png" id="profile">
     </router-link>
   </header>
@@ -34,28 +34,23 @@ export default {
           commune: '',
           rue: ''
         }
-      },
-      imageUrl: ''
+      }
     }
   },
   mounted() {
-    if (this.$route.name === 'LandingPage' || this.$route.name === 'RequestAppointement' ) {
+    if (this.$route.name === 'LandingPage' || this.$route.name === 'RequestAppointement' || this.$route.name === 'SuccessAppointement' || this.$route.name ==='FailedAppointement') {
       this.isLandingPage = true;
     }
     if (this.isLandingPage) {
       axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.id}/`)
-      .then(response => {
+      .then(async response => {
         this.UserInfo = response.data
         if (this.UserInfo.image) {
-          return axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfo.image}`, {
+          axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfo.image}`, {
             responseType: 'blob'
           })
-          .then(response => {
-            if (response.status === 200) {
-              this.imageUrl = URL.createObjectURL(response.data)
-            } else {
-              throw new Error('Image not found')
-            }
+          .then(res => {
+            this.UserInfo.image = URL.createObjectURL(res.data)
           })
         }
       })

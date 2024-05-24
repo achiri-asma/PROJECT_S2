@@ -9,12 +9,12 @@
         <router-link to="/faqs" class="li">FAQs</router-link>
         <router-link to="/contact" class="li">Contact</router-link>
       </nav>
-
       <div v-if="!isLandingPage" class="button-containerr">
         <button id="btt2" @click="login2" type="submit">Log In</button>
       </div>
       <router-link v-if="isLandingPage" :to="{ name: 'DashUser', params: { userId: id } }">
-        <img src="../assets/image3.png" alt="profil" id="profile1">
+        <img v-if="UserInfo.image" :src="UserInfo.image" id="profile1">
+        <img v-else src="../assets/image3.png" alt="profil" id="profile1">
       </router-link>
     </div>
     <div class="search-containerr">
@@ -34,18 +34,25 @@
   </div>
 </template>
 
-
 <script>
 import router from '@/router'
 import axios from 'axios'
+
 export default {
   name: 'HeaderPage2',
   data() {
     return {
       isLandingPage: false,
+      isDoctorPage: false,
+      UserInfo: {
+        adresse: {
+          wilaya: '',
+          commune: '',
+          rue: ''
+        }
+      },
       queryParam:'',
       wilaya:'',
-      isDoctorPage: false,
       search_Input: '',
       searchInput: '',
       input1: '',
@@ -112,13 +119,10 @@ export default {
         { id: 57, name: 'Ain Bessem' },
         { id: 58, name: 'Ain El Berd' }
       ],
-
       showAll: false,
       showList: false,
       suggestionsMarginTop: 267,
-      
     }
-
   },
   watch: {
     '$route'(to, from) {
@@ -127,11 +131,8 @@ export default {
       } else {
         this.isLandingPage = false;
       }
- 
-
     }
   },
-
   mounted() {
     if (this.$route.params.input1 && this.$route.params.input2) {
       this.search_Input = this.$route.params.input1;
@@ -139,25 +140,26 @@ export default {
     }
     this.input1 = this.search_Input;
     this.input2 = this.searchInput;
-
-    if (this.$route.name === 'DoctorPage1') {
+    if (this.$route.name === 'DoctorPage1' || this.$route.name === 'DoctorPage' || this.$route.name === 'LandingPage') {
       this.isDoctorPage = true;
     }
-    if (this.$route.name === 'DoctorPage') {
-      this.isDoctorPage = true;
-    }
-    if (this.$route.name === 'LandingPage') {
-      this.isDoctorPage = true;
-    }
-    if (this.$route.name === 'SearchPage1' && this.$route.params.userId) {
+    if ((this.$route.name === 'SearchPage1' || this.$route.name === 'DoctorPage') && this.$route.params.userId) {
       this.isLandingPage = true;
     }
-    if (this.$route.name === 'DoctorPage' && this.$route.params.userId) {
-      this.isLandingPage = true;
+    if (this.isLandingPage) {
+      axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.id}/`)
+      .then(async response => {
+        this.UserInfo = response.data
+        if (this.UserInfo.image) {
+          axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfo.image}`, {
+            responseType: 'blob'
+          })
+          .then(res => {
+            this.UserInfo.image = URL.createObjectURL(res.data)
+          })
+        }
+      })
     }
-
-
-
   },
   props: ['id','searchDataLength'],
   computed: {
@@ -183,7 +185,6 @@ export default {
       this.showAll = false;
       if (this.searchInput !== '') {
         this.showList = true;
-
         if (this.displayedResults.length > 3) {
           this.suggestionsMarginTop = 265;
         } else if (this.displayedResults.length === 1 && this.displayedResults[0].name === 'Take Your Current Position') {
@@ -209,48 +210,39 @@ export default {
       this.showList = false;
     },
     next() {
-      const input1 = this.search_Input || this.input1;
-      const input2 = this.searchInput || this.input2;
-    
-      const data ={queryParam:input1,
-       wilaya:input2}
+      const input1 = this.search_Input || this.input1
+      const input2 = this.searchInput || this.input2
+      const data ={queryParam:input1, wilaya:input2}
       axios.post('http://localhost:5000/medecin/search',data)
       .then(response => {
-            console.log(response.data); 
-            const searchData= response.data;
-            localStorage.setItem('searchData', JSON.stringify(searchData));
-            router.push({name:'SearchPage2' ,params:{input1 , input2}}).then(() => {
-        window.location.reload();
-
-      });
-          })
-          .catch(error => {
-            console.log(error);      
-          })
+        const searchData= response.data;
+        localStorage.setItem('searchData', JSON.stringify(searchData));
+        router.push({name:'SearchPage2' ,params:{input1 , input2}}).then(() => {
+          window.location.reload();
+        });
+      })
+      .catch(error => {
+        console.log(error)     
+      })
     },
     nextt() {
-      const input1 = this.search_Input || this.input1;
-      const input2 = this.searchInput || this.input2;
-      const userId=this.id;
-    
-      const data ={queryParam:input1,
-       wilaya:input2}
+      const input1 = this.search_Input || this.input1
+      const input2 = this.searchInput || this.input2
+      const userId = this.id
+      const data ={queryParam:input1, wilaya:input2}
       axios.post('http://localhost:5000/medecin/search',data)
       .then(response => {
-        console.log(response.data); 
-            const searchData= response.data;
-            localStorage.setItem('searchData', JSON.stringify(searchData));
-            router.push({name:'SearchPage1' ,params:{input1 , input2,userId}}).then(() => {
-        window.location.reload();
-
-      });
-          })
-          .catch(error => {
-            console.log(error);      
-          })
+        const searchData= response.data;
+        localStorage.setItem('searchData', JSON.stringify(searchData));
+        router.push({name:'SearchPage1' ,params:{input1 , input2,userId}}).then(() => {
+          window.location.reload();
+        });
+      })
+      .catch(error => {
+        console.log(error);      
+      })
     },
   }
-
 }
 </script>
 
@@ -306,10 +298,8 @@ nav {
 
 .button-containerr {
   display: flex;
-
 }
 
-/* Styles pour les boutons */
 .button-containerr button {
   margin-left: 20px;
   width: 160px;
@@ -321,8 +311,6 @@ nav {
   margin-top: 10px;
 }
 
-
-/* Styles pour le bouton "Log In" */
 #btt2 {
   background-color: #03C6C1;
 }
@@ -356,7 +344,6 @@ nav {
 
 .with-icon2 {
   background-image: url('../assets/position.png');
-
   border-left: none;
   width: 325px;
   height: 65px;
@@ -378,7 +365,6 @@ nav {
   justify-content: center;
   display: flex;
   gap: 8px;
-
 }
 
 .suggestion {
@@ -404,7 +390,6 @@ nav {
 
 .results {
   width: 100%;
-
 }
 
 .results p {
