@@ -14,6 +14,7 @@
         <MedfilePage v-show="cliked3" :medecinId="medecinId"/>
         <SchedUle v-show="cliked4" :medecinId="medecinId"/>
     </div>
+    <ToastNotification ref="toast" />
 </template>
 
 <script>
@@ -21,6 +22,8 @@ import ProfileMed from './ProfileMed'
 import AppointementPage from './AppointementPage.vue'
 import MedfilePage from './MedfilePage.vue'
 import SchedUle from './SchedUle.vue'
+import ToastNotification from './ToastNotification.vue';
+
 export default {
     data() {
         return {
@@ -34,7 +37,10 @@ export default {
     created() {
         this.medecinId = this.$route.params.medecinId
     },
-    components : { ProfileMed ,AppointementPage,MedfilePage,SchedUle},
+    mounted() {
+        this.showErrorToast();
+    },
+    components : { ProfileMed ,AppointementPage,MedfilePage,SchedUle,ToastNotification},
     methods : {
         handleProfile() {
             this.cliked1 = true,
@@ -59,7 +65,11 @@ export default {
             this.cliked2 = false,
             this.cliked3 = false,
             this.cliked4=true
-        }
+        },
+      
+    showErrorToast() {
+      this.$refs.toast.showToast('Une erreur est survenue', 'error');
+    }
     }
 }
 </script>

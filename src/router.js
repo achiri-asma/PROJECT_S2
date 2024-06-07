@@ -16,7 +16,8 @@ import SearchPage1 from './pages/SearchPage1.vue'
 import DoctorPage from './pages/DoctorPage.vue'
 import RequestAppointement from './pages/RequestAppointement.vue'
 import SuccessAppointement from './pages/SuccessAppointement'
-
+import ContactPage from './pages/ContactPage'
+import FaqsPage from './pages/FaqsPage'
 const routes=[
     {path:'/',component:HomePage,name:'HomePage'},
     {path:'/signup',component:SignupPage,name: 'SignupPage'},
@@ -38,6 +39,8 @@ const routes=[
     {path:'/RequestAppointement/medecin/:medecinId/patient/:userId',component:RequestAppointement,name:'RequestAppointement'} ,
     {path:'/SuccessAppointement/:userId',component:SuccessAppointement,name:'SuccessAppointement'} ,
     {path:'/FailedAppointement/:userId',component:SuccessAppointement,name:'FailedAppointement'} ,
+    {path:'/contact',component:ContactPage,name:'ContactPage'} ,
+    {path:'/faqs',component:FaqsPage,name:'FaqsPage'} ,
 ]
 const router = createRouter({
     history:createWebHistory(),

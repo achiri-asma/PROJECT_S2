@@ -45,6 +45,7 @@ footer {
   width: 100%;
   height: 450px;
   background-image: url("../assets/Rectangle\ 58.png");
+  clear: both;
 }
 
 .gauche {

@@ -13,7 +13,7 @@
                     <button type="submit" @click="main2 = true, main1 = false, main3 = false">
                         <img src="../assets/plus.png" alt="submit" />
                     </button>
-                    <p @click="main2 = true, main1 = false, main3 = false">Add new Medical Dossier</p>
+                    <p @click="main2 = true, main1 = false, main3 = false">Add new Medical Folder</p>
                 </div>
                 <div class="infos_persn">
                     <h3 id="pii">Personal Details</h3>
@@ -58,12 +58,14 @@
                 <img src="../assets/Group 14.png" alt="tete">
             </div>
             <div class="search__container">
-                <div class="search__icon">
+                <div class="search__icon" @click="triggerFileInput">
                     <img src="../assets/clip 1.png" alt="Icône d attachement">
                 </div>
-                <input type="text" placeholder="Enter detailed description here..." class="search__input">
+                <input type="file" ref="imageInput" @change="handleImageUpload" style="display: none;">
+                <input type="text" placeholder="Enter detailed description here..." v-model="description"
+                    class="search__input">
                 <div class="adde">
-                    <button type="submit">
+                    <button type="submit" @click="addRadio">
                         <img src="../assets/plus.png" alt="submit" />
                     </button>
                 </div>
@@ -78,13 +80,16 @@
             <div class="tete">
                 <img src="../assets/Group115.png" alt="tete">
             </div>
-            <div class="search__container1">
+            <div class="search__container3">
 
-                <input type="text" placeholder="Enter medications..." class="search1">
-                <input type="text" placeholder="Enter dosage..." class="search3">
-                <input type="text" placeholder="Enter description..." class="search2">
+                <input type="text" placeholder="Enter medication..." v-model="nom" class="search1">
+                <input type="text" placeholder="Enter transcription..." v-model="transcription" class="search3">
+                <input type="text" placeholder="Enter description..." v-model="description1" class="search2">
+            <button type="submit" class="added" @click="collectMedic">
+                        <img src="../assets/plus.png" alt="submit" />
+                </button>
                 <div class="adde">
-                    <button type="submit">
+                    <button type="submit" @click="addMedic">
                         <img src="../assets/plus.png" alt="submit" />
                     </button>
                 </div>
@@ -103,12 +108,15 @@
             </div>
             <div class="search__container3">
 
-                <input type="text" placeholder="Enter test name..." class="search1">
-                <input type="text" placeholder="Enter result..." class="search3">
-                <input type="text" placeholder="Enter normal range..." class="search3">
-                <input type="text" placeholder="Enter description..." class="search2">
+                <input type="text" placeholder="Enter test name..." v-model="testName" class="search1">
+                <input type="text" placeholder="Enter result..." v-model="personResult" class="search3">
+                <input type="text" placeholder="Enter normal range..." v-model="range" class="search3">
+                <input type="text" placeholder="Enter description..." v-model="description2" class="search2">
+                <button type="submit" class="added" @click="collect_analyse">
+                        <img src="../assets/plus.png" alt="submit" />
+                </button>
                 <div class="adde">
-                    <button type="submit">
+                    <button type="submit" @click="add_analyse">
                         <img src="../assets/plus.png" alt="submit" />
                     </button>
                 </div>
@@ -216,12 +224,15 @@
 
 </template>
 <script>
-//import axios from 'axios'
-
+import axios from 'axios';
 
 export default {
     data() {
         return {
+            imageInput: '',
+            image: '',
+            imagesent: '',
+            file: '',
             showConfirmDialog: false,
             main1: true,
             main2: false,
@@ -230,26 +241,125 @@ export default {
             main5: false,
             main6: false,
             main7: false,
-        }
+            description: '',
+            description1:'',
+           transcription:'',
+            medicaments:[],
+            nom:'',
+            description2:'',
+            range:'',
+            personResult:'',
+            testResultList:[]
+        };
     },
-
-
     props: ['medecinId'],
     methods: {
         confirmDelete() {
             // Exécuter le code de suppression ici
-            console.log('Élément supprimé')
-            this.showConfirmDialog = false
-
+            console.log('Élément supprimé');
+            this.showConfirmDialog = false;
         },
         cancelDelete() {
-            this.showConfirmDialog = false
+            this.showConfirmDialog = false;
         },
+        handleImageUpload(event) {
+            this.file = event.target.files[0]
+            this.imagesent = event.target.files[0].name 
+            if (this.file) {
+                const reader = new FileReader()
+                reader.onload = () => {
+                this.image = reader.result
+                }
+                reader.readAsDataURL(this.file)
+            }
+    },
+    addRadio() {
+    
 
-    }
+    const imageInput = new FormData();
+    imageInput.append('file', this.file);
+
+    // Envoyer l'image d'abord
+    axios
+        .post('http://localhost:7777/service-profile/api/update/upload', imageInput, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+        
+            console.log('Description:', this.description);
+            console.log('Image sent:', this.imagesent);
+            const formDatax = {
+                description: this.description,
+                image: this.imagesent
+            };
+
+            // Envoyer les données de la radio
+            return axios.post(
+                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/1/add_radio`,
+                formDatax
+            );
+        
 }
-</script>
+,
+collectMedic() {
+     
+        this.medicaments.push({
+         nom: this.nom,
+          transcription: this.transcription
+        });
+        // Réinitialiser le formulaire après l'ajout
+        this.nom = '';
+        this.transcription = '';
+      
+    console.log(this.medicaments);
+  },
+  addMedic(){
+    const formDatax1 = {
+                description: this.description1,
+                medicaments: this.medicaments
+            };
+console.log(formDatax1);
+           
+        axios.post(
+                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/1/create_ordonnace`,
+                formDatax1
+            );
 
+  },
+        triggerFileInput() {
+            this.$refs.imageInput.click();
+        },
+        collect_analyse() {
+    const parts = this.range.split('-');
+   
+    
+        this.testResultList.push({
+         testName: this.testName,
+         personResult:  this.personResult,
+         startNormalRange:parts[0],
+         endNormalRange:parts[1]
+        });
+        // Réinitialiser le formulaire après l'ajout
+        this.testName = '';
+        this.personResult = '';
+        this.range='';
+      
+        console.log(this.testResultList);
+  }
+,
+    add_analyse(){
+    const data = {
+        description:this.description2,
+        testResultList:this.testResultList
+    }
+    console.log(data);
+           
+            axios.post(
+                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/1/add_analyse`,data);
+    }}
+};
+</script>
 <style>
 .profilemed,
 .profileuser {
@@ -580,6 +690,21 @@ export default {
 .adde button img {
     width: 20px;
     height: 20px;
+}
+
+.added{
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 15px;
+    border: #03c6c1 3px solid;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.added  img {
+    
+    width: 10px;
+    height: 10px;
 }
 
 #nexxt {

@@ -4,7 +4,6 @@
             <ul>
                 <router-link :to="{ name: 'LandingPage', params: { userId: userId } }"><li>Home</li></router-link>
                 <router-link to="/about-us"><li>About Us</li></router-link>
-                <router-link to="/features"><li>Features</li></router-link>
                 <router-link to="/faqs"><li>FAQs</li></router-link>
                 <router-link to="/contact"><li>Contact</li></router-link>
             </ul>
