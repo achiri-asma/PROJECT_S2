@@ -19,11 +19,10 @@
                             <img src="../assets/editing.png" @click="EditProfil1">
                         </div>
                         <label>Email: </label><span>{{ medecinInfo.email }}</span><br>
-                        <!--<label>Sexe: </label><span>{{ medecinInfo.sexe }}</span><br>-->
                         <label>Speciality: </label><span>{{ medecinInfo.speciality }}</span><br>
                         <label>Experience: </label><span>{{ medecinInfo.experience }}</span><br>
                         <label>Medical Registration Number: </label><span>{{ medecinInfo.numOrdre }}</span><br>
-                        <!--<label>Date of birth: </label><span>{{ medecinInfo.dateOfBirth }}</span><br>-->
+                        <label>Date of birth: </label><span>{{ medecinInfo.dateOfBirth }}</span><br>
                         <label>Phone number: </label><span>{{ "0"+medecinInfo.phone }}</span>
                         <fieldset>
                             <legend>Biography:&nbsp;&nbsp;&nbsp;</legend>
@@ -94,210 +93,202 @@ export default {
             this.medecinInfo = updatedMedecinInfo
             if (this.medecinInfo.image) {
                 axios.get(`http://localhost:7777/service-profile/api/image/${this.medecinInfo.image}`, {
-                        responseType: 'blob'
-                    })
-                    .then(response => {
-                        if (response.status === 200) {
-                            this.imageUrl = URL.createObjectURL(response.data)
-                        } else {
-                            throw new Error('Image not found')
-                        }
-                    })
-            }
-        },
-        getCabinetInfos() {
-            axios.get(`http://localhost:7777/service-profile/api/CabinetInfo/${this.medecinId}/`)
-                .then(response => {
-                    // Gérer la réponse réussie
-                    this.medecinInfos = response.data;
-                    this.addresse=this.medecinInfos.adresse;
+                    responseType: 'blob'
                 })
-                .catch(error => {
-                    // Gérer l'erreur de requête
-                    console.error('Erreur lors de la récupération des informations du cabinet :', error);
-                    // Afficher un message d'erreur à l'utilisateur
-                    // Peut-être définir une variable pour indiquer qu'il y a eu une erreur
-                });
-        }
-    },
-    mounted() {
-        this.getCabinetInfos();
-        axios.get(`http://localhost:7777/service-profile/api/MedecinInfo/${this.medecinId}/`)
-            .then(async response => {
-                this.medecinInfo = response.data
-                if (this.medecinInfo.image) {
-                    const response_1 = await axios.get(`http://localhost:7777/service-profile/api/image/${this.medecinInfo.image}`, {
-                        responseType: 'blob'
-                    })
-                    if (response_1.status === 200) {
-                        this.imageUrl = URL.createObjectURL(response_1.data)
+                .then(response => {
+                    if (response.status === 200) {
+                        this.imageUrl = URL.createObjectURL(response.data)
                     } else {
                         throw new Error('Image not found')
                     }
+                })
+            }
+        }
+    },
+    mounted() {
+        axios.get(`http://localhost:7777/service-profile/api/CabinetInfo/${this.medecinId}/`)
+        .then(response => {
+            this.medecinInfos = response.data;
+            this.addresse=this.medecinInfos.adresse;
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des informations du cabinet :', error);
+        });
+        axios.get(`http://localhost:7777/service-profile/api/MedecinInfo/${this.medecinId}/`)
+        .then(async response => {
+            this.medecinInfo = response.data
+            if (this.medecinInfo.image) {
+                const response_1 = await axios.get(`http://localhost:7777/service-profile/api/image/${this.medecinInfo.image}`, {
+                    responseType: 'blob'
+                })
+                if (response_1.status === 200) {
+                    this.imageUrl = URL.createObjectURL(response_1.data)
+                } else {
+                    throw new Error('Image not found')
                 }
-            });
+            }
+        });
     }
 }
 </script>
 
 <style>
-    .profilemed, .profileuser{
-        background-color: rgba(3, 198, 193, 0.2);
-        width: 100%;
-    }
-    .profilemed .header, .profileuser .header{
-        width: 90%;
-        height: 90px;
-        background-color: white;
-        border-top: none;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
-    }
-    .profilemed .header h3{
-        color: #03c6c1;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        margin-left: 30px;
-    }
-    .profilemed .header a{
-        text-decoration: none;
-    }
-    .profilemed .header img{
-        width: 20px;
-        height: 20px;
-        margin-right: 30px;
-    }
-    .profilemed .main, .profileuser .main{
-        display: flex;
-        justify-content: space-between;
-        margin: 30px 5%;
-    }
-    .profilemed .personinfo, .profileuser .personinfo{
-        width: 55.55%;
-        height: 550px;
-        background-color: white;
-        border-radius: 30px;
-        box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
-    }
-    .profilemed .personinfo h5, .profileuser .personinfo h5{
-        color: #03c6c1;
-        font-size: 16px;
-        font-weight: 100;
-        margin: 30px;
-    }
-    .profilemed .infos, .profileuser .infos{
-        display: flex;
-    }
-    .profilemed .infos > img, .profileuser .infos > img{
-        width:100px;
-        height: 100px;
-        border: 2px solid #03c6c1;
-        border-radius: 50px;
-        margin: 0 30px;
-    }
-    .profilemed .infos > div, .profileuser .infos > div{
-        margin-right: 30px;
-    }
-    .profilemed .fullname, .profileuser .fullname{
-        display: flex;
-        justify-content: space-between;
-        color: #03c6c1;
-        margin-bottom: 30px;
-    }
-    .profilemed .fullname img, .profilemed .officeinfo .offimg img:last-child, .profilemed .fullname img{
-        width: 20px;
-        height: 20px;
-    }
-    .profilemed .infos > div label, .profilemed legend, .profilemed .officeinfo label, .profileuser .infos > div label, .profileuser .contact label, .profileuser .contact p, .profileuser .contact span, .profileuser .header ul{
-        opacity: 0.5;
-        letter-spacing: 0.05em;
-    }
-    .profilemed .infos > div span, .profilemed .officeinfo span, .profileuser .infos > div span{
-        color: #03c6c1;
-        box-sizing: border-box;
-        padding-left: 10px;
-        display: inline-block;
-        margin-bottom: 10px;
-    }
-    .profilemed .infos fieldset{
-        height: 200px;
-        border-color: rgb(0, 0, 0, 0.5);
-        border-radius: 10px;
-        border-top-left-radius: 15px;
-        overflow: hidden;
-    }
-    .profilemed .infos fieldset p{
-        opacity: 0.8;
-        letter-spacing: 0.02em;
-        margin: 0 10px 20px 10px;
-        display: -webkit-box;
-        -webkit-line-clamp: 7; 
-        -webkit-box-orient: vertical;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-    .profilemed .personinfo + div, .profileuser .contact{
-        width: 42%;
-    }
-    .profilemed .officeinfo{
-        height: 380px;
-        background-color: white;
-        border-radius: 30px;
-        margin-bottom: 20px;
-        box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
-    }
-    .profilemed .officeinfo h5{
-        color: #03c6c1;
-        font-size: 16px;
-        font-weight: 100;
-        box-sizing: border-box;
-        padding: 30px;
-    }
-    .profilemed .officeinfo .offimg{
-        display: flex;
-        justify-content: space-between;
-        margin: 0 30px;
-        margin-bottom: 50px;
-    }
-    .profilemed .officeinfo .offimg img:first-child{
-        width: 100px;
-        height: 100px;
-        border-radius: 50px;
-    }
-    .profilemed .officeinfo label{
-        display: inline-block;
-        margin-left: 30px;
-        margin-bottom: 30px;
- 
-    }
-    .profilemed .contact{
-        height: 150px;
-        background-color: white;
-        border-radius: 30px;
-        box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-sizing: border-box;
-        padding: 30px;
-    }
-    .profilemed .contact div:first-child{
-        margin-bottom: 50px;
-    }
-    .profilemed .contact div:first-child label, .profilemed .contact div:first-child span{
-        opacity: 0.5;
-        letter-spacing: 0.05em;
-        margin-left: 20px;
-    }
-    .profilemed .contact div:last-child img{
-       margin-right: 5px; 
-    }
-    #small{
-        font-size: 15px;
-    }
+.profilemed, .profileuser{
+    background-color: rgba(3, 198, 193, 0.2);
+    width: 100%;
+}
+.profilemed .header, .profileuser .header{
+    width: 90%;
+    height: 90px;
+    background-color: white;
+    border-top: none;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+}
+.profilemed .header h3{
+    color: #03c6c1;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-left: 30px;
+}
+.profilemed .header a{
+    text-decoration: none;
+}
+.profilemed .header img{
+    width: 20px;
+    height: 20px;
+    margin-right: 30px;
+}
+.profilemed .main, .profileuser .main{
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 5%;
+}
+.profilemed .personinfo, .profileuser .personinfo{
+    width: 55.55%;
+    height: 550px;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+}
+.profilemed .personinfo h5, .profileuser .personinfo h5{
+    color: #03c6c1;
+    font-size: 16px;
+    font-weight: 100;
+    margin: 30px;
+}
+.profilemed .infos, .profileuser .infos{
+    display: flex;
+}
+.profilemed .infos > img, .profileuser .infos > img{
+    width:100px;
+    height: 100px;
+    border: 2px solid #03c6c1;
+    border-radius: 50px;
+    margin: 0 30px;
+}
+.profilemed .infos > div, .profileuser .infos > div{
+    margin-right: 30px;
+}
+.profilemed .fullname, .profileuser .fullname{
+    display: flex;
+    justify-content: space-between;
+    color: #03c6c1;
+    margin-bottom: 30px;
+}
+.profilemed .fullname img, .profilemed .officeinfo .offimg img:last-child, .profilemed .fullname img{
+    width: 20px;
+    height: 20px;
+}
+.profilemed .infos > div label, .profilemed legend, .profilemed .officeinfo label, .profileuser .infos > div label, .profileuser .contact label, .profileuser .contact p, .profileuser .contact span, .profileuser .header ul{
+    opacity: 0.5;
+    letter-spacing: 0.05em;
+}
+.profilemed .infos > div span, .profilemed .officeinfo span, .profileuser .infos > div span{
+    color: #03c6c1;
+    box-sizing: border-box;
+    padding-left: 10px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+.profilemed .infos fieldset{
+    height: 180px;
+    border-color: rgb(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border-top-left-radius: 15px;
+    overflow: hidden;
+}
+.profilemed .infos fieldset p{
+    opacity: 0.8;
+    letter-spacing: 0.02em;
+    margin: 0 10px 20px 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 7; 
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.profilemed .personinfo + div, .profileuser .contact{
+    width: 42%;
+}
+.profilemed .officeinfo{
+    height: 380px;
+    background-color: white;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+}
+.profilemed .officeinfo h5{
+    color: #03c6c1;
+    font-size: 16px;
+    font-weight: 100;
+    box-sizing: border-box;
+    padding: 30px;
+}
+.profilemed .officeinfo .offimg{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 30px;
+    margin-bottom: 50px;
+}
+.profilemed .officeinfo .offimg img:first-child{
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+}
+.profilemed .officeinfo label{
+    display: inline-block;
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+.profilemed .contact{
+    height: 150px;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 0px 5px 20px 2px rgba(217, 217, 217, 0.707);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 30px;
+}
+.profilemed .contact div:first-child{
+    margin-bottom: 50px;
+}
+.profilemed .contact div:first-child label, .profilemed .contact div:first-child span{
+    opacity: 0.5;
+    letter-spacing: 0.05em;
+    margin-left: 20px;
+}
+.profilemed .contact div:last-child img{
+    margin-right: 5px; 
+}
+#small{
+    font-size: 15px;
+}
 </style>

@@ -69,16 +69,16 @@ export default {
             let endpoint = ''
             switch (this.selectedOption) {
                 case 'today':
-                    endpoint = `http://localhost:8083/rendezvous/medecin/${this.medecinId}`;
+                    endpoint = `http://localhost:7777/service-rdv/rendezvous/medecin/today/${this.medecinId}`;
                     break;
                 case 'future':
-                    endpoint = `http://localhost:8083/rendezvous/medecin/future/${this.medecinId}`;
+                    endpoint = `http://localhost:7777/service-rdv/rendezvous/medecin/future/${this.medecinId}`;
                     break;
                 case 'past':
-                    endpoint = `http://localhost:8083/rendezvous/medecin/past/${this.medecinId}`;
+                    endpoint = `http://localhost:7777/service-rdv/rendezvous/medecin/past/${this.medecinId}`;
                     break;
                 case 'all':
-                    endpoint = `http://localhost:8083/rendezvous/medecin/${this.medecinId}`;
+                    endpoint = `http://localhost:7777/service-rdv/rendezvous/medecin/${this.medecinId}`;
                     break;
             }
 

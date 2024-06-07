@@ -106,7 +106,7 @@ export default {
         { id: 44, name: 'Aïn Defla' },
         { id: 45, name: 'Naâma' },
         { id: 46, name: 'Aïn Témouchent' },
-        { id: 47, name: 'Ghardaïa' },
+        { id: 47, name: 'Ghardaia' },
         { id: 48, name: 'Relizane' },
         { id: 49, name: 'El MGhair' },
         { id: 50, name: 'El Menéa' },

@@ -45,6 +45,7 @@ export default{
                 this.email= newValue.email
                 this.phone= newValue.phone
                 this.biographie= newValue.biographie
+                this.imagesent= newValue.image
                 if (newValue.image) {
                     axios.get(`http://localhost:7777/service-profile/api/image/${newValue.image}`, {
                         responseType: 'blob'
@@ -56,9 +57,7 @@ export default{
                             throw new Error('Image not found')
                         }
                     })
-                } else {
-                    this.image= newValue.image
-                }
+                } 
             }
         }
     },
@@ -84,23 +83,25 @@ export default{
             const Imagefile = new FormData()
             Imagefile.append('file', this.file)
             const formData = {
-            email: this.email,
-            image: this.imagesent,
-            phone: this.phone,
-            bio: this.biographie,
+                email: this.email,
+                image: this.imagesent,
+                phone: this.phone,
+                bio: this.biographie,
             }
             console.log(formData)
-            axios.post('http://localhost:7777/service-profile/api/update/upload', Imagefile, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
+            if (this.file) {
+                axios.post('http://localhost:7777/service-profile/api/update/upload', Imagefile, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+            }
             axios.put(`http://localhost:7777/service-profile/api/update/medecin/${this.medecinId}/cordonnee`, formData)
-            .then(response => {
-                console.log(response.data)
-                this.$emit('medecin-profile-updated', response.data)
+            .then(() => {
+                //response.data contain message and not the updated data
+                // this.$emit('medecin-profile-updated', response.data)
                 this.CancelEdit()
-                window.location.reload();
+                window.location.reload()
             })
         } 
     }

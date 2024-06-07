@@ -4,7 +4,7 @@
         <div v-if="isSuccessAppointement">
             <span>Success!</span><br>
             Your appointment with <span>{{ appointementdata.fullName }}</span> has been <br> 
-            scheduled for {{ appointementdata.dateAppointment }} at {{ appointementdata.timeAppointment }}. 
+            scheduled for <span>{{ appointementdata.dateAppointment }}</span> at <span>{{ appointementdata.timeAppointment }}</span>. 
             <br><br>
             <small>Please arrive 10 minutes before your appointment time.</small>
         </div>
@@ -20,12 +20,13 @@
 
 <script>
 import HeaderPage from '../components/HeaderPage.vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 export default {
     components: { HeaderPage },
     data() {
         return {
+            userId: null,
             isSuccessAppointement: true
         }
     },
@@ -35,17 +36,28 @@ export default {
             dateAppointment: '',
             timeAppointment: ''
         })
-        onMounted(() => {
-            const storedData = localStorage.getItem('appointmentData')
+        const fetchData = (userId) => {
+            const storedData = localStorage.getItem(`appointmentData_${userId}`)
             if (storedData) {
                 Object.assign(appointementdata.value, JSON.parse(storedData))
             }
-        })
-        return { appointementdata }
+        }
+        return { appointementdata, fetchData }
     },
     mounted() {
+        this.userId = this.$route.params.userId
+        if (this.userId) {
+            this.fetchData(this.userId)
+        }
         if (this.$route.name === 'FailedAppointement') {
             this.isSuccessAppointement = false
+        }
+    },
+    watch: {
+        userId(newUserId) {
+            if (newUserId) {
+                this.fetchData(newUserId)
+            }
         }
     }
 }

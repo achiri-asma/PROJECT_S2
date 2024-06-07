@@ -20,15 +20,27 @@
                 <option value="Emergency">Emergency</option>
             </select>
             <h4 class="title2">Select The Day :</h4>
-            <input type="date" v-model="dateAppointment">
+            <div class="schedule">
+                <h3>{{ currentMonthName }},&nbsp;&nbsp;{{ currentYear }}</h3>
+                <div class="days">
+                    <p v-for="(day) in firstSevenDays" :key="day.date">{{ day.dayName }}</p>
+                    <p v-for="(day, index) in daysInMonth" 
+                        :key="index" 
+                        :class="{ selected : selectedDay === index, past: day.isPast}" 
+                        @click="day.isPast ? null : selectDay(day.date, index)">
+                        {{ day.date }}
+                    </p>
+                </div>
+            </div>
             <h4 class="title2">Select The Time :</h4>
             <div class="hours">
-                <div v-for="(calendrier, index) in formattedCalendriers" 
-                    :key="calendrier.id"
-                    :class="{ selected: selectedIndex === index, disable: calendrier.prise }"
-                    @click="!calendrier.prise ? selectAppointment(calendrier, index) : null">
-                    {{ calendrier.timeString }}
+                <div v-for="(schedule, index) in filteredSchedules" 
+                    :key="schedule.id"
+                    :class="{ selected : selectedIndex === index, disable: schedule.prise }"
+                    @click="!schedule.prise ? selectAppointment(schedule, index) : null">
+                    {{ schedule.timeString }}
                 </div>
+                <p v-if="filteredSchedules.length === 0">No available time, doctor not working on this day.</p>
             </div>
             <div class="buttons">
                 <button type="button" @click="CancelAppointement">Cancel</button> 
@@ -52,25 +64,86 @@ export default {
             fullName: '',
             speciality: '',
             image: '',
+            date: new Date(),
             demandeType: null,
+            selectedDay: null,
             dateAppointment: null,
-            calendriers: [],
+            schedules: [],
             formattedCalendriers: [],
             selectedIndex: null,
-            timeAppointment: null
+            timeAppointment: null,
         }
+    },
+    computed: {
+        currentMonth() {
+            return this.date.getMonth() + 1
+        },
+        currentYear() {
+            return this.date.getFullYear()
+        },
+        currentMonthName() {
+            return this.date.toLocaleString('en-US', { month: 'long' })
+        },
+        firstSevenDays() {
+            const days = [];
+            for (let i = 1; i <= 7; i++) {
+                const dayDate = new Date(this.currentYear, this.currentMonth - 1, i)
+                days.push({
+                    dayName: dayDate.toLocaleString('en-US', { weekday: 'long' }).slice(0, 2)
+                })
+            }
+            return days;
+        },
+        daysInMonth() {
+            const days = [];
+            const daysInCurrentMonth = new Date(this.currentYear, this.currentMonth, 0).getDate()
+            const todayDateOnly = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
+            for (let i = 1; i <= daysInCurrentMonth; i++) {
+                const date = new Date(this.currentYear, this.currentMonth - 1, i);
+                const isPastDay = date < todayDateOnly;
+                days.push({
+                    date: i,
+                    isPast: isPastDay
+                })
+            }
+            return days;
+        },
+        filteredSchedules() {
+            return this.schedules
+            .filter(schedule => {
+                let scheduleDate = null
+                const hour=new Date(schedule.startTime).getHours()
+                const date=new Date(schedule.startTime)
+                if (hour==0) {
+                    scheduleDate= new Date(date.getFullYear(), date.getMonth(), date.getDate()+1).toISOString().split("T")[0]
+                } else {
+                    scheduleDate = new Date(schedule.startTime).toISOString().split("T")[0]
+                }
+                return scheduleDate === this.dateAppointment
+            })
+            .map(schedule => {
+                const date = new Date(schedule.startTime)
+                const ampm = date.getHours() >= 12 ? 'PM' : 'AM'
+                const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ampm
+                if (date < this.date) {
+                    schedule.prise = true
+                }
+                return {...schedule, timeString}
+            })
+        },
     },
     mounted() {
         this.userId = this.$route.params.userId
         this.medecinId = this.$route.params.medecinId
+        this.selectDay(this.date.getDate(), this.date.getDate()-1)
         if(this.medecinId) {
-            axios.get(`http://localhost:8083/FindEntites/medecinWithCalendriers/${this.medecinId}`)
+            axios.get(`http://localhost:7777/service-rdv/FindEntites/medecinWithCalendriers/${this.medecinId}`)
             .then( response => {
                 const data = response.data
                 this.fullName = data.fullName
                 this.speciality = data.speciality
                 this.image = data.image
-                this.calendriers = data.calendriers
+                this.schedules = data.calendriers
                 if (this.image) {
                     axios.get(`http://localhost:7777/service-profile/api/image/${this.image}`, {
                         responseType: 'blob'
@@ -79,12 +152,6 @@ export default {
                         this.image = URL.createObjectURL(res.data)
                     })
                 }
-                this.formattedCalendriers = this.calendriers.map(cal => {
-                    const date = new Date(cal.startTime);
-                    const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
-                    const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'}) + ampm;
-                    return { ...cal, timeString };
-                })
             })
             .catch(error => {
                 console.error("There was an error fetching the medecin data!", error);
@@ -95,9 +162,15 @@ export default {
         CancelAppointement(){
             this.$router.go(-1)
         },
-        selectAppointment(calendrier, index) {
+        selectDay(day, index) {
+            this.selectedDay = index
+            const Month = String(this.currentMonth).padStart(2, '0')
+            const Day = String(day).padStart(2, '0')
+            this.dateAppointment = `${this.currentYear}-${Month}-${Day}`
+        },
+        selectAppointment(schedule, index) {
             this.selectedIndex = index;
-            this.timeAppointment = calendrier.timeString;
+            this.timeAppointment = schedule.timeString;
         },
         formatTime(date,time) {
             if(date && time) { return `${date}T${time.slice(0,5)}:00` } else return null 
@@ -113,12 +186,12 @@ export default {
                 timeAppointment: this.timeAppointment,
             }
             if(appointmentData.startTime && appointmentData.demandeType){
-                axios.post(`http://localhost:8083/demande_rendezvous/medecin/${this.medecinId}/patient/${this.userId}/demande_rdv`, appointmentData)
+                axios.post(`http://localhost:7777/service-rdv/demande_rendezvous/medecin/${this.medecinId}/patient/${this.userId}/demande_rdv`, appointmentData)
                 .then(response => {
                     if(response.data.body=='Patient is blocked.') {
                         router.push({ name: 'FailedAppointement', params: {} });
                     } else {
-                        localStorage.setItem('appointmentData', JSON.stringify(appointementdata));
+                        localStorage.setItem(`appointmentData_${this.userId}`, JSON.stringify(appointementdata));
                         router.push({ name: 'SuccessAppointement', params: {} });
                     }
                 })
@@ -134,16 +207,16 @@ export default {
 </script>
 
 <style>
-.reqappoint{
+.reqappoint {
     background: url(../assets/medical-banner.png) no-repeat;
     background-size: 100% 100%;
     padding-bottom: 25px;
 }
-.reqappoint > div:first-child, .success > div:first-child{
+.reqappoint > div:first-child, .success > div:first-child {
     height: 100px;
     background-color: #99FEF2;
 }
-.reqappoint > div:last-child{
+.reqappoint > div:last-child {
     width: 60%;
     background-color: white;
     margin: 50px auto;
@@ -151,16 +224,16 @@ export default {
     border-radius: 15px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
-.reqappoint .return img{
+.reqappoint .return img {
     width: 15px;
     height: 15px;
     margin-left: 30px;
     margin-top: 30px;
 }
-.reqappoint .return span{
+.reqappoint .return span {
     opacity: 70%;
 }
-.reqappoint .doctorprofile{
+.reqappoint .doctorprofile {
     width: 18%;
     margin: 0 auto;
     margin-bottom: 30px;
@@ -168,16 +241,16 @@ export default {
     justify-content: space-between;
     align-items: center;
 }
-.reqappoint .doctorprofile img{
+.reqappoint .doctorprofile img {
     width: 70px;
     height: 70px;
     border: 2px solid #03c6c1;
     border-radius: 50px;
 }
-.reqappoint .doctorprofile small{
+.reqappoint .doctorprofile small {
     opacity: 70%;
 }
-.reqappoint .title1{
+.reqappoint .title1 {
     color: white;
     background-color: #03C6C1;
     text-align: center;
@@ -185,12 +258,12 @@ export default {
     padding: 20px 0;
     margin-bottom: 50px;
 }
-.reqappoint .title2{
+.reqappoint .title2 {
     font-weight: 500;
     margin-left: 15%;
     margin-bottom: 10px;
 }
-.reqappoint select{
+.reqappoint select {
     width: 70%;
     margin-left: 15%;
     margin-bottom: 30px;
@@ -200,7 +273,7 @@ export default {
     border-radius: 10px;
     opacity: 70%;
 }
-.reqappoint input{
+.reqappoint input {
     width: 53%;
     margin-left: 23%;
     margin-bottom: 30px;
@@ -210,7 +283,16 @@ export default {
     border-radius: 10px;
     opacity: 0.7;
 }
-.reqappoint .hours{
+.reqappoint .schedule {
+    width: 53%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    box-shadow: none;
+}
+.reqappoint .days {
+    width: 400px;
+}
+.reqappoint .hours {
     width: 53%;
     background-color: white;
     border: 1px solid rgb(128, 128, 128, 0.5);
@@ -221,12 +303,12 @@ export default {
     padding: 10px 20px;
     padding-bottom: 0;
 }
-.reqappoint .hours div{
+.reqappoint .hours div {
     width: 90px;
     display: inline-block;
-    opacity: 0.5;
     text-align: center;
-    border: 1px solid rgb(0, 0, 0, 0.7);
+    color: #03C6C1;
+    border: 1px solid #03C6C1;
     border-radius: 10px;
     box-sizing: border-box;
     padding: 8px;
@@ -235,23 +317,28 @@ export default {
     margin-inline: 10px;
     cursor: pointer;
 }
-.reqappoint .hours div.selected{
-    color: #03C6C1;
-    opacity: 100%;
-    border: 2px solid #03C6C1;
+.reqappoint .hours div.selected {
+    color: white;
+    background-color: #03C6C1;
 }
 .reqappoint .hours div.disable {
     pointer-events: none;
-    color: red;
-    border-color: red;
+    color: white;
+    border: none;
+    background-color: rgb(0, 0, 0, 0.2);
 }
-.reqappoint .buttons{
+.reqappoint .hours p {
+    color: #03C6C1;
+    text-align: center;
+    padding-bottom: 10px;
+}
+.reqappoint .buttons {
     width: 70%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
 }
-.reqappoint .buttons button{
+.reqappoint .buttons button {
     color: white;
     letter-spacing: 0.08em;
     border: none;
@@ -259,10 +346,10 @@ export default {
     box-sizing: border-box;
     padding: 5px 25px;
 }
-.reqappoint .buttons button:first-child{
+.reqappoint .buttons button:first-child {
     background-color: rgb(0, 0, 0, 0.2);
 }
-.reqappoint .buttons button:last-child{
+.reqappoint .buttons button:last-child {
     background-color: #03C6C1;
 }
 </style>
