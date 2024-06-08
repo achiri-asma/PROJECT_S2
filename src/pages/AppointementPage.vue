@@ -23,6 +23,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="cont">
                 <div class="con_tainer" v-for="appointment in filteredAppointments" :key="appointment.id">
                     <div class="c1">
                         <img src="../assets/user.png" alt="patient">
@@ -32,14 +33,15 @@
                         <img src="../assets/calendar.png" alt="calendar">
                         {{ appointment.date }}
                     </div>
-                    <div class="c3">
+                    <div class="c3" style="margin-top: 15px;">
                         {{ appointment.demandeType }}
-                        <img src="../assets/file-folder.png" alt="calendar">
+                        <img src="../assets/file-folder.png" alt="calendar" style="margin-top: -15px;">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </template>
 
 <script>
@@ -50,18 +52,22 @@ export default {
         return {
             selectedOption: 'all',
             appointments: [],
-            searchQuery: null
+            searchQuery: null,
         }
     },
     props: ['medecinId'],
     computed: {
         filteredAppointments() {
+            let filteredAppointments = this.appointments;
+
+            // Filter by patient name if searchQuery is not empty and patientName is defined
             if (this.searchQuery) {
-                return this.appointments.filter(appointment =>
-                    appointment.patientName.toLowerCase().includes(this.searchQuery.toLowerCase())
-                )
+                filteredAppointments = filteredAppointments.filter(appointment =>
+                    appointment.patientName && appointment.patientName.toLowerCase().includes(this.searchQuery.toLowerCase())
+                );
             }
-            return this.appointments
+
+            return filteredAppointments;
         }
     },
     methods: {
@@ -84,27 +90,36 @@ export default {
 
             axios.get(endpoint)
             .then(response => {
-                this.appointments = response.data.body
+                this.appointments = response.data.body.map(appointment => {
+                    return {
+                        ...appointment,
+                        patientName: ''
+                    };
+                });
+
+                // Fetch patient names for each appointment
                 return Promise.all(this.appointments.map(async appointment => {
-                    const res = await axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${appointment.idPatient}/`)
-                    appointment.patientName = res.data.fullName
-                }))
+                    const res = await axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${appointment.idPatient}/`);
+                    appointment.patientName = res.data.fullName;
+                    return appointment;
+                }));
             })
             .catch(error => {
-                console.error(error)
-            })
+                console.error(error);
+            });
         }
     },
     watch: {
         selectedOption() {
-            this.fetchAppointments()
+            this.fetchAppointments();
         }
     },
     mounted() {
-        this.fetchAppointments()
+        this.fetchAppointments();
     }
 }
 </script>
+
 
 <style>
 .profilemed,

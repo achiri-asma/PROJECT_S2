@@ -25,7 +25,7 @@
                 <div class="horaires">
                     <div>
                         <p>Work Hours:</p>
-                        <div class="input-container">
+                        <div class="input-container1">
                             <label for="input1">From</label>&nbsp;&nbsp;
                             <input type="time" id="input1" v-model="workStart">&nbsp;&nbsp;
                             <label for="input2">To</label>&nbsp;&nbsp;
@@ -34,7 +34,7 @@
                     </div>
                     <div>
                         <p>Break time:</p>
-                        <div class="input-container">
+                        <div class="input-container1">
                             <label for="input3">From</label>&nbsp;&nbsp;
                             <input type="time" id="input3" v-model="breakStart">&nbsp;&nbsp;
                             <label for="input4">To</label>&nbsp;&nbsp;
@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <p>Appointment Duration:</p>
-                        <div class="input-container">
+                        <div class="input-container1">
                             <input type="number" id="input5" min="1" max="1440" v-model="duration">&nbsp;&nbsp;
                             <label>min</label>&nbsp;&nbsp;
                         </div>
@@ -279,7 +279,7 @@ export default {
     font-size: 18px;
     font-weight: 400;
 }
-.schedulemain .input-container {
+.schedulemain .input-container1 {
     height: 50px;
     opacity: 0.7;
     border: 2px solid rgba(217, 217, 217);
@@ -287,10 +287,10 @@ export default {
     box-sizing: border-box;
     padding: 2px 2px 2px 10px;
 }
-.schedulemain .horaires > div:last-child .input-container {
+.schedulemain .horaires > div:last-child .input-container1 {
     margin-left: 15px;
 }
-.schedulemain .input-container input {
+.schedulemain .input-container1 input {
     width: 90px;
     height: 40px;
     font-size: 18px;
@@ -308,12 +308,12 @@ export default {
     display: none;
 }
 .schedulemain #input5 {
-    width: initial;
+    width: 150px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     margin-left: -8px;
     box-sizing: border-box;
-    padding: 10px;
+   
 }
 .schedulemain #input5::-webkit-inner-spin-button {
     display: none;

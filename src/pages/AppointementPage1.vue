@@ -27,8 +27,12 @@
                     </select>
                     
                 </div>
+                <div class="cont">
                 <div class="con_tainer" v-for="appointment in filteredAppointments" :key="appointment.id">
-                   
+                    <div class="c1">
+                        <img src="../assets/user.png" alt="calendar">
+                        {{ appointment.patientName }}
+                    </div>
                     <div class="c2">
                         <img src="../assets/calendar.png" alt="calendar">
                         {{ formatDate(appointment.date) }}
@@ -37,6 +41,7 @@
                         {{ appointment.demandeType }}
                         
                     </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -53,7 +58,8 @@ export default {
             selectedOption: 'all',
             appointments: [],
             searchQuery: null,
-            imageUrl: ''
+            imageUrl: '',
+            patientName:''
            
         }
     },
@@ -110,8 +116,9 @@ export default {
             .then(response => {
                 this.appointments = response.data.body
                 return Promise.all(this.appointments.map(async appointment => {
-                    const res = await axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${appointment.idPatient}/`)
+                    const res = await axios.get(`http://localhost:7777/service-profile/api/MedecinInfo/${appointment.idMedecin}/`)
                     appointment.patientName = res.data.fullName
+                  
                 }))
             })
             .catch(error => {
@@ -258,5 +265,16 @@ export default {
     padding-top: 10px;
     padding-right: 10px;
     float: right;
+}
+.main .cont{
+    width:95%;
+    border-radius: 15px;
+    border:1px solid #03c6c1;
+    height:450px;
+    margin-top: 25px;
+    margin-left: 25px;
+    overflow-y: auto;
+    scrollbar-width: thin; 
+    scrollbar-color: #03c6c1 #ffffff;
 }
 </style>
