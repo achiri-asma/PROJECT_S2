@@ -1,7 +1,7 @@
 <template>
     <HeaderPage />
     <div class="background">
-        <img src="../assets/Group 20.png" class="background-image">
+        <img src="../assets/Group 20.png" class="background-image1">
         <div>
             <h3 id="titre">Contact Us</h3>
             <p id="sous-titre1">
@@ -71,7 +71,7 @@ export default {
     overflow: hidden;
 }
 
-.background-image {
+.background-image1 {
     position: absolute;
     display: flex;
     top: 0;

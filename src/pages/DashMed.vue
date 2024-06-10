@@ -7,12 +7,14 @@
         <li @click="handleHistory" :class="{ 'current': cliked2 }">Appointment</li>
         <li @click="handleRating" :class="{ 'current': cliked3 }">Medfiles</li>
         <li @click="handleAppointement" :class="{ 'current': cliked4 }">Schedule</li>
+        <li @click="handlePatients" :class="{ 'current': cliked5 }">Patients</li>
       </ul>
     </aside>
     <ProfileMed v-show="cliked1" :medecinId="medecinId" />
     <AppointementPage v-show="cliked2" :medecinId="medecinId" @backendData="handleBackendData" />
     <MedfilePage v-show="cliked3" :medecinId="medecinId" />
     <SchedUle v-show="cliked4" :medecinId="medecinId" />
+    <PatientsPage v-show="cliked5" :medecinId="medecinId"  @navigateToMedfile="handleRating"  />
   </div>
 </template>
 
@@ -21,6 +23,7 @@ import ProfileMed from './ProfileMed';
 import AppointementPage from './AppointementPage.vue';
 import MedfilePage from './MedfilePage.vue';
 import SchedUle from './SchedUle.vue';
+import PatientsPage from './PatientsPage.vue';
 import axios from 'axios';
 
 export default {
@@ -30,8 +33,10 @@ export default {
       cliked2: false,
       cliked3: false,
       cliked4: false,
+      cliked5: false,
       medecinId: null,
       intervalId: null,
+      userId: null
     };
   },
   created() {
@@ -40,9 +45,9 @@ export default {
     // Axios interceptor setup
     axios.interceptors.response.use(
       response => {
-        if (response.config.url.includes(`/api/medecin/${this.medecinId}/rendezvous`) && response.data.length > 0) {
+        if (response.config.url.includes(`api/medecin/${this.medecinId}/rendezvous`) && response.data.length > 0) {
           console.log('Backend response:', response.data);
-          this.showNotification('The next appointement starts at ');
+          this.showNotification('The next appointement will start at ');
         }
         return response;
       },
@@ -57,31 +62,43 @@ export default {
     this.loadDataFromBackend();
     this.setupIntervalForDataRefresh();
   },
-  components: { ProfileMed, AppointementPage, MedfilePage, SchedUle },
+  components: { ProfileMed, AppointementPage, MedfilePage, SchedUle, PatientsPage },
   methods: {
     handleProfile() {
       this.cliked1 = true;
       this.cliked2 = false;
       this.cliked3 = false;
       this.cliked4 = false;
+      this.cliked5 = false;
     },
     handleHistory() {
       this.cliked1 = false;
       this.cliked2 = true;
       this.cliked3 = false;
       this.cliked4 = false;
+      this.cliked5 = false;
     },
     handleRating() {
       this.cliked1 = false;
       this.cliked2 = false;
       this.cliked3 = true;
       this.cliked4 = false;
+      this.cliked5 = false;
+
     },
     handleAppointement() {
       this.cliked1 = false;
       this.cliked2 = false;
       this.cliked3 = false;
       this.cliked4 = true;
+      this.cliked5 = false;
+    },
+    handlePatients() {
+      this.cliked1 = false;
+      this.cliked2 = false;
+      this.cliked3 = false;
+      this.cliked4 = false;
+      this.cliked5 = true;
     },
     loadDataFromBackend() {
       if (!this.medecinId) {
@@ -93,11 +110,20 @@ export default {
         .then(response => {
           if (response.data.length > 0) {
             console.log(response.data);
+
+            this.userId = response.data[0].patient.id;
+            if(localStorage.getITem('userId')!==null){
+             localStorage.removeItem('userId');
+             localStorage.setItem('userId', this.userId);
+            }
+            else{localStorage.setItem('userId', this.userId);}
+            console.log(this.userId);
             const nextAppointment = new Date(response.data[0].rdv.startTime);
+            localStorage.setItem('idRdv',response.data[0].rdv.id);
             nextAppointment.setHours(nextAppointment.getHours() - 1);
             const formattedTime = nextAppointment.toLocaleTimeString();
 
-          this.showNotification(`The next appointment starts at ${formattedTime}`);
+            this.showNotification(`The next appointment will start at ${formattedTime}`);
           }
         })
         .catch(error => {
@@ -108,51 +134,51 @@ export default {
     retryLoadDataFromBackend() {
       setTimeout(() => {
         this.loadDataFromBackend();
-      }, 60000); // Retry every minute
+      }, 1000); // Retry every minute
     },
     showNotification(message) {
-  console.log('Showing notification:', message); // Log to verify method call
+      console.log('Showing notification:', message); // Log to verify method call
 
-  // Create notification container
-  const notification = document.createElement('div');
-  notification.classList.add('toast-notification');
+      // Create notification container
+      const notification = document.createElement('div');
+      notification.classList.add('toast-notification');
 
-  // Create and add text to the notification
-  const text = document.createElement('span');
-  text.textContent = message;
+      // Create and add text to the notification
+      const text = document.createElement('span');
+      text.textContent = message;
 
-  // Append text to the notification
-  notification.appendChild(text);
+      // Append text to the notification
+      notification.appendChild(text);
 
-  // Append notification to the body
-  document.body.appendChild(notification);
+      // Append notification to the body
+      document.body.appendChild(notification);
 
-  // Handle click event on the notification
-  notification.addEventListener('click', () => {
-    // Navigate to a specific section of the application
-    this.handleRating();
-   
- 
-  });
+      // Handle click event on the notification
+      notification.addEventListener('click', () => {
+        // Navigate to a specific section of the application
+        this.handleRating();
 
-  // Remove notification after 1 minute
-  setTimeout(() => {
-    notification.remove();
-  }, 300000); // Remove after 1 minute (60000 ms)
-},
+
+      });
+
+      // Remove notification after 1 minute
+      setTimeout(() => {
+        notification.remove();
+      }, 300000); // Remove after 1 minute (60000 ms)
+    },
 
     setupIntervalForDataRefresh() {
       this.intervalId = setInterval(() => {
         this.loadDataFromBackend();
       }, 60000); // Refresh data every minute
     },
-  },
-  beforeUnmount() {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
+
+    beforeUnmount() {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
     }
-  },
-};
+  },}
 </script>
 
 <style>
@@ -162,11 +188,13 @@ export default {
   font-family: 'Poppins', sans-serif;
 }
 
-.dashmed {
+.dashmed,
+.dashuser {
   display: flex;
 }
 
-.dashmed aside {
+.dashmed aside,
+.dashuser aside {
   width: 390px;
   height: 100vh;
   background-color: #03c6c1;
@@ -174,18 +202,21 @@ export default {
   top: 0;
 }
 
-.dashmed img[alt="logo"] {
+.dashmed img[alt="logo"],
+.dashuser img[alt="logo"] {
   width: 185px;
   height: 55px;
   margin-top: 20px;
   margin-left: 50px;
 }
 
-.dashmed aside ul {
+.dashmed aside ul,
+.dashuser aside ul {
   padding-left: 0;
 }
 
-.dashmed aside li {
+.dashmed aside li,
+.dashuser aside li {
   list-style: none;
   height: 50px;
   color: white;
@@ -223,6 +254,12 @@ export default {
   background-position: 15px center;
 }
 
+.dashmed aside li:nth-child(5) {
+  background: url(../assets/people1.png) no-repeat;
+  background-size: 9%;
+  background-position: 15px center;
+}
+
 .dashmed aside li.current {
   background-color: rgba(255, 255, 255, 0.8) !important;
   border-top-left-radius: 25px;
@@ -246,30 +283,37 @@ export default {
   background-image: url(../assets/calendar2.png);
 }
 
+.dashmed aside li:nth-child(5).current {
+  background-image: url(../assets/people2.png);
+}
+
 .toast-notification {
   position: fixed;
   bottom: 20px;
   right: -15px;
-  bottom:80%;
+  bottom: 80%;
   background-color: #03c6c1;
   color: white;
   padding: 15px 20px;
   border-radius: 20px;
   z-index: 999;
   width: 420px;
-  height:30px;
+  height: 30px;
   font-weight: 800;
-  
+
   animation: slideInFromRight 0.5s ease forwards;
 }
-.toast-notification span{
-  color:white;
+
+.toast-notification span {
+  color: white;
   margin-right: 15px;
 }
+
 @keyframes slideInFromRight {
   0% {
     transform: translateX(100%);
   }
+
   100% {
     transform: translateX(0);
   }

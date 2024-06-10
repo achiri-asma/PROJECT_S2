@@ -15,38 +15,74 @@
                     </button>
                     <p @click="main2 = true, main1 = false, main3 = false">Add new Medical Folder</p>
                 </div>
-                <div class="infos_persn">
+                <div class="infos_persn main9" v-if="main9">
                     <h3 id="pii">Personal Details</h3>
-                    <span class="a1">Full name</span>
-                    <img src="../assets/image0.png" id="pat" alt="patient">
-                    <p class="a">Email: <span>example@gmail.com</span></p>
-                    <p class="a">Sexe: <span>Female</span></p>
-                    <p class="a">Address: <span>Sidi bel abbes , sidi bel abbes, wiam BP 73</span></p>
-                    <p class="a">Social security number: <span>0987g4djxp3</span></p>
-                    <p class="a">Date of birth: <span>11-07-1995</span></p>
-                    <p class="a">Phone number: <span>0799567439</span></p>
+                    <span class="a1">{{ UserInfos.fullName }}</span>
+                    <img v-if="imageUrl" id="pat" :src="imageUrl">
+                    <img v-else src="../assets/image3.png" id="pat" />
+                    <p class="a">Email: <span>{{ UserInfos.email }}</span></p>
+                    <p class="a">Sexe: <span>{{ UserInfos.sexe }}</span></p>
+                    <p class="a">Social security number: <span>{{ UserInfos.numSecuriteSociale }}</span></p>
+                    <p class="a">Date of birth: <span>{{ UserInfos.dateOfBirth }}</span></p>
+                    <p class="a">Phone number: <span>0{{ UserInfos.phone }}</span></p>
+                    <select id="states" name="states" v-model="option" @change="editStatus">
+                        <option value="passe">PASSE</option>
+                        <option value="rate">RATE</option>
+                        <option value="en_attente">EN_ATTENTE</option>
+                    </select>
+                </div>
+                <div class="infos_persn main8" v-if="main8">
+                    <h3 id="pii" style="margin-left: 40px;">Document Details</h3>
+
+                    <div v-if="selectedDocType === 'Radio'">
+                        <img style="margin-top:25px;margin-left:25px;width:300px;height:200px; border-radius: 5px;"
+                            :src="imageUrl">
+                        <p class="a">Description: <span> {{ infos.description }}</span></p>
+                    </div>
+                    <div v-else-if="selectedDocType === 'Ordonnance'">
+                        <p class="a">Date: <span> {{ formatDate(infos.date) }}</span></p>
+                        <p class="a">Description: <span> {{ infos.description }}</span></p>
+                        <p class="a">Medicaments:</p>
+
+                        <li v-for="e in medic" :key="e.id" style="margin-left: 45px;">
+
+                            <span> {{ e.medicament.nom }} ({{ e.transcription }}) </span>
+                        </li>
+                    </div>
+                    <div v-else-if="selectedDocType === 'Analyse'">
+                        <p class="a">Date: <span> {{ formatDate(infos.date) }}</span></p>
+                        <p class="a">Description: <span> {{ infos.description }}</span></p>
+                        <p class="a">Test Results:</p>
+
+                        <li v-for="e in medic" :key="e.id" style="margin-left: 45px;">
+
+                            <span> {{ e.testName }} | {{ e.personResult }} | [ {{ e.startNormalRange }}- {{
+                                e.endNormalRange }}] </span>
+                        </li>
+                    </div>
                 </div>
                 <div class="historique">
                     <p id="histo">Historical Medical Dossier</p>
-                    <div class="hs">
-                        <img src="../assets/calendar.png" alt="calendar" class="pt"> &nbsp; &nbsp;
-                        date / time
-                        <img src="../assets/pen.png" alt="edit" id="ed" class="bm" @click="main5 = true, main1 = false">
-                        <img src="../assets/bin.png" alt="delete" class="bm" @click="showConfirmDialog = true">
+                    <div class="d">
+                        <div v-for="doc in Documents" :key="doc.id">
+                            <div class="hs">
+                                <span class="img-container"><img src="../assets/clip 1.png" alt="calendar" class="pt">
+                                </span>&nbsp; &nbsp;
+                                <span class="margin-top:55px;"
+                                    @click="main8 = true, main9 = false, getRadio(doc.id, doc.type)">{{ doc.type }}
+                                    &nbsp;
+                                    &nbsp;&nbsp; &nbsp;
+                                    {{ formatDate(doc.date) }}</span>
+                                <span class="img-container"> <img src="../assets/pen.png" alt="edit" id="ed"
+                                        @click="editDoc(doc.id, doc.type)">
+                                </span>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div>
-        <div v-if="showConfirmDialog" class="confirm-dialog">
-            <div class="confirm-dialog-content">
-                <h3>Confirm Deletion</h3>
-                <p>Are you sure you want to delete this medical file? <br /> This action cannot be undone.</p>
-                <div class="confirm-dialog-buttons">
-                    <button @click="cancelDelete" id="del">Cancel</button>
-                    <button @click="confirmDelete" id="dell">Delete <img src="../assets/bin1.png" alt="bin"></button>
-                </div>
-            </div>
         </div>
 
         <div class="personinfooo" v-if="main2">
@@ -85,8 +121,8 @@
                 <input type="text" placeholder="Enter medication..." v-model="nom" class="search1">
                 <input type="text" placeholder="Enter transcription..." v-model="transcription" class="search3">
                 <input type="text" placeholder="Enter description..." v-model="description1" class="search2">
-            <button type="submit" class="added" @click="collectMedic">
-                        <img src="../assets/plus.png" alt="submit" />
+                <button type="submit" class="added" @click="collectMedic">
+                    <img src="../assets/plus.png" alt="submit" />
                 </button>
                 <div class="adde">
                     <button type="submit" @click="addMedic">
@@ -113,7 +149,7 @@
                 <input type="text" placeholder="Enter normal range..." v-model="range" class="search3">
                 <input type="text" placeholder="Enter description..." v-model="description2" class="search2">
                 <button type="submit" class="added" @click="collect_analyse">
-                        <img src="../assets/plus.png" alt="submit" />
+                    <img src="../assets/plus.png" alt="submit" />
                 </button>
                 <div class="adde">
                     <button type="submit" @click="add_analyse">
@@ -134,12 +170,14 @@
             </div>
             <div class="search__container2">
                 <div class="search__icon2">
-                    <img src="../assets/clip 1.png" alt="Icône d attachement">
+                    <img src="../assets/clip 1.png" @click="triggerFileInput" alt="Icône d attachement">
                 </div>
-                <input type="text" placeholder="Enter detailed description here..." class="search__input2">
+                <input type="file" ref="imageInput" @change="handleImageUpload" style="display: none;">
+                <input type="text" placeholder="Enter detailed description here..." class="search__input2"
+                    v-model="description3">
                 <div class="adde2">
                     <button type="submit">
-                        <img src="../assets/pen 1.png" alt="submit" />
+                        <img src="../assets/pen 1.png" alt="submit" @click="updateRadio" />
                     </button>
                 </div>
             </div>
@@ -155,22 +193,21 @@
             </div>
             <div class="search__container3">
 
-                <input type="text" placeholder="Enter medications..." class="search1">
+                <input type="text" placeholder="Enter medications..." v-model="medi" class="search1">
+
+                <input type="text" placeholder="Enter transcription..." v-model="trnc" class="search3">
+                <button type="submit" class="added" @click="collectMedic1" style="margin-left: -3px;">
+                    <img src="../assets/plus.png" alt="submit" />
+                </button>
                 <div class="adde3">
-                    <button type="submit">
+                    <button type="submit" @click="updateMedic">
                         <img src="../assets/pen 1.png" alt="submit" />
                     </button>
                 </div>
-                <input type="text" placeholder="Enter dosage..." class="search3">
+                <input type="text" placeholder="Enter description..." class="search3" v-model="description4">
                 <div class="adde3">
                     <button type="submit">
-                        <img src="../assets/pen 1.png" alt="submit" />
-                    </button>
-                </div>
-                <input type="text" placeholder="Enter description..." class="search3">
-                <div class="adde3">
-                    <button type="submit">
-                        <img src="../assets/pen 1.png" alt="submit" />
+                        <img src="../assets/pen 1.png" alt="submit" @click="editdescription4" />
                     </button>
                 </div>
             </div>
@@ -188,28 +225,24 @@
             </div>
             <div class="search__container3">
 
-                <input type="text" placeholder="Enter test name..." class="search1">
+                <input type="text" placeholder="Enter test name..." v-model="tst" class="search1">
+                
+                <input type="text" placeholder="Enter result..." v-model="rs" class="search3">
+                
+                <input type="text" placeholder="Enter normal range..." v-model="rg" class="search3">
+                <button type="submit" class="added" @click="collect_analyse1">
+                    <img src="../assets/plus.png" alt="submit" />
+                </button>
                 <div class="adde3">
-                    <button type="submit">
+                    <button type="submit" @click="update_analyse">
                         <img src="../assets/pen 1.png" alt="submit" />
                     </button>
                 </div>
-                <input type="text" placeholder="Enter result..." class="search3">
+                <input type="text" placeholder="Enter description" class="search3" v-model="description5">
                 <div class="adde3">
                     <button type="submit">
-                        <img src="../assets/pen 1.png" alt="submit" />
-                    </button>
-                </div>
-                <input type="text" placeholder="Enter normal range..." class="search3">
-                <div class="adde3">
-                    <button type="submit">
-                        <img src="../assets/pen 1.png" alt="submit" />
-                    </button>
-                </div>
-                <input type="text" placeholder="Enter description" class="search3">
-                <div class="adde3">
-                    <button type="submit">
-                        <img src="../assets/pen 1.png" alt="submit" />
+                        <img src="../assets/pen 1.png" alt="submit" @click="editdescription5" />
+
                     </button>
 
                 </div>
@@ -242,122 +275,383 @@ export default {
             main6: false,
             main7: false,
             description: '',
-            description1:'',
-           transcription:'',
-            medicaments:[],
-            nom:'',
-            description2:'',
-            range:'',
-            personResult:'',
-            testResultList:[]
+            description1: '',
+            transcription: '',
+            medicaments: [],
+            nom: '',
+            description2: '',
+            range: '',
+            personResult: '',
+            testResultList: [],
+            UserInfo: {
+                adresse: {
+                    wilaya: '',
+                    commune: '',
+                    rue: ''
+                }
+            },
+            imageUrl: '',
+            UserInfos: {},
+            userId: '',
+            Documents: [],
+            dossierId: '',
+            selectedDocType: '',
+            selectedDocId: '',
+            description3: '',
+            description4: '',
+            description5: '',
+            option: '',
+            main8: false,
+            main9: true,
+            infos: {},
+            medic: {},
+            trnc: '',
+            medi: '',
+            tst:'',
+            rg:'',
+            rs:''
+
         };
     },
-    props: ['medecinId'],
+    props: [
+        'medecinId'
+
+    ],
+
+    mounted() {
+
+        console.log("Mounted lifecycle hook");
+        console.log("medecinId from props:", this.medecinId);
+        this.dossierId = localStorage.getItem('dossierId');
+        this.userId = localStorage.getItem('userId');
+        console.log(this.userId);
+        if (this.userId == null) {
+            console.log("userid est null");
+        } else {
+            axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.userId}/`)
+                .then(async response => {
+                    this.UserInfos = response.data;
+                    console.log(this.UserInfos);
+                    if (this.UserInfos.image) {
+                        const response_1 = await axios.get(`http://localhost:7777/service-profile/api/image/${this.UserInfos.image}`, {
+                            responseType: 'blob'
+                        })
+                        if (response_1.status === 200) {
+                            this.imageUrl = URL.createObjectURL(response_1.data)
+                        } else {
+                            throw new Error('Image not found')
+                        }
+                    }
+                })
+
+
+
+        }
+        axios.get(`http://localhost:7777/ms-doss/get/patient/${this.userId}/doctor/${this.medecinId}/dossier`)
+            .then(response => {
+                console.log(response);
+                this.Documents = response.data;
+                console.log('Documents:', this.Documents);
+            })
+            .catch(error => {
+                console.error('Error while fetching documents:', error);
+                // Handle error cases
+            });
+
+    },
+
     methods: {
-        confirmDelete() {
-            // Exécuter le code de suppression ici
-            console.log('Élément supprimé');
-            this.showConfirmDialog = false;
-        },
-        cancelDelete() {
-            this.showConfirmDialog = false;
-        },
+
+
         handleImageUpload(event) {
             this.file = event.target.files[0]
-            this.imagesent = event.target.files[0].name 
+            this.imagesent = event.target.files[0].name
             if (this.file) {
                 const reader = new FileReader()
                 reader.onload = () => {
-                this.image = reader.result
+                    this.image = reader.result
                 }
                 reader.readAsDataURL(this.file)
             }
-    },
-    addRadio() {
-    
+        },
+        addRadio() {
 
-    const imageInput = new FormData();
-    imageInput.append('file', this.file);
+            this.userId = localStorage.getItem('userId');
+            const imageInput = new FormData();
+            imageInput.append('file', this.file);
 
-    // Envoyer l'image d'abord
-    axios
-        .post('http://localhost:7777/service-profile/api/update/upload', imageInput, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-        
+            // Envoyer l'image d'abord
+            axios
+                .post('http://localhost:7777/service-profile/api/update/upload', imageInput, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+
             console.log('Description:', this.description);
             console.log('Image sent:', this.imagesent);
             const formDatax = {
                 description: this.description,
                 image: this.imagesent
             };
-
+            this.userId = localStorage.getItem('userId');
             // Envoyer les données de la radio
-            return axios.post(
-                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/1/add_radio`,
+            const resp = axios.post(
+                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/${this.userId}/add_radio`,
                 formDatax
             );
-        
-}
-,
-collectMedic() {
-     
-        this.medicaments.push({
-         nom: this.nom,
-          transcription: this.transcription
-        });
-        // Réinitialiser le formulaire après l'ajout
-        this.nom = '';
-        this.transcription = '';
-      
-    console.log(this.medicaments);
-  },
-  addMedic(){
-    const formDatax1 = {
+            console.log("resp: ", resp);
+
+
+
+        }
+        ,
+        updateRadio() {
+
+            this.userId = localStorage.getItem('userId');
+            const imageInput = new FormData();
+            imageInput.append('file', this.file);
+
+            // Envoyer l'image d'abord
+            axios
+                .post('http://localhost:7777/service-profile/api/update/upload', imageInput, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+
+            console.log('Image sent:', this.imagesent);
+            const formDataxs = {
+                image: this.imagesent
+            };
+
+            const resp = axios.put(
+                `http://localhost:7777/ms-doss/update/radio/${this.selectedDocId}/image`,
+                formDataxs
+            );
+            console.log("resp: ", resp);
+
+
+            const dt = { description: this.description3 };
+            console.log(dt, this.selectedDocId)
+            const res = axios.put(`http://localhost:7777/ms-doss/update/radio/${this.selectedDocId}/description`, dt);
+            console.log(res);
+
+
+        },
+        async getRadio(docId, docType) {
+            this.selectedDocType = docType;
+            this.selectedDocId = docId;
+            if (this.selectedDocType === "Radio") {
+                try {
+                    const response = await axios.get(`http://localhost:7777/ms-doss/get/radio/${docId}`);
+                    this.infos = response.data.body;
+                    console.log('Radio details:', this.infos);
+
+                    // Assurez-vous que l'image existe avant de faire la demande
+                    if (this.infos.image) {
+                        const response_1 = await axios.get(`http://localhost:7777/service-profile/api/image/${this.infos.image}`, {
+                            responseType: 'blob'
+                        });
+                        if (response_1.status === 200) {
+                            this.imageUrl = URL.createObjectURL(response_1.data);
+                        } else {
+                            throw new Error('Image not found');
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error fetching radio details or image:", error);
+                }
+            }
+            else if (this.selectedDocType === "Ordonnance") {
+                const response = await axios.get(`http://localhost:7777/ms-doss/get/ordonnace/${docId}`);
+                this.infos = response.data.body;
+                this.medic = response.data.body.medicamentsOrdonnances;
+                console.log('Radio details:', this.infos);
+            }
+            else if (this.selectedDocType === "Analyse") {
+                const response = await axios.get(`http://localhost:7777/ms-doss/get/analyse/${docId}`);
+                this.infos = response.data.body;
+                this.medic = response.data.body.testResults;
+                console.log('Radio details:', this.infos);
+            }
+        }
+        ,
+        collectMedic() {
+
+            this.medicaments.push({
+                nom: this.nom,
+                transcription: this.transcription
+            });
+            // Réinitialiser le formulaire après l'ajout
+            this.nom = '';
+            this.transcription = '';
+
+            console.log(this.medicaments);
+        },
+        collectMedic1() {
+
+            this.medicaments.push({
+                nom: this.medi,
+                transcription: this.trnc
+            });
+            // Réinitialiser le formulaire après l'ajout
+            this.medi = '';
+            this.trnc = '';
+
+            console.log(this.medicaments);
+        },
+        updateMedic() {
+            const formDatax2 =this.medicaments;
+            console.log(formDatax2);
+
+            axios.put(
+                `http://localhost:7777/ms-doss/update/ordonnance/${this.selectedDocId}/medicaments`,
+                formDatax2
+            );
+
+        },
+        update_analyse() {
+            const formDatax22 =this.testResultList;
+            console.log(formDatax22);
+
+            axios.put(
+                `http://localhost:7777/ms-doss/update/analyse/${this.selectedDocId}/testResults`,
+                formDatax22
+            );
+
+        },
+        addMedic() {
+            const formDatax1 = {
                 description: this.description1,
                 medicaments: this.medicaments
             };
-console.log(formDatax1);
-           
-        axios.post(
-                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/1/create_ordonnace`,
+            console.log(formDatax1);
+            this.userId = localStorage.getItem('userId');
+            axios.post(
+                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/${this.userId}/create_ordonnace`,
                 formDatax1
             );
 
-  },
+        },
+        formatDate(value) {
+            const date = new Date(value);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+
+            return `${year}-${month}-${day} (${hours}:${minutes})`;
+        },
         triggerFileInput() {
             this.$refs.imageInput.click();
         },
         collect_analyse() {
-    const parts = this.range.split('-');
-   
-    
-        this.testResultList.push({
-         testName: this.testName,
-         personResult:  this.personResult,
-         startNormalRange:parts[0],
-         endNormalRange:parts[1]
-        });
-        // Réinitialiser le formulaire après l'ajout
-        this.testName = '';
-        this.personResult = '';
-        this.range='';
-      
-        console.log(this.testResultList);
-  }
-,
-    add_analyse(){
-    const data = {
-        description:this.description2,
-        testResultList:this.testResultList
-    }
-    console.log(data);
-           
+            const parts = this.range.split('-');
+
+
+            this.testResultList.push({
+                testName: this.testName,
+                personResult: this.personResult,
+                startNormalRange: parts[0],
+                endNormalRange: parts[1]
+            });
+            // Réinitialiser le formulaire après l'ajout
+            this.testName = '';
+            this.personResult = '';
+            this.range = '';
+
+            console.log(this.testResultList);
+        },
+        collect_analyse1() {
+            const parts = this.rg.split('-');
+
+
+            this.testResultList.push({
+                testName: this.tst,
+                personResult: this.rs,
+                startNormalRange: parts[0],
+                endNormalRange: parts[1]
+            });
+            // Réinitialiser le formulaire après l'ajout
+            this.tst = '';
+            this.rs = '';
+            this.rg = '';
+
+            console.log(this.testResultList);
+        },
+        editdescription4() {
+
+            const dt = { description: this.description4 };
+            console.log(dt, this.selectedDocId)
+            const res = axios.put(`http://localhost:7777/ms-doss/update/ordonnance/${this.selectedDocId}/description`, dt);
+            console.log(res);
+
+        }
+        , editdescription5() {
+
+            const dt = { description: this.description5 };
+            console.log(dt, this.selectedDocId)
+            const res = axios.put(`http://localhost:7777/ms-doss/update/analyse/${this.selectedDocId}/description`, dt);
+            console.log(res);
+
+        }
+        ,
+        editDoc(docId, docType) {
+            this.selectedDocId = docId;
+            this.selectedDocType = docType;
+
+            if (this.selectedDocType === "Radio") {
+                this.main5 = true;
+                this.main1 = false;
+
+
+
+            } else if (this.selectedDocType === "Ordonnance") {
+                this.main6 = true;
+                this.main1 = false;
+
+            } else if (this.selectedDocType === "Analyse") {
+                this.main7 = true;
+                this.main1 = false;
+
+            }
+        },
+        editStatus() {
+            const idRdv = localStorage.getItem('idRdv');
+            const status = { status: this.option }
+            const rs = axios.put(`http://localhost:7777/service-rdv/rendezvous/medecin/${this.medecinId}/rendezvous/${idRdv}/setstatus`, status);
+            console.log(rs);
+        },
+        add_analyse() {
+            const data = {
+                description: this.description2,
+                testResultList: this.testResultList
+            }
+            console.log(data);
+            this.userId = localStorage.getItem('userId');
             axios.post(
-                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/1/add_analyse`,data);
-    }}
+                `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/${this.userId}/add_analyse`, data);
+        }
+    },
+    display() {
+        this.userId = localStorage.getItem('userId');
+        if (this.userId == null) { console.log("userid est null"); }
+
+        else {
+            axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${this.userId}/`)
+                .then(async response => {
+                    this.UserInfos = response.data;
+                    this.UserInfo = this.UserInfos.adresse;
+                    console.log(this.UserInfos);
+
+                })
+        }
+    }
+
+
+
 };
 </script>
 <style>
@@ -406,6 +700,15 @@ console.log(formDatax1);
     margin: 30px 5%;
 }
 
+.img-container {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.img-container img {
+    vertical-align: middle;
+}
+
 .profilemed .personinfoooo {
     width: 100%;
     height: 570px;
@@ -441,7 +744,7 @@ console.log(formDatax1);
     border: 1.5px solid #03c6c1;
     width: 400px;
     height: 500px;
-    margin-left: 670px;
+    margin-left: 640px;
     margin-top: -30px;
 }
 
@@ -457,13 +760,13 @@ console.log(formDatax1);
 .a {
     margin-left: 35px;
     font-weight: 400;
-    padding-top: 20px;
+    padding-top: 18px;
 }
 
 .a1 {
     margin-left: 35px;
     font-weight: 400;
-    margin-top: -55px;
+    margin-top: -40px;
 }
 
 .infos_persn p {
@@ -490,29 +793,34 @@ console.log(formDatax1);
 }
 
 .hs {
-    width: 450px;
-    height: 58px;
+    width: 500px;
+    height: 40px;
     border: #03c6c1 solid 1px;
-    font-size: 16px;
-    margin-top: 25px;
+    font-size: 14px;
+    margin-top: 15px;
     border-radius: 15px;
+    margin-left: 5px;
+
+
+
 }
 
 .hs .pt {
     width: 24px;
     height: 24px;
     padding-left: 10px;
+    margin-top: 10px;
 }
 
-.hs .bm {
-    width: 30px;
-    height: 30px;
-    padding-top: 10px;
-}
+
 
 #ed {
-    margin-left: 215px;
-    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    margin-left: 450px;
+    margin-top: -55px;
+
+
 }
 
 .confirm-dialog {
@@ -692,7 +1000,7 @@ console.log(formDatax1);
     height: 20px;
 }
 
-.added{
+.added {
     width: 30px;
     height: 30px;
     background-color: white;
@@ -701,8 +1009,9 @@ console.log(formDatax1);
     margin-left: 20px;
     margin-top: 10px;
 }
-.added  img {
-    
+
+.added img {
+
     width: 10px;
     height: 10px;
 }
@@ -766,6 +1075,16 @@ console.log(formDatax1);
     margin-right: 5px;
     font-size: 15px;
     color: gray;
+}
+
+.d {
+    width: 50%;
+    border-radius: 15px;
+    border: 1px solid #03c6c1;
+    height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #03c6c1 #ffffff;
 }
 
 #precc {
@@ -839,5 +1158,26 @@ console.log(formDatax1);
 .adde3 button img {
     width: 40px;
     height: 40px;
+}
+
+#states {
+    margin-left: 35px;
+    width: 300px;
+    height: 35px;
+    font-family: Poppins;
+    font-size: 16px;
+    background-color: #03c6c1;
+    color: white;
+    border-radius: 05px;
+    border: #03c6c1 1px solid;
+    margin-top: 35px;
+    padding-left: 15px;
+}
+
+#states option {
+    border-radius: 05px;
+    font-family: Poppins;
+    font-size: 16px;
+    color: rgb(134, 134, 134);
 }
 </style>
