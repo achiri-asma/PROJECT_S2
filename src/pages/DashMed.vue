@@ -162,11 +162,11 @@ export default {
   font-family: 'Poppins', sans-serif;
 }
 
-.dashmed {
+.dashmed,.dashuser {
   display: flex;
 }
 
-.dashmed aside {
+.dashmed aside,.dashuser aside {
   width: 390px;
   height: 100vh;
   background-color: #03c6c1;
@@ -174,18 +174,18 @@ export default {
   top: 0;
 }
 
-.dashmed img[alt="logo"] {
+.dashmed img[alt="logo"],dashuser img[alt="logo"] {
   width: 185px;
   height: 55px;
   margin-top: 20px;
   margin-left: 50px;
 }
 
-.dashmed aside ul {
+.dashmed aside ul,.dashuser aside ul {
   padding-left: 0;
 }
 
-.dashmed aside li {
+.dashmed aside li,.dashuser aside li {
   list-style: none;
   height: 50px;
   color: white;

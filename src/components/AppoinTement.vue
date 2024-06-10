@@ -1,16 +1,20 @@
 <template>
   <div class="background">
-    <img src="../assets/background03.png" class="background-image">
+    <img src="../assets/background03.png" class="background-image1">
     <div>
       <h3 id="titre">Schedule Your <span>Appointment</span></h3>
       <div class="search-container">
         <input type="text" placeholder="Name, speciality, office" id="input1" v-model="search_Input" class="with-icon1">
-        <input type="text" placeholder="Where?" id="input2" @focus="showAllResults" v-model="searchInput" @input="filterResults" class="with-icon2">
+        <input type="text" placeholder="Where?" id="input2" @focus="showAllResults" v-model="searchInput"
+          @input="filterResults" class="with-icon2">
         <ul v-show="showList" class="suggestions" :style="{ marginTop: suggestionsMarginTop + 'px' }">
-          <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name }}</li>
+          <li v-for="result in displayedResults" :key="result.id" @click="selectSuggestion(result.name)">{{ result.name
+            }}</li>
         </ul>
-        <button type="submit" @click="next" v-if="!isLandingPage">search <img src="../assets/next-g.png" id="next" /></button>
-        <button type="submit" @click="next1" v-if="isLandingPage">search <img src="../assets/next-g.png" id="next" /></button>
+        <button type="submit" @click="next" v-if="!isLandingPage">search <img src="../assets/next-g.png"
+            id="next" /></button>
+        <button type="submit" @click="next1" v-if="isLandingPage">search <img src="../assets/next-g.png"
+            id="next" /></button>
       </div>
       <p id="sous-titre">
         Our Online Appointment Booking System For Doctors Allows You To Easily <br />
@@ -33,11 +37,11 @@ export default {
   name: 'AppoinTement',
   data() {
     return {
-      isLandingPage:false,
-      search_Input:'',
+      isLandingPage: false,
+      search_Input: '',
       searchInput: '',
-      queryParam:'',
-      wilaya:'',
+      queryParam: '',
+      wilaya: '',
       results: [
         { id: 0, name: 'Take your current position' },
         { id: 1, name: 'Adrar' },
@@ -109,7 +113,7 @@ export default {
     if (this.$route.name === 'LandingPage') {
       this.isLandingPage = true;
     }
-   
+
   },
   computed: {
     displayedResults() {
@@ -162,40 +166,40 @@ export default {
       this.searchInput = value;
       this.showList = false;
     },
-    
-    next(){
-      const input1=this.search_Input;
+
+    next() {
+      const input1 = this.search_Input;
       const input2 = this.searchInput;
-      const data ={queryParam:input1,wilaya:input2}
-      axios.post(`http://localhost:5000/medecin/search`,data)
-      .then(response => {
-            console.log(response.data); 
-            const searchData= response.data;
-            localStorage.setItem('searchData', JSON.stringify(searchData));
-            router.push({name:'SearchPage2' ,params:{input1 , input2}});
-          })
-          .catch(error => {
-            console.log(error);      
-          });
-     
+      const data = { queryParam: input1, wilaya: input2 }
+      axios.post(`http://localhost:7777/ms-recherche/medecin/search`, data)
+        .then(response => {
+          console.log(response.data);
+          const searchData = response.data;
+          localStorage.setItem('searchData', JSON.stringify(searchData));
+          router.push({ name: 'SearchPage2', params: { input1, input2 } });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
     },
-    next1(){
-      const input1=this.search_Input;
+    next1() {
+      const input1 = this.search_Input;
       const input2 = this.searchInput;
       const userId = this.$route.params.userId;
-      const data ={queryParam:input1,wilaya:input2}
-      axios.post(`http://localhost:5000/medecin/search`,data)
-      .then(response => {
-            console.log(response.data); 
-            const searchData= response.data;
-            localStorage.setItem('searchData', JSON.stringify(searchData));
-            router.push({name:'SearchPage1' ,params:{userId,input1 , input2}});
+      const data = { queryParam: input1, wilaya: input2 }
+      axios.post(`http://localhost:7777/ms-recherche/medecin/search`, data)
+        .then(response => {
+          console.log(response.data);
+          const searchData = response.data;
+          localStorage.setItem('searchData', JSON.stringify(searchData));
+          router.push({ name: 'SearchPage1', params: { userId, input1, input2 } });
 
-          })
-          .catch(error => {
-            console.log(error);      
-          })
-}
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   },
 }
 </script>
@@ -209,7 +213,7 @@ export default {
   overflow: hidden;
 }
 
-.background-image {
+.background-image1 {
   position: absolute;
   display: flex;
   top: 0;

@@ -212,7 +212,7 @@ export default {
       const input1 = this.search_Input || this.input1
       const input2 = this.searchInput || this.input2
       const data ={queryParam:input1, wilaya:input2}
-      axios.post('http://localhost:5000/medecin/search',data)
+      axios.post('http://localhost:7777/ms-recherche/medecin/search',data)
       .then(response => {
         const searchData= response.data;
         localStorage.setItem('searchData', JSON.stringify(searchData));
@@ -229,7 +229,7 @@ export default {
       const input2 = this.searchInput || this.input2
       const userId = this.id
       const data ={queryParam:input1, wilaya:input2}
-      axios.post('http://localhost:5000/medecin/search',data)
+      axios.post('http://localhost:7777/ms-recherche/medecin/search',data)
       .then(response => {
         const searchData= response.data;
         localStorage.setItem('searchData', JSON.stringify(searchData));

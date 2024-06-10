@@ -131,7 +131,7 @@ export default {
         queryParam: this.input1,
         wilaya: this.input2
       };
-      axios.post(`http://localhost:5000/medecin/order-desc`, dataaa)
+      axios.post(`http://localhost:7777/ms-recherche/medecin/order-desc`, dataaa)
       .then(response => {
         localStorage.removeItem('searchData');
         localStorage.setItem('searchData', JSON.stringify(response.data));
@@ -151,7 +151,7 @@ export default {
         queryParam: this.input1,
         wilaya: this.input2
       };
-      axios.post(`http://localhost:5000/medecin/order-asc`, dataaa)
+      axios.post(`http://localhost:7777/ms-recherche/medecin/order-asc`, dataaa)
       .then(response => {
         localStorage.removeItem('searchData');
         localStorage.setItem('searchData', JSON.stringify(response.data));
@@ -171,7 +171,7 @@ export default {
         queryParam: this.input1,
         wilaya: this.input2
       };
-      axios.post(`http://localhost:5000/medecin/homme`, dataaa)
+      axios.post(`http://localhost:7777/ms-recherche/medecin/homme`, dataaa)
       .then(response => {
         localStorage.removeItem('searchData');
         localStorage.setItem('searchData', JSON.stringify(response.data));
@@ -191,7 +191,7 @@ export default {
         queryParam: this.input1,
         wilaya: this.input2
       };
-      axios.post(`http://localhost:5000/medecin/femme`, dataaa)
+      axios.post(`http://localhost:7777/ms-recherche/medecin/femme`, dataaa)
       .then(response => {
         localStorage.removeItem('searchData');
         localStorage.setItem('searchData', JSON.stringify(response.data));
