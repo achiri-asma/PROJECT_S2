@@ -3,7 +3,6 @@
     <img src="../assets/logoo.png" alt="logo" id="logo" />
     <nav>
       <RouterLink :to="isLandingPage ? '/landing-page/'+id : '/'" class="li">Home</RouterLink>
-      <RouterLink to="/about-us" class="li">About Us</RouterLink>
       <RouterLink to="/faqs" class="li">FAQs</RouterLink>
       <RouterLink to="/contact" class="li">Contact</RouterLink>
     </nav>
@@ -99,7 +98,7 @@ nav {
   text-decoration: none;
   font-family: Poppins;
   margin-top: 10px;
-  margin-right: 30px;
+  margin-right: 60px;
 }
 
 .li:hover {

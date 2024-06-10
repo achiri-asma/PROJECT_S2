@@ -4,7 +4,6 @@
       <img src="../assets/logoo.png" alt="logo" id="logo" />
       <nav>
         <RouterLink :to="isLandingPage ? '/landing-page/' + id : '/'" class="li">Home</RouterLink>
-        <router-link to="/about-us" class="li">About Us</router-link>
         <router-link to="/faqs" class="li">FAQs</router-link>
         <router-link to="/contact" class="li">Contact</router-link>
       </nav>

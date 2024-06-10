@@ -31,11 +31,14 @@
                     </div>
                     <div class="c2">
                         <img src="../assets/calendar.png" alt="calendar">
-                        {{ appointment.date }}
+                        {{ formatDate(appointment.date) }}
                     </div>
                     <div class="c3" style="margin-top: 15px;">
                         {{ appointment.demandeType }}
-                        <img src="../assets/file-folder.png" alt="calendar" style="margin-top: -15px;">
+                        &nbsp; &nbsp;&nbsp; &nbsp;
+                       <span style="color:red;">
+                        ({{ appointment.status }})
+                    </span> 
                     </div>
                 </div>
             </div>
@@ -107,7 +110,17 @@ export default {
             .catch(error => {
                 console.error(error);
             });
-        }
+        },
+        formatDate(value) {
+      const date = new Date(value);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+
+      return `${year}-${month}-${day} (${hours}:${minutes})`;
+    }
     },
     watch: {
         selectedOption() {
@@ -260,6 +273,7 @@ export default {
     width:350px;
     font-size: 14px;
     font-family: Poppins;
+     
 }
 
 .c1 img{

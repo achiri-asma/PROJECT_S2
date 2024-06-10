@@ -1,7 +1,7 @@
 <template>
      <HeaderPage />
      <div class="background">
-        <img src="../assets/Group 31.png" class="background-image">
+        <img src="../assets/Group 31.png" class="background-image1">
         <div>
             <h3 id="titre">FAQs</h3>
             <p id="sous-titre1">

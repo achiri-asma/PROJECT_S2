@@ -3,7 +3,6 @@
         <div class="header">
             <ul>
                 <router-link :to="{ name: 'LandingPage', params: { userId: userId } }"><li>Home</li></router-link>
-                <router-link to="/about-us"><li>About Us</li></router-link>
                 <router-link to="/faqs"><li>FAQs</li></router-link>
                 <router-link to="/contact"><li>Contact</li></router-link>
             </ul>
@@ -31,14 +30,16 @@
                 <div class="con_tainer" v-for="appointment in filteredAppointments" :key="appointment.id">
                     <div class="c1">
                         <img src="../assets/user.png" alt="calendar">
-                        {{ appointment.patientName }}
+                        Dr. {{ appointment.patientName }}
                     </div>
                     <div class="c2">
                         <img src="../assets/calendar.png" alt="calendar">
                         {{ formatDate(appointment.date) }}
                     </div>
                     <div class="c3" style="margin-top: 15px;">
-                        {{ appointment.demandeType }}
+                        <span style="color:red;">
+                        {{ appointment.status }}
+                    </span> 
                         
                     </div>
                 </div>

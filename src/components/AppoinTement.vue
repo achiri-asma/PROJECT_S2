@@ -220,7 +220,7 @@ export default {
   left: 0;
   right: 0;
   width: 100%;
-  height: 100%;
+  height: 850px;
   object-fit: cover;
   z-index: -1;
 }
