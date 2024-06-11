@@ -14,7 +14,7 @@
     <AppointementPage v-show="cliked2" :medecinId="medecinId" @backendData="handleBackendData" />
     <MedfilePage v-show="cliked3" :medecinId="medecinId" />
     <SchedUle v-show="cliked4" :medecinId="medecinId" />
-    <PatientsPage v-show="cliked5" :medecinId="medecinId"  @navigateToMedfile="handleRating"  />
+    <PatientsPage v-show="cliked5" :medecinId="medecinId" @navigateToMedfile="handleRating" />
   </div>
 </template>
 
@@ -109,22 +109,20 @@ export default {
       axios.get(`http://localhost:8085/api/medecin/${this.medecinId}/rendezvous`)
         .then(response => {
           if (response.data.length > 0) {
-            console.log(response.data);
-
-            this.userId = response.data[0].patient.id;
-            if(localStorage.getITem('userId')!==null){
-             localStorage.removeItem('userId');
-             localStorage.setItem('userId', this.userId);
-            }
-            else{localStorage.setItem('userId', this.userId);}
-            console.log(this.userId);
-            const nextAppointment = new Date(response.data[0].rdv.startTime);
-            localStorage.setItem('idRdv',response.data[0].rdv.id);
-            nextAppointment.setHours(nextAppointment.getHours() - 1);
-            const formattedTime = nextAppointment.toLocaleTimeString();
-
-            this.showNotification(`The next appointment will start at ${formattedTime}`);
-          }
+          this.userId = response.data[0].patient.id;
+          localStorage.setItem('userId', this.userId);
+          // if (localStorage.getItem('userId') !== null) {
+          //   localStorage.removeItem('userId');
+          //   localStorage.setItem('userId', this.userId);
+          // } else {
+          //   localStorage.setItem('userId', this.userId);
+          // }
+          const nextAppointment = new Date(response.data[0].rdv.startTime);
+          localStorage.setItem('idRdv', response.data[0].rdv._id);
+          nextAppointment.setHours(nextAppointment.getHours() - 1);
+          const formattedTime = nextAppointment.toLocaleTimeString();
+          this.showNotification(`The next appointment will start at ${formattedTime}`);
+        }
         })
         .catch(error => {
           console.error(error);
@@ -134,7 +132,7 @@ export default {
     retryLoadDataFromBackend() {
       setTimeout(() => {
         this.loadDataFromBackend();
-      }, 1000); // Retry every minute
+      }, 60000); // Retry every minute
     },
     showNotification(message) {
       console.log('Showing notification:', message); // Log to verify method call
@@ -170,7 +168,7 @@ export default {
     setupIntervalForDataRefresh() {
       this.intervalId = setInterval(() => {
         this.loadDataFromBackend();
-      }, 60000); // Refresh data every minute
+      }, 300000); // Refresh data every minute
     },
 
     beforeUnmount() {
@@ -178,7 +176,8 @@ export default {
         clearInterval(this.intervalId);
       }
     }
-  },}
+  },
+}
 </script>
 
 <style>
@@ -188,11 +187,13 @@ export default {
   font-family: 'Poppins', sans-serif;
 }
 
-.dashmed,.dashuser {
+.dashmed,
+.dashuser {
   display: flex;
 }
 
-.dashmed aside,.dashuser aside {
+.dashmed aside,
+.dashuser aside {
   width: 390px;
   height: 100vh;
   background-color: #03c6c1;
@@ -200,18 +201,21 @@ export default {
   top: 0;
 }
 
-.dashmed img[alt="logo"],dashuser img[alt="logo"] {
+.dashmed img[alt="logo"],
+dashuser img[alt="logo"] {
   width: 185px;
   height: 55px;
   margin-top: 20px;
   margin-left: 50px;
 }
 
-.dashmed aside ul,.dashuser aside ul {
+.dashmed aside ul,
+.dashuser aside ul {
   padding-left: 0;
 }
 
-.dashmed aside li,.dashuser aside li {
+.dashmed aside li,
+.dashuser aside li {
   list-style: none;
   height: 50px;
   color: white;

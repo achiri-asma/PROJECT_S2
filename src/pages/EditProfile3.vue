@@ -27,8 +27,8 @@
 <script>
 import axios from 'axios'
 
-export default{
-    props : [ 'userId', 'userInfo' ],
+export default {
+    props: ['userId', 'userInfo'],
     data() {
         return {
             email: '',
@@ -46,29 +46,29 @@ export default{
             immediate: true,
             deep: true,
             handler(newValue) {
-                this.email= newValue.email
-                this.phone= newValue.phone
-                this.wilaya= newValue.adresse.wilaya
-                this.commune= newValue.adresse.commune
-                this.rue= newValue.adresse.rue
+                this.email = newValue.email
+                this.phone = newValue.phone
+                this.wilaya = newValue.adresse.wilaya
+                this.commune = newValue.adresse.commune
+                this.rue = newValue.adresse.rue
                 if (newValue.image) {
                     axios.get(`http://localhost:7777/service-profile/api/image/${newValue.image}`, {
                         responseType: 'blob'
                     })
-                    .then(response => {
-                        if (response.status === 200) {
-                            this.image = URL.createObjectURL(response.data)
-                        } else {
-                            throw new Error('Image not found')
-                        }
-                    })
+                        .then(response => {
+                            if (response.status === 200) {
+                                this.image = URL.createObjectURL(response.data)
+                            } else {
+                                throw new Error('Image not found')
+                            }
+                        })
                 } else {
-                    this.image= newValue.image
+                    this.image = newValue.image
                 }
             }
         }
     },
-    methods : {
+    methods: {
         CancelEdit() {
             this.$emit('edit-profile')
         },
@@ -77,11 +77,11 @@ export default{
         },
         handleFileUpload3(event) {
             this.file = event.target.files[0]
-            this.imagesent = event.target.files[0].name 
+            this.imagesent = event.target.files[0].name
             if (this.file) {
                 const reader = new FileReader()
                 reader.onload = () => {
-                this.image = reader.result
+                    this.image = reader.result
                 }
                 reader.readAsDataURL(this.file)
             }
@@ -95,43 +95,44 @@ export default{
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-            } else {
-                this.imagesent = this.image.name
             }
             const formData = {
-            email: this.email,
-            phone: this.phone,
-            image: this.imagesent,
-            adr: {
-                wilaya: this.wilaya,
-                commune: this.commune,
-                rue: this.rue
-            }
+                email: this.email,
+                phone: this.phone,
+                image: this.imagesent,
+                adr: {
+                    wilaya: this.wilaya,
+                    commune: this.commune,
+                    rue: this.rue
+                }
             }
             axios.put(`http://localhost:7777/service-profile/api/update/patient/${this.userId}/cordonneeandimage`, formData)
-            .then(response => {
-                console.log(response.data)
-                this.$emit('user-profile-updated', response.data)
-                this.CancelEdit()
-                window.location.reload()
-            })
-        } 
-    },
+                .then(response => {
+                    console.log(response.data)
+                    this.$emit('user-profile-updated', response.data)
+                    this.CancelEdit()
+                    window.location.reload()
+                })
+        }
+    }
 }
 </script>
 
 <style>
-    .editprofil3 > form{
-        width: 47%;
-        height: 430px;
-    }
-    .editprofil3 .editinputs{
-        margin: 40px 80px;
-    }
-    .editprofil3 .editinputs input:last-child{
-        margin-top: 40px;
-    }
-    .editprofil3 .editinputs + input{
-        margin-top: 0;
-    }
+.editprofil3 > form {
+    width: 47%;
+    height: 430px;
+}
+
+.editprofil3 .editinputs {
+    margin: 40px 80px;
+}
+
+.editprofil3 .editinputs input:last-child {
+    margin-top: 40px;
+}
+
+.editprofil3 .editinputs + input {
+    margin-top: 0;
+}
 </style>

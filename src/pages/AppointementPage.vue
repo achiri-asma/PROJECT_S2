@@ -24,27 +24,27 @@
                     </div>
                 </div>
                 <div class="cont">
-                <div class="con_tainer" v-for="appointment in filteredAppointments" :key="appointment.id">
-                    <div class="c1">
-                        <img src="../assets/user.png" alt="patient">
-                        {{ appointment.patientName }} 
-                    </div>
-                    <div class="c2">
-                        <img src="../assets/calendar.png" alt="calendar">
-                        {{ formatDate(appointment.date) }}
-                    </div>
-                    <div class="c3" style="margin-top: 15px;">
-                        {{ appointment.demandeType }}
-                        &nbsp; &nbsp;&nbsp; &nbsp;
-                       <span style="color:red;">
-                        ({{ appointment.status }})
-                    </span> 
+                    <div class="con_tainer" v-for="appointment in filteredAppointments" :key="appointment.id">
+                        <div class="c1">
+                            <img src="../assets/user.png" alt="patient">
+                            {{ appointment.patientName }}
+                        </div>
+                        <div class="c2">
+                            <img src="../assets/calendar.png" alt="calendar">
+                            {{ formatDate(appointment.date) }}
+                        </div>
+                        <div class="c3" style="margin-top: 15px;">
+                            {{ appointment.demandeType }}
+                            &nbsp; &nbsp;&nbsp; &nbsp;
+                            <span style="color:red;">
+                                ({{ appointment.status }})
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -92,35 +92,35 @@ export default {
             }
 
             axios.get(endpoint)
-            .then(response => {
-                this.appointments = response.data.body.map(appointment => {
-                    return {
-                        ...appointment,
-                        patientName: ''
-                    };
-                });
+                .then(response => {
+                    this.appointments = response.data.body.map(appointment => {
+                        return {
+                            ...appointment,
+                            patientName: ''
+                        };
+                    });
 
-                // Fetch patient names for each appointment
-                return Promise.all(this.appointments.map(async appointment => {
-                    const res = await axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${appointment.idPatient}/`);
-                    appointment.patientName = res.data.fullName;
-                    return appointment;
-                }));
-            })
-            .catch(error => {
-                console.error(error);
-            });
+                    // Fetch patient names for each appointment
+                    return Promise.all(this.appointments.map(async appointment => {
+                        const res = await axios.get(`http://localhost:7777/service-profile/api/PatientInfo/${appointment.idPatient}/`);
+                        appointment.patientName = res.data.fullName;
+                        return appointment;
+                    }));
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
         formatDate(value) {
-      const date = new Date(value);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      const hours = String(date.getHours()).padStart(2, '0');
-      const minutes = String(date.getMinutes()).padStart(2, '0');
+            const date = new Date(value);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
 
-      return `${year}-${month}-${day} (${hours}:${minutes})`;
-    }
+            return `${year}-${month}-${day} (${hours}:${minutes})`;
+        }
     },
     watch: {
         selectedOption() {
@@ -241,28 +241,29 @@ export default {
 .search_bar {
     display: flex;
 }
+
 .con_tainer {
-  display: flex;
-  justify-content: space-between;
-  width:94.5%;
-  height:44px;
-  border: #03c6c1 1px solid;
-  border-radius: 10px;
-  margin-left: 25px;
-  margin-right: 25px;
-  margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    width: 94.5%;
+    height: 44px;
+    border: #03c6c1 1px solid;
+    border-radius: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 15px;
 }
 
 .c1 {
     border-right: #03c6c1 1px solid;
-    width:350px;
+    width: 350px;
     font-size: 14px;
     font-family: Poppins;
 }
 
 .c2 {
     border-right: #03c6c1 1px solid;
-    width:380px;
+    width: 380px;
     margin-left: 10px;
     font-size: 14px;
     font-family: Poppins;
@@ -270,26 +271,26 @@ export default {
 
 .c3 {
     margin-left: 10px;
-    width:350px;
+    width: 350px;
     font-size: 14px;
     font-family: Poppins;
-     
+
 }
 
-.c1 img{
-    width:20px;
-    height:20px;
-    padding-top:10px;
+.c1 img {
+    width: 20px;
+    height: 20px;
+    padding-top: 10px;
     padding-left: 7px;
 }
 
-.c2 img{
-    height:20px;
+.c2 img {
+    height: 20px;
     padding-top: 10px;
 }
 
-.c3 img{
-    height:20px;
+.c3 img {
+    height: 20px;
     padding-top: 10px;
     padding-right: 10px;
     float: right;

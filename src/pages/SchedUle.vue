@@ -184,6 +184,11 @@ export default {
             axios.put(endpoint, schedule)
             .then(response => {
                 console.log(response.data)
+                if(response.data.body.length==0) {
+                    alert('Try again')
+                } else {
+                    alert('Schedule created successfully')
+                }
             })
             .catch(error => {
                 console.error('Une erreur est survenue :', error)

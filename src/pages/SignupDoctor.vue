@@ -382,13 +382,14 @@ export default {
                     })
                     .catch(error => {
                         console.log(error)
-                        if (error.response && error.response.status === 404) {
-                            alert("Num Ordre does not exist")
-                        } else if (error.response && error.response.status === 500) {
-                            alert("Email already exist")
-                        } else {
-                            alert("An error occurred. Please try again later.")
-                        }
+                        alert("An error occurred. Please try again later.")
+                        // if (error.response && error.response.status === 404) {
+                        //     alert("Num Ordre does not exist")
+                        // } else if (error.response && error.response.status === 500) {
+                        //     alert("Email already exist")
+                        // } else {
+                        //     alert("An error occurred. Please try again later.")
+                        // }
                     })
             }
             else {

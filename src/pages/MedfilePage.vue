@@ -401,7 +401,7 @@ export default {
                 formDatax
             );
             console.log("resp: ", resp);
-
+            alert('Success')
 
 
         }
@@ -437,7 +437,7 @@ export default {
             const res = axios.put(`http://localhost:7777/ms-doss/update/radio/${this.selectedDocId}/description`, dt);
             console.log(res);
 
-
+            alert('Success')
         },
         async getRadio(docId, docType) {
             this.selectedDocType = docType;
@@ -509,7 +509,7 @@ export default {
                 `http://localhost:7777/ms-doss/update/ordonnance/${this.selectedDocId}/medicaments`,
                 formDatax2
             );
-
+            alert('Success')
         },
         update_analyse() {
             const formDatax22 =this.testResultList;
@@ -519,7 +519,7 @@ export default {
                 `http://localhost:7777/ms-doss/update/analyse/${this.selectedDocId}/testResults`,
                 formDatax22
             );
-
+            alert('Success')
         },
         addMedic() {
             const formDatax1 = {
@@ -532,7 +532,7 @@ export default {
                 `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/${this.userId}/create_ordonnace`,
                 formDatax1
             );
-
+            alert('Success')
         },
         formatDate(value) {
             const date = new Date(value);
@@ -633,6 +633,7 @@ export default {
             this.userId = localStorage.getItem('userId');
             axios.post(
                 `http://localhost:7777/ms-doss/create/medecin/${this.medecinId}/patient/${this.userId}/add_analyse`, data);
+                alert('Success')
         }
     },
     display() {
